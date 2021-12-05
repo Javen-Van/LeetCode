@@ -93,4 +93,19 @@ public class p787 {
         if (root.val < val) return searchBST(root.right, val);
         else return searchBST(root.left, val);
     }
+
+    // p786
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingDouble(o -> arr[o[0]] * 1.0 / arr[o[1]]));
+        for (int i = 1; i < arr.length; i++) {
+            queue.offer(new int[]{0, i});
+        }
+        while (k > 1) {
+            k--;
+            int[] poll = queue.poll();
+            if (poll[0] + 1 < poll[1]) queue.offer(new int[]{poll[0] + 1, poll[1]});
+        }
+        int[] res = queue.poll();
+        return new int[]{arr[res[0]], arr[res[1]]};
+    }
 }

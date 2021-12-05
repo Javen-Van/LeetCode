@@ -1,20 +1,30 @@
-import org.junit.Test;
-
 import java.util.Arrays;
 
-/**
- * @author Javen
- * @create 2021-08-09
- * @Description
- */
+public class p300 {
 
-public class p313 {
+    int MOD = 1337;
 
-    @Test
-    public void test() {
-        System.out.println(nthSuperUglyNumber(12, new int[]{2, 7, 13, 19}));
+    // p372 超级次方
+    public int superPow(int a, int[] b) {
+        return dfs(a, b, b.length - 1);
     }
 
+    public int dfs(int a, int[] b, int i) {
+        if (i == -1) return 1;
+        return pow(dfs(a, b, i - 1), 10) * pow(a, b[i]) % MOD;
+    }
+
+    public int pow(int a, int n) {
+        int res = 1;
+        a %= MOD;
+        while (n > 0) {
+            res = (res * a) % MOD;
+            n--;
+        }
+        return res;
+    }
+
+    // p313
     public int nthSuperUglyNumber(int n, int[] primes) {
         int len = primes.length;
         int[] dp = new int[n + 1];
@@ -33,4 +43,5 @@ public class p313 {
         }
         return dp[n];
     }
+
 }

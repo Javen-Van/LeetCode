@@ -4,12 +4,30 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-/**
- * @author Javen
- * @create 2021-08-10
- * @Description
- */
-public class p413 {
+public class p400 {
+
+    @Test
+    public void test() {
+        System.out.println(findNthDigit(207));
+    }
+
+    public int findNthDigit(int n) {
+        int i = 1, j = 1;
+        while (n > 9 * i * j) {
+            n -= 9 * i * j;
+            i *= 10;
+            j++;
+        }
+        int temp = (n % (i * j)) == 0 ? 10 : n % (i * j) / j;
+        int num = (n / (i * j) + 1) * i + temp - 1;
+        int index = n % (i * j) % j;
+        while (index > 0) {
+            index--;
+            num /= 10;
+        }
+        return num % 10;
+    }
+
 
     // p413 等差数列划分
     public int numberOfArithmeticSlices(int[] nums) {
@@ -94,8 +112,4 @@ public class p413 {
         return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
     }
 
-    @Test
-    public void test() {
-
-    }
 }
