@@ -1,4 +1,5 @@
 import bean.TreeNode;
+import com.sun.org.apache.regexp.internal.REUtil;
 
 import java.util.*;
 
@@ -10,7 +11,7 @@ import java.util.*;
  * 现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，你的任务是找到出一条最多经过 k站中转的路线，使得从 src 到 dst 的
  * 价格最便宜 ，并返回该价格。 如果不存在这样的路线，则输出 -1。
  */
-public class p787 {
+public class p700 {
     // bfs超出时间限制
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         int[][] map = new int[n][n];
@@ -107,5 +108,30 @@ public class p787 {
         }
         int[] res = queue.poll();
         return new int[]{arr[res[0]], arr[res[1]]};
+    }
+
+    // p794
+    public boolean validTicTacToe(String[] board) {
+        int countX = 0, countO = 0;
+        for (String s : board) {
+            for (int i = 0; i < 3; i++) {
+                if (s.charAt(i) == 'X') countX++;
+                if (s.charAt(i) == 'O') countO++;
+            }
+        }
+        if (countX != countO && countX != countO + 1) return false;
+        if (win(board, 'X') && countX != countO + 1) return false;
+        return !win(board, 'O') || countX == countO;
+    }
+
+    public boolean win(String[] board, char winner) {
+        for (int i = 0; i < 3; i++) {
+            if (winner == board[i].charAt(0) && winner == board[i].charAt(1) && winner == board[i].charAt(2))
+                return true;
+            if (winner == board[0].charAt(i) && winner == board[1].charAt(i) && winner == board[2].charAt(i))
+                return true;
+        }
+        if (winner == board[0].charAt(0) && winner == board[1].charAt(1) && winner == board[2].charAt(2)) return true;
+        return winner == board[0].charAt(2) && winner == board[1].charAt(1) && winner == board[2].charAt(0);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Queue;
 public class p295 {
 
     @Test
-    public void test(){
+    public void test() {
         MedianFinder finder = new MedianFinder();
         finder.addNum(5);
         finder.addNum(1);
@@ -21,28 +21,31 @@ public class p295 {
         finder.addNum(3);
         System.out.println(finder.findMedian());
     }
-}
-class MedianFinder {
 
-    Queue<Integer> queue = new PriorityQueue<>();
-    int len = 0; // 数组长度
+    static class MedianFinder {
 
-    /** initialize your data structure here. */
-    public MedianFinder() {
-        int odd;
-        int[] even = new int[4];
-    }
+        Queue<Integer> queue = new PriorityQueue<>();
+        int len = 0; // 数组长度
 
-    public void addNum(int num) {
-        this.queue.offer(num);
-        len++;
-    }
+        /**
+         * initialize your data structure here.
+         */
+        public MedianFinder() {
+            int odd;
+            int[] even = new int[4];
+        }
 
-    public double findMedian() {
-        return 0;
-    }
+        public void addNum(int num) {
+            this.queue.offer(num);
+            len++;
+        }
 
-    public int binarySearch(int num){
-        return 0;
+        public double findMedian() {
+            return 0;
+        }
+
+        public int binarySearch(int num) {
+            return 0;
+        }
     }
 }

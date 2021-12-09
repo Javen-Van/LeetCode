@@ -8,6 +8,8 @@ import java.util.*;
  * @Description
  */
 public class p502 {
+
+    // p502
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
         int n = profits.length;
         int cur = 0;
@@ -74,9 +76,4 @@ public class p502 {
         return ans;
     }
 
-    @Test
-    public void test(){
-        String[] words = findWords(new String[]{"Hello"});
-        System.out.println(Arrays.toString(words));
-    }
 }

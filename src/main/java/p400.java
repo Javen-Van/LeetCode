@@ -1,15 +1,8 @@
 import org.junit.Test;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class p400 {
-
-    @Test
-    public void test() {
-        System.out.println(findNthDigit(207));
-    }
 
     public int findNthDigit(int n) {
         int i = 1, j = 1;
@@ -43,6 +36,25 @@ public class p400 {
             int len = start - i + 1;
             if (len >= 3) res += (1 + len - 2) * (len - 2) / 2;
             i = start - 1;
+        }
+        return res;
+    }
+
+    // p446 等差数列划分2 - 子序列
+    public int numberOfArithmeticSlices2(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        Map<Long, Integer>[] maps = new Map[n];
+        for (int i = 0; i < n; i++) {
+            maps[i] = new HashMap<>();
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                long d = (long) nums[i] - nums[j];
+                Integer count = maps[j].getOrDefault(d, 0);
+                res += count;
+                maps[i].put(d, maps[i].getOrDefault(d, 0) + count + 1);
+            }
         }
         return res;
     }
@@ -110,6 +122,99 @@ public class p400 {
     // p458 可怜的小猪
     public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
         return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
+    }
+
+    // p443 压缩字符串
+    public int compress(char[] chars) {
+        int start = 0, count = 0, index = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != chars[start]) {
+                chars[index] = chars[start];
+                index = handle(chars, index + 1, i - start);
+                start = i;
+            }
+            if (i == chars.length - 1) {
+                chars[index] = chars[start];
+                index = handle(chars, index + 1, i - start + 1);
+            }
+        }
+        System.out.println(chars);
+        return index;
+    }
+
+    public int handle(char[] c, int index, int num) {
+        if (num == 1) return index;
+        int count = 0;
+        while (num > 0) {
+            c[index++] = (char) (num % 10 + '0');
+            num /= 10;
+            count++;
+        }
+        int left = index - count, right = index - 1;
+        while (left < right) {
+            char temp = c[left];
+            c[left] = c[right];
+            c[right] = temp;
+            left++;
+            right--;
+        }
+        return index;
+    }
+
+    // p457 环形数组是否存在循环
+    public boolean circularArrayLoop(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                continue;
+            }
+            int slow = i, fast = next(nums, i);
+            // 判断非零且方向相同
+            while (nums[slow] * nums[fast] > 0 && nums[slow] * nums[next(nums, fast)] > 0) {
+                if (slow == fast) {
+                    if (slow != next(nums, slow)) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                }
+                slow = next(nums, slow);
+                fast = next(nums, next(nums, fast));
+            }
+            int add = i;
+            while (nums[add] * nums[next(nums, add)] > 0) {
+                int tmp = add;
+                add = next(nums, add);
+                nums[tmp] = 0;
+            }
+        }
+        return false;
+    }
+
+    public int next(int[] nums, int cur) {
+        int n = nums.length;
+        return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中
+    }
+
+    // p482 密钥格式化
+    public String licenseKeyFormatting(String s, int k) {
+        StringBuilder sb = new StringBuilder(s.replaceAll("-", ""));
+        int n = sb.length();
+        while (n >= 0) {
+            n -= k;
+            sb.insert(n, "-");
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    // p414 第三大的数
+    public int thirdMax(int[] nums) {
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int num : nums) {
+            set.add(num);
+            if (set.size() > 3) set.remove(set.first());
+        }
+        return set.size() == 3 ? set.last() : set.first();
     }
 
 }
