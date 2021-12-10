@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Javen
@@ -31,5 +29,40 @@ public class p1000 {
             }
         }
         return sum;
+    }
+
+    // p1034 边界着色
+    public int[][] colorBorder(int[][] grid, int row, int col, int color) {
+        int m = grid.length, n = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{row, col});
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        int origin = grid[row][col];
+        boolean[][] isVisit = new boolean[m][n];
+        List<int[]> borders = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int[] poll = queue.poll();
+            int curX = poll[0];
+            int curY = poll[1];
+            boolean isBorder = false;
+            for (int i = 0; i < 4; i++) {
+                int x = curX + dx[i];
+                int y = curY + dy[i];
+                if (!(x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == origin)) {
+                    isBorder = true;
+                } else if (!isVisit[x][y]) {
+                    isVisit[x][y] = true;
+                    queue.offer(new int[]{x, y});
+                }
+            }
+            if (isBorder) {
+                borders.add(new int[]{curX, curY});
+            }
+        }
+        for (int[] border : borders) {
+            grid[border[0]][border[1]] = color;
+        }
+        return grid;
     }
 }
