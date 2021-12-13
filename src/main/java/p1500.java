@@ -3,7 +3,9 @@
  * @create 2021-08-14
  * @Description
  */
-public class p1583 {
+public class p1500 {
+
+    // p1583 统计不开心的朋友
     public int unhappyFriends(int n, int[][] preferences, int[][] pairs) {
         int[] pair = new int[n];
         int[][] preference = new int[n][n];

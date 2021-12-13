@@ -1,13 +1,8 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-/**
- * @author Javen
- * @create 2021-08-07
- * @Description
- */
-public class p149 {
+public class p100 {
 
+    // p149 直线上最多的点数
     public int maxPoints(int[][] points) {
         int n = points.length;
         if (n <= 2) return n;
@@ -47,5 +42,39 @@ public class p149 {
 
     public int gca(int a, int b) {
         return b == 0 ? a : gca(b, a % b);
+    }
+
+    // p150 逆波兰表达式
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        Set<String> set = new HashSet<>();
+        set.add("+");
+        set.add("-");
+        set.add("/");
+        set.add("*");
+        for (String s : tokens) {
+            if (set.contains(s)) {
+                int a = stack.pop();
+                int b = stack.pop();
+                int c;
+                switch (s) {
+                    case "+":
+                        c = a + b;
+                        break;
+                    case "-":
+                        c = b - a;
+                        break;
+                    case "/":
+                        c = b / a;
+                        break;
+                    default:
+                        c = b * a;
+                }
+                stack.push(c);
+            } else {
+                stack.push(Integer.parseInt(s));
+            }
+        }
+        return stack.peek();
     }
 }

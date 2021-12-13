@@ -12,7 +12,73 @@ import java.util.*;
  */
 public class p700 {
 
-    // p784 bfs超出时间限制
+    // p700 二叉搜索树的搜索
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) return null;
+        if (root.val == val) return root;
+        if (root.val < val) return searchBST(root.right, val);
+        else return searchBST(root.left, val);
+    }
+
+    // p735 行星碰撞「栈」
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for (int x : asteroids) {
+            while (!stack.isEmpty() && stack.peek() * x < 0) {
+                if (Math.abs(stack.peek()) < Math.abs(x)) stack.pop();
+                else if (Math.abs(stack.peek()) == Math.abs(x)) {
+                    stack.pop();
+                    break;
+                } else {
+                    x = stack.pop();
+                }
+            }
+            stack.push(x);
+        }
+        Integer[] integers = stack.toArray(new Integer[0]);
+        int[] res = new int[integers.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = integers[i];
+        }
+        return res;
+    }
+
+    public boolean isSameDirection(int num1, int num2) {
+        return num1 * num2 > 0;
+    }
+
+    // p748 最短补全词「easy」
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+        int[] license = new int[26];
+        for (int i = 0; i < licensePlate.length(); i++) {
+            char c = licensePlate.charAt(i);
+            if (Character.isLetter(c)) {
+                license[Character.toLowerCase(c) - 'a']++;
+            }
+        }
+        int len = Integer.MAX_VALUE;
+        String res = "";
+        for (String word : words) {
+            int[] collect = new int[26];
+            for (int i = 0; i < word.length(); i++) {
+                collect[word.charAt(i) - 'a']++;
+            }
+            boolean flag = true;
+            for (int i = 0; i < 26; i++) {
+                if (license[i] > collect[i]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag && word.length() < len) {
+                res = word;
+                len = word.length();
+            }
+        }
+        return res;
+    }
+
+    // p784 字母大小写全排列，bfs超出时间限制
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         int[][] map = new int[n][n];
         for (int[] flight : flights) {
@@ -60,43 +126,43 @@ public class p700 {
         return (res == INF) ? -1 : res;
     }
 
-    // p735
-    public int[] asteroidCollision(int[] asteroids) {
-        Stack<Integer> stack = new Stack<>();
-        for (int x : asteroids) {
-            while (!stack.isEmpty() && stack.peek() * x < 0) {
-                if (Math.abs(stack.peek()) < Math.abs(x)) stack.pop();
-                else if (Math.abs(stack.peek()) == Math.abs(x)) {
-                    stack.pop();
-                    break;
-                } else {
-                    x = stack.pop();
-                }
-            }
-            stack.push(x);
+    // p786 第K个最小素数分数「多路归并」
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingDouble(o -> arr[o[0]] * 1.0 / arr[o[1]]));
+        for (int i = 1; i < arr.length; i++) {
+            queue.offer(new int[]{0, i});
         }
-        Integer[] integers = stack.toArray(new Integer[0]);
-        int[] res = new int[integers.length];
-        for (int i = 0; i < res.length; i++) {
-            res[i] = integers[i];
+        while (k > 1) {
+            k--;
+            int[] poll = queue.poll();
+            if (poll[0] + 1 < poll[1]) queue.offer(new int[]{poll[0] + 1, poll[1]});
         }
-        return res;
+        int[] res = queue.poll();
+        return new int[]{arr[res[0]], arr[res[1]]};
     }
 
-    public boolean isSameDirection(int num1, int num2) {
-        return num1 * num2 > 0;
-    }
-
-    // p700 二叉搜索树的搜索
-    public TreeNode searchBST(TreeNode root, int val) {
-        if (root == null) return null;
-        if (root.val == val) return root;
-        if (root.val < val) return searchBST(root.right, val);
-        else return searchBST(root.left, val);
-    }
-
-    // p794
+    // p794 有效的井字游戏「分类讨论」
     public boolean validTicTacToe(String[] board) {
+        int countX = 0, countO = 0;
+        for (String s : board) {
+            for (int i = 0; i < 3; i++) {
+                if (s.charAt(i) == 'X') countX++;
+                if (s.charAt(i) == 'O') countO++;
+            }
+        }
+        if (countX != countO && countX != countO + 1) return false;
+        if (win(board, 'X') && countX != countO + 1) return false;
+        return !win(board, 'O') || countX == countO;
+    }
 
+    public boolean win(String[] board, char winner) {
+        for (int i = 0; i < 3; i++) {
+            if (winner == board[i].charAt(0) && winner == board[i].charAt(1) && winner == board[i].charAt(2))
+                return true;
+            if (winner == board[0].charAt(i) && winner == board[1].charAt(i) && winner == board[2].charAt(i))
+                return true;
+        }
+        if (winner == board[0].charAt(0) && winner == board[1].charAt(1) && winner == board[2].charAt(2)) return true;
+        return winner == board[0].charAt(2) && winner == board[1].charAt(1) && winner == board[2].charAt(0);
     }
 }
