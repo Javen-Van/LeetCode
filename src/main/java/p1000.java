@@ -31,7 +31,7 @@ public class p1000 {
         return sum;
     }
 
-    // p1034 边界着色
+    // p1034 边界着色「BFS」
     public int[][] colorBorder(int[][] grid, int row, int col, int color) {
         int m = grid.length, n = grid[0].length;
         Queue<int[]> queue = new LinkedList<>();

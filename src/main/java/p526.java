@@ -61,12 +61,6 @@ public class p526 {
         }
     }
 
-    @Test
-    public void test() {
-        System.out.println(countArrangement(5));
-        System.out.println(reverseVowels("Anne, I vote more cars race Rome-to-Vienna."));
-    }
-
     public String reverseVowels(String s) {
         int left = 0, right = s.length() - 1;
         char[] c = s.toCharArray();
