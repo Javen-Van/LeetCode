@@ -1,8 +1,6 @@
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Javen
@@ -32,6 +30,36 @@ public class p800 {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 res += Math.min(x[i], y[j]) - grid[i][j];
+            }
+        }
+        return res;
+    }
+
+    // p851 喧闹和富有「dfs + 剪枝」
+    public int[] loudAndRich(int[][] richer, int[] quiet) {
+        List<List<Integer>> list = new ArrayList<>();
+        int n = quiet.length;
+        for (int i = 0; i < n; i++) {
+            list.add(new ArrayList<>());
+        }
+        for (int[] item : richer) {
+            list.get(item[1]).add(item[0]);
+        }
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        for (int i = 0; i < n; i++) {
+            res[i] = dfs(list, i, quiet, res);
+        }
+        return res;
+    }
+
+    int dfs(List<List<Integer>> root, int index, int[] quiet, int[] ans) {
+        if (ans[index] != -1) return ans[index]; // 代表已经遍历过，已有结果
+        int res = index;
+        for (int richer : root.get(index)) {
+            int temp = dfs(root, richer, quiet, ans);
+            if (quiet[res] > quiet[temp]) {
+                res = temp;
             }
         }
         return res;

@@ -26,4 +26,38 @@ public class p600 {
         }
         return queue.size();
     }
+
+    // p689 三个无重叠子数组的最大和「滑动窗口」，也可以用DP？
+    public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
+        int sum1 = 0, idx1 = 0, maxSum1 = 0, n = nums.length;
+        int sum2 = 0, idx2 = 0, maxSum2 = 0;
+        int sum3 = 0, idx1Sum2 = 0, maxSum3 = 0;
+        int[] res = new int[3];
+        for (int i = 2 * k; i < n; i++) {
+            sum1 += nums[i - 2 * k];
+            sum2 += nums[i - k];
+            sum3 += nums[i];
+            if (i >= 3 * k - 1) {
+                if (sum1 > maxSum1) {
+                    maxSum1 = sum1;
+                    idx1 = i - 3 * k + 1;
+                }
+                if (sum2 + maxSum1 > maxSum2) {
+                    maxSum2 = sum2 + maxSum1;
+                    idx1Sum2 = idx1; // 记录2个无重叠子数组的最大和的答案
+                    idx2 = i - 2 * k + 1;
+                }
+                if (sum3 + maxSum2 > maxSum3) {
+                    maxSum3 = sum3 + maxSum2;
+                    res[0] = idx1Sum2;
+                    res[1] = idx2;
+                    res[2] = i - k + 1;
+                }
+                sum1 -= nums[i - 3 * k + 1];
+                sum2 -= nums[i - 2 * k + 1];
+                sum3 -= nums[i - k + 1];
+            }
+        }
+        return res;
+    }
 }

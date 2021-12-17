@@ -61,34 +61,4 @@ public class p526 {
         }
     }
 
-    public String reverseVowels(String s) {
-        int left = 0, right = s.length() - 1;
-        char[] c = s.toCharArray();
-        Set<Character> set = new HashSet<>();
-        set.add('a');
-        set.add('o');
-        set.add('e');
-        set.add('i');
-        set.add('u');
-        while (left < right) {
-            if (!set.contains(Character.toLowerCase(c[left]))) {
-                left++;
-                continue;
-            }
-            if (!set.contains(Character.toLowerCase(c[right]))) {
-                right--;
-                continue;
-            }
-            swap(c, left, right);
-            left++;
-            right--;
-        }
-        return new String(c);
-    }
-
-    public void swap(char[] c, int x, int y) {
-        char temp = c[x];
-        c[x] = c[y];
-        c[y] = temp;
-    }
 }
