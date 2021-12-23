@@ -76,6 +76,22 @@ public class p500 {
         return w;
     }
 
+    // p503 下一个更大的元素「单调栈」
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < 2 * n; i++) {
+            int index = i % n;
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[index]) {
+                res[stack.pop()] = nums[index];
+            }
+            stack.push(index);
+        }
+        return res;
+    }
+
     // p516 最长回文子序列「动态规划」
     public int longestPalindromeSubseq(String s) {
         int n = s.length();

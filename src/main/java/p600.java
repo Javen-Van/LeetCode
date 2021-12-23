@@ -27,6 +27,31 @@ public class p600 {
         return queue.size();
     }
 
+    // p686 重复叠加字符串匹配「KMP算法」
+    public int repeatedStringMatch(String a, String b) {
+        int m = a.length(), n = b.length();
+        if (n == 0) return 0;
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            if (a.charAt(i) == b.charAt(0)) {
+                int temp = 1, l = i, j = 0;
+                while (j < n && a.charAt(l) == b.charAt(j)) {
+                    j++;
+                    l++;
+                    if (l == m && j != n) {
+                        l = 0;
+                        temp++;
+                    }
+                }
+                if (j == n) {
+                    res = temp;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
     // p689 三个无重叠子数组的最大和「滑动窗口」，也可以用DP？
     public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
         int sum1 = 0, idx1 = 0, maxSum1 = 0, n = nums.length;

@@ -13,13 +13,48 @@ public class p68 {
 
     @Test
     public void test() {
-        String[] words = {"Science", "is", "what", "we", "understand", "well", "enough", "to", "explain",
-                "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do"};
-        List<String> list = fullJustify(words, 20);
-        list.forEach(System.out::println);
-
+        int i = strStr("leetcode", "etco");
+        System.out.println(i);
     }
 
+    // p28 实现strStr()「KMP算法」
+    public int strStr(String haystack, String needle) {
+        int n = haystack.length(), m = needle.length();
+        int[] next = new int[m]; // next[i]表示字符串s[0:i]的最长的相等的真前缀和真后缀的长度
+        for (int i = 1, j = 0; i < m; i++) {
+            while (j > 0 && needle.charAt(i) != needle.charAt(j)) {
+                j = next[j - 1];
+            }
+            if (needle.charAt(i) == needle.charAt(j)) next[i] = ++j;
+        }
+        for (int i = 0, point = 0; i < n; i++) {
+            while (point > 0 && haystack.charAt(i) != needle.charAt(point)) {
+                point = next[point - 1];
+            }
+            if (haystack.charAt(i) == needle.charAt(point)) point++;
+            if (point == m) return i - m + 1;
+        }
+        return -1;
+    }
+
+    // p66 加一
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] != 9) {
+                for (int j = i + 1; j < n; j++) {
+                    digits[j] = 0;
+                }
+                digits[i] += 1;
+                return digits;
+            }
+        }
+        int[] res = new int[n + 1];
+        res[0] = 1;
+        return res;
+    }
+
+    // p68 文本左右对齐
     public List<String> fullJustify(String[] words, int maxWidth) {
         int n = words.length;
         int[] len = new int[n];
@@ -77,20 +112,4 @@ public class p68 {
         return sb.toString();
     }
 
-    // p66
-    public int[] plusOne(int[] digits) {
-        int n = digits.length;
-        for (int i = n - 1; i >= 0; i--) {
-            if (digits[i] != 9) {
-                for (int j = i + 1; j < n; j++) {
-                    digits[j] = 0;
-                }
-                digits[i] += 1;
-                return digits;
-            }
-        }
-        int[] res = new int[n + 1];
-        res[0] = 1;
-        return res;
-    }
 }

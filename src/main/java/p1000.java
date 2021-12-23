@@ -65,4 +65,7 @@ public class p1000 {
         }
         return grid;
     }
+
+    // p1044 最长重复子串
+
 }

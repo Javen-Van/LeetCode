@@ -196,6 +196,23 @@ public class p400 {
         return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中
     }
 
+    // p475 供暖器「排序 + 双指针」
+    public int findRadius(int[] houses, int[] heaters) {
+        int n = houses.length, m = heaters.length;
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int res = 0;
+        for (int i = 0, j = 0; i < n; i++) {
+            int dis = Math.abs(houses[i] - heaters[j]);
+            while (j < m - 1 && dis >= Math.abs(houses[i] - heaters[j + 1])) {
+                j++;
+                dis = Math.abs(houses[i] - heaters[j]);
+            }
+            res = Math.max(dis, res);
+        }
+        return res;
+    }
+
     // p482 密钥格式化
     public String licenseKeyFormatting(String s, int k) {
         StringBuilder sb = new StringBuilder(s.replaceAll("-", ""));
