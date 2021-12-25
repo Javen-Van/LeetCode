@@ -47,7 +47,7 @@ public class p200 {
         return res;
     }
 
-    // p264 丑数II
+    // p264 丑数II「动态规划 + 二分查找」
     public int nthUglyNumber(int n) {
         if (n <= 6) return n;
         int[] dp = new int[n];

@@ -1,8 +1,6 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Javen
@@ -13,8 +11,23 @@ public class p68 {
 
     @Test
     public void test() {
-        int i = strStr("leetcode", "etco");
+        int i = lengthOfLongestSubstring("");
         System.out.println(i);
+    }
+
+    // p3 无重复的最长子串「双指针 + 哈希表 / 动态规划 + 哈希表」
+    public int lengthOfLongestSubstring(String s) {
+        int l = -1, r = 0, res = 0, n = s.length();
+        Map<Character, Integer> map = new HashMap<>();
+        for (; r < n; r++) {
+            char c = s.charAt(r);
+            if (map.containsKey(c)) {
+                l = Math.max(l, map.get(c));
+            }
+            res = Math.max(res, r - l);
+            map.put(c, r);
+        }
+        return res;
     }
 
     // p28 实现strStr()「KMP算法」
