@@ -30,6 +30,24 @@ public class p68 {
         return res;
     }
 
+    // p10 正则表达式匹配「动态规划」
+    public boolean match(String s, String p) {
+        int m = s.length(), n = p.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        for (int i = 2; i <= n; i += 2) {
+            dp[0][i] = dp[0][i - 2] && p.charAt(i - 1) == '*';
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.') dp[i + 1][j + 1] = dp[i][j];
+                if (p.charAt(j) == '*')
+                    dp[i + 1][j + 1] = dp[i + 1][j - 1] || (dp[i][j + 1] && (s.charAt(i) == p.charAt(j - 1) || p.charAt(j - 1) == '.'));
+            }
+        }
+        return dp[m][n];
+    }
+
     // p28 实现strStr()「KMP算法」
     public int strStr(String haystack, String needle) {
         int n = haystack.length(), m = needle.length();
@@ -50,10 +68,16 @@ public class p68 {
         return -1;
     }
 
-    // p44 通配符匹配「动态规划」
+    // p44 通配符匹配「动态规划」打表如下：
+    //   0 a b c d
+    // 0 t f f f f
+    // a f t f f f
+    // b f f t f f
+    // * f f t t t
     public boolean isMatch(String s, String p) {
         int m = s.length(), n = p.length();
         boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
         for (int i = 0; i < n; i++) {
             if (p.charAt(i) == '*') dp[0][i + 1] = true;
             else break;
@@ -61,7 +85,7 @@ public class p68 {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '?') dp[i + 1][j + 1] = dp[i][j];
-                if (p.charAt(j) == '*') dp[i + 1][j + 1] = dp[i][j + 1] | dp[i + 1][j];
+                if (p.charAt(j) == '*') dp[i + 1][j + 1] = dp[i][j + 1] || dp[i + 1][j];
             }
         }
         return dp[m][n];

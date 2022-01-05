@@ -1,5 +1,7 @@
 package swordToOffer;
 
+import org.junit.Test;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -11,6 +13,11 @@ import java.util.Queue;
  * 因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
  */
 public class offer13 {
+
+    @Test
+    public void test() {
+        System.out.println(movingCount(3, 2, 17));
+    }
 
     // BFS
     public int movingCount(int m, int n, int k) {
@@ -24,16 +31,17 @@ public class offer13 {
         }
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[]{0, 0});
+        board[0][0] = -1;
         int[] diff = {0, 1, 0, -1, 0};
         while (!queue.isEmpty()) {
             int size = queue.size();
+            res += size;
             for (int i = 0; i < size; i++) {
                 int[] cur = queue.poll();
-                board[cur[0]][cur[1]] = -1;
-                res++;
                 for (int j = 0; j < 4; j++) {
                     int newX = cur[0] + diff[j], newY = cur[1] + diff[j + 1];
                     if (isInBoard(newX, newY, m, n) && board[newX][newY] <= k && board[newX][newY] != -1) {
+                        board[newX][newY] = -1;
                         queue.offer(new int[]{newX, newY});
                     }
                 }
