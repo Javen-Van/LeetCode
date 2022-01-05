@@ -1,6 +1,8 @@
+import bean.Trie;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class p400 {
 
@@ -100,7 +102,7 @@ public class p400 {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] == 'X') {
                     res++;
-                    dfs(board,i,j);
+                    dfs(board, i, j);
                 }
             }
         }
@@ -256,6 +258,40 @@ public class p400 {
             if (set.size() > 3) set.remove(set.first());
         }
         return set.size() == 3 ? set.last() : set.first();
+    }
+
+    // p472 连接词
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        Arrays.sort(words, Comparator.comparingInt(String::length));
+        List<String> res = new ArrayList<>();
+        Trie trie = new Trie();
+        for (String word : words) {
+            if (word.length() == 0) continue;
+            if (dfs(word, 0, trie)) res.add(word);
+            else trie.insert(word);
+        }
+        return res;
+    }
+
+    public boolean dfs(String word, int index, Trie root) {
+        if (index == word.length()) return root.isWord;
+        for (int i = index; i < word.length(); i++) {
+            int idx = word.charAt(i) - 'a';
+            Trie child = root.children[idx];
+            if (child == null) return false;
+            if (child.isWord && dfs(word, i + 1, root)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Test
+    public void test() {
+        Trie trie = new Trie();
+        trie.insert("leetcode");
+        System.out.println(trie.isInTree("leetcodee"));
+        System.out.println(trie.isInTree("aaa"));
     }
 
 }

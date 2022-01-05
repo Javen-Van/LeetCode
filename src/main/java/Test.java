@@ -1,5 +1,3 @@
-import bean.Person;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -49,13 +47,13 @@ public class Test {
         System.out.println(put);
     }
 
-    @org.junit.Test
-    public void test() {
+    public static void main(String[] args) {
         Communication communication = new Communication();
         Thread t1 = new Thread(communication);
         Thread t2 = new Thread(communication);
         t1.start();
         t2.start();
+
     }
 }
 

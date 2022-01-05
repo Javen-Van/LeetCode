@@ -50,6 +50,23 @@ public class p68 {
         return -1;
     }
 
+    // p44 通配符匹配「动态规划」
+    public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        for (int i = 0; i < n; i++) {
+            if (p.charAt(i) == '*') dp[0][i + 1] = true;
+            else break;
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '?') dp[i + 1][j + 1] = dp[i][j];
+                if (p.charAt(j) == '*') dp[i + 1][j + 1] = dp[i][j + 1] | dp[i + 1][j];
+            }
+        }
+        return dp[m][n];
+    }
+
     // p66 加一
     public int[] plusOne(int[] digits) {
         int n = digits.length;

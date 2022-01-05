@@ -68,4 +68,14 @@ public class p1000 {
 
     // p1044 最长重复子串
 
+
+    // p1078 Bigram分词
+    public String[] findOcurrences(String text, String first, String second) {
+        List<String> res = new ArrayList<>();
+        String[] s = text.split(" ");
+        for (int i = 2; i < s.length; i++) {
+            if (first.equals(s[i - 2]) && second.equals(s[i - 1])) res.add(s[i]);
+        }
+        return res.toArray(new String[0]);
+    }
 }
