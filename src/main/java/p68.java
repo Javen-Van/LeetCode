@@ -13,6 +13,7 @@ public class p68 {
     public void test() {
         int i = lengthOfLongestSubstring("");
         System.out.println(i);
+        System.out.println(simplifyPath("/home//././a"));
     }
 
     // p3 无重复的最长子串「双指针 + 哈希表 / 动态规划 + 哈希表」
@@ -164,6 +165,19 @@ public class p68 {
             }
         }
         return sb.toString();
+    }
+
+    // p71 简化路径
+    public String simplifyPath(String path) {
+        String[] str = path.split("/");
+        Stack<String> stack = new Stack<>();
+        for (String s : str) {
+            if ("".equals(s) || ".".equals(s)) continue;
+            if ("..".equals(s)) {
+                if (!stack.isEmpty()) stack.pop();
+            } else stack.push(s);
+        }
+        return "/" + String.join("/", stack);
     }
 
 }
