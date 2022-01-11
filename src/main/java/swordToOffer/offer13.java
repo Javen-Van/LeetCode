@@ -1,7 +1,9 @@
 package swordToOffer;
 
+import bean.Sort;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -17,6 +19,9 @@ public class offer13 {
     @Test
     public void test() {
         System.out.println(movingCount(3, 2, 17));
+        int[] arr = {3, 30, 34, 5, 9};
+        Sort.insertSort(arr);
+        System.out.println(Arrays.toString(arr));
     }
 
     // BFS

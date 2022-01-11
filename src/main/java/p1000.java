@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 import java.util.*;
 
 /**
@@ -64,6 +66,50 @@ public class p1000 {
             grid[border[0]][border[1]] = color;
         }
         return grid;
+    }
+
+    // p1036 逃离大迷宫「有限次数的BFS」
+    public static class Solution {
+        public final long BOUNDARY = 1000000L;
+        public final int VALID = 0;
+        public final int FOUND = 1;
+        public final int STUCK = -1;
+
+        public boolean isEscapePossible(int[][] blocked, int[] source, int[] target) {
+            if (blocked.length < 2) return true;
+            Set<Long> set = new HashSet<>(); // int[]型的set没有重写hash，不能去重
+            for (int[] block : blocked) {
+                set.add(block[0] * BOUNDARY + block[1]);
+            }
+            int res = bfs(blocked, source, target, set);
+            if (res == FOUND) return true;
+            else if (res == STUCK) return false; // source被围住
+            else return bfs(blocked, target, source, set) != STUCK; // target是否被围住
+        }
+
+        public int bfs(int[][] blocked, int[] source, int[] target, Set<Long> unreachable) {
+            Queue<int[]> queue = new LinkedList<>();
+            Set<Long> set = new HashSet<>(unreachable);
+            queue.offer(source);
+            set.add(source[0] * BOUNDARY + source[1]);
+            int count = blocked.length * (blocked.length - 1) / 2; // block所能围出的最大区域
+            int[] diff = {0, 1, 0, -1, 0};
+            while (!queue.isEmpty()) {
+                int[] cur = queue.poll();
+                for (int i = 0; i < 4; i++) {
+                    int nx = cur[0] + diff[i], ny = cur[1] + diff[i + 1];
+                    int[] next = {nx, ny};
+                    if (!set.contains(nx * BOUNDARY + ny) && nx >= 0 && nx < BOUNDARY && ny >= 0 && ny < BOUNDARY) {
+                        if (nx == target[0] && ny == target[1]) return FOUND; // 到达目的地，直接返回
+                        queue.offer(next);
+                        set.add(nx * BOUNDARY + ny);
+                        count--;
+                    }
+                    if (count == 0) return VALID; // 跳出区域，围不住
+                }
+            }
+            return STUCK;
+        }
     }
 
     // p1044 最长重复子串
