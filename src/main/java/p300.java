@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class p300 {
 
@@ -48,6 +47,54 @@ public class p300 {
             n--;
         }
         return res;
+    }
+
+    // p373 查找和最小的k对数字「多路归并 + 优先队列」
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<int[]> queue = new PriorityQueue<>(((o1, o2) -> nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]]));
+        int m = nums1.length, n = nums2.length;
+        for (int i = 0; i < m; i++) {
+            queue.offer(new int[]{i, 0});
+        }
+        while (k > 0 && !queue.isEmpty()) {
+            int[] cur = queue.poll();
+            res.add(new ArrayList<>(Arrays.asList(nums1[cur[0]], nums2[cur[1]])));
+            if (cur[1] < n - 1) queue.offer(new int[]{cur[0], cur[1] + 1});
+            k--;
+        }
+        return res;
+    }
+
+    // p378 有序矩阵中第K小的元素
+    // 方法一：「多路归并 + 优先队列」
+    public int kthSmallest(int[][] matrix, int k) {
+        int n = matrix.length;
+        Queue<int[]> queue = new PriorityQueue<>((Comparator.comparingInt(o -> matrix[o[0]][o[1]])));
+        for (int i = 0; i < Math.min(k, n); i++) {
+            queue.offer(new int[]{i, 0});
+        }
+        while (k > 1 && !queue.isEmpty()) {
+            int[] cur = queue.poll();
+            if (cur[1] < n - 1) queue.offer(new int[]{cur[0], cur[1] + 1});
+            k--;
+        }
+        int[] res = queue.peek();
+        return matrix[res[0]][res[1]];
+    }
+    // 方法二：「二分查找」
+    public int kthSmallest2(int[][] matrix, int k) {
+        int n = matrix.length, min = matrix[0][0], max = matrix[n - 1][n - 1];
+        int res;
+        while (min < max) {
+            res = min + (max - min) / 2;
+        }
+        return 1;
+    }
+
+    public boolean check(int[][] matrix, int target) {
+        int count = 0;
+        return true;
     }
 
     // p397 整数替换

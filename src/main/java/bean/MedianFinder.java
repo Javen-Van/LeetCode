@@ -41,6 +41,5 @@ public class MedianFinder {
             return min.peek();
         }
         return (min.peek() + max.peek()) / 2.0;
-
     }
 }
