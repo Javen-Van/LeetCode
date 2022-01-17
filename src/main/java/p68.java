@@ -49,6 +49,60 @@ public class p68 {
         return dp[m][n];
     }
 
+    // p15 三数之和「排序 + 双指针」
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        int n = nums.length;
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            int target = -nums[i], l = i + 1, r = nums.length - 1;
+            while (l < r) {
+                if (l > i + 1 && nums[l] == nums[l - 1]) {
+                    l++;
+                    continue;
+                }
+                if (nums[l] + nums[r] == target) {
+                    res.add(new ArrayList<>(Arrays.asList(nums[i], nums[l], nums[r])));
+                    l++;
+                    r--;
+                } else if (nums[l] + nums[r] > target) {
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+        return res;
+    }
+
+    // p18 四数之和「排序 + 双指针」
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        int n = nums.length;
+        Arrays.sort(nums);
+        for (int first = 0; first < n; first++) {
+            if (first > 0 && nums[first] == nums[first - 1]) continue;
+            int sum3 = target - nums[first];
+            for (int second = first + 1; second < n; second++) {
+                if (second > first + 1 && nums[second] == nums[second - 1]) continue;
+                int sum2 = sum3 - nums[second], third = second + 1, forth = n - 1;
+                while (third < forth) {
+                    if ((third > second + 1 && nums[third] == nums[third - 1]) || nums[third] + nums[forth] < sum2) {
+                        third++;
+                        continue;
+                    }
+                    if (nums[third] + nums[forth] == sum2) {
+                        res.add(new ArrayList<>(Arrays.asList(nums[first], nums[second], nums[third], nums[forth])));
+                        third++;
+                    }
+                    forth--;
+                }
+            }
+        }
+        return res;
+    }
+
     // p28 实现strStr()「KMP算法」
     public int strStr(String haystack, String needle) {
         int n = haystack.length(), m = needle.length();

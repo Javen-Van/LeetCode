@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class p400 {
 
+    // p400
     public int findNthDigit(int n) {
         int i = 1, j = 1;
         while (n > 9 * i * j) {
@@ -23,45 +24,7 @@ public class p400 {
         return num % 10;
     }
 
-
-    // p413 等差数列划分
-    public int numberOfArithmeticSlices(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        for (int i = 1; i < n; i++) {
-            dp[i] = nums[i] - nums[i - 1];
-        }
-        int res = 0;
-        for (int i = 0; i < n; i++) {
-            int start = i + 1;
-            while (start < n - 1 && dp[start] == dp[start + 1]) start++;
-            int len = start - i + 1;
-            if (len >= 3) res += (1 + len - 2) * (len - 2) / 2;
-            i = start - 1;
-        }
-        return res;
-    }
-
-    // p446 等差数列划分2 - 子序列
-    public int numberOfArithmeticSlices2(int[] nums) {
-        int n = nums.length;
-        int res = 0;
-        Map<Long, Integer>[] maps = new Map[n];
-        for (int i = 0; i < n; i++) {
-            maps[i] = new HashMap<>();
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                long d = (long) nums[i] - nums[j];
-                Integer count = maps[j].getOrDefault(d, 0);
-                res += count;
-                maps[i].put(d, maps[i].getOrDefault(d, 0) + count + 1);
-            }
-        }
-        return res;
-    }
-
-    // p407 三维接雨水
+    // p407 三维接雨水「优先队列」
     public int trapRainWater(int[][] heightMap) {
         Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[1]));
         int m = heightMap.length, n = heightMap[0].length;
@@ -92,6 +55,34 @@ public class p400 {
             }
         }
         return res;
+    }
+
+    // p413 等差数列划分
+    public int numberOfArithmeticSlices(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        for (int i = 1; i < n; i++) {
+            dp[i] = nums[i] - nums[i - 1];
+        }
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            int start = i + 1;
+            while (start < n - 1 && dp[start] == dp[start + 1]) start++;
+            int len = start - i + 1;
+            if (len >= 3) res += (1 + len - 2) * (len - 2) / 2;
+            i = start - 1;
+        }
+        return res;
+    }
+
+    // p414 第三大的数
+    public int thirdMax(int[] nums) {
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int num : nums) {
+            set.add(num);
+            if (set.size() > 3) set.remove(set.first());
+        }
+        return set.size() == 3 ? set.last() : set.first();
     }
 
     // p419 甲板上的战舰
@@ -145,11 +136,6 @@ public class p400 {
         return sb.toString();
     }
 
-    // p458 可怜的小猪
-    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
-        return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
-    }
-
     // p443 压缩字符串
     public int compress(char[] chars) {
         int start = 0, count = 0, index = 0;
@@ -187,6 +173,25 @@ public class p400 {
         return index;
     }
 
+    // p446 等差数列划分2 - 子序列
+    public int numberOfArithmeticSlices2(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        Map<Long, Integer>[] maps = new Map[n];
+        for (int i = 0; i < n; i++) {
+            maps[i] = new HashMap<>();
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                long d = (long) nums[i] - nums[j];
+                Integer count = maps[j].getOrDefault(d, 0);
+                res += count;
+                maps[i].put(d, maps[i].getOrDefault(d, 0) + count + 1);
+            }
+        }
+        return res;
+    }
+
     // p457 环形数组是否存在循环
     public boolean circularArrayLoop(int[] nums) {
         int n = nums.length;
@@ -222,42 +227,9 @@ public class p400 {
         return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中
     }
 
-    // p475 供暖器「排序 + 双指针」
-    public int findRadius(int[] houses, int[] heaters) {
-        int n = houses.length, m = heaters.length;
-        Arrays.sort(houses);
-        Arrays.sort(heaters);
-        int res = 0;
-        for (int i = 0, j = 0; i < n; i++) {
-            int dis = Math.abs(houses[i] - heaters[j]);
-            while (j < m - 1 && dis >= Math.abs(houses[i] - heaters[j + 1])) {
-                j++;
-                dis = Math.abs(houses[i] - heaters[j]);
-            }
-            res = Math.max(dis, res);
-        }
-        return res;
-    }
-
-    // p482 密钥格式化
-    public String licenseKeyFormatting(String s, int k) {
-        StringBuilder sb = new StringBuilder(s.replaceAll("-", ""));
-        int n = sb.length();
-        while (n >= 0) {
-            n -= k;
-            sb.insert(n, "-");
-        }
-        return sb.toString().toUpperCase();
-    }
-
-    // p414 第三大的数
-    public int thirdMax(int[] nums) {
-        TreeSet<Integer> set = new TreeSet<>();
-        for (int num : nums) {
-            set.add(num);
-            if (set.size() > 3) set.remove(set.first());
-        }
-        return set.size() == 3 ? set.last() : set.first();
+    // p458 可怜的小猪
+    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
     }
 
     // p472 连接词
@@ -284,6 +256,34 @@ public class p400 {
             }
         }
         return false;
+    }
+
+    // p475 供暖器「排序 + 双指针」
+    public int findRadius(int[] houses, int[] heaters) {
+        int n = houses.length, m = heaters.length;
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int res = 0;
+        for (int i = 0, j = 0; i < n; i++) {
+            int dis = Math.abs(houses[i] - heaters[j]);
+            while (j < m - 1 && dis >= Math.abs(houses[i] - heaters[j + 1])) {
+                j++;
+                dis = Math.abs(houses[i] - heaters[j]);
+            }
+            res = Math.max(dis, res);
+        }
+        return res;
+    }
+
+    // p482 密钥格式化
+    public String licenseKeyFormatting(String s, int k) {
+        StringBuilder sb = new StringBuilder(s.replaceAll("-", ""));
+        int n = sb.length();
+        while (n >= 0) {
+            n -= k;
+            sb.insert(n, "-");
+        }
+        return sb.toString().toUpperCase();
     }
 
     @Test
