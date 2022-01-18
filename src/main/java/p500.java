@@ -92,6 +92,19 @@ public class p500 {
         return res;
     }
 
+    // p509 斐波那契数「动态规划」
+    public int fib(int n) {
+        if (n < 2) return n;
+        int a = 0, b = 1, c = 1;
+        while (n > 1) {
+            c = a + b;
+            a = b;
+            b = c;
+            n--;
+        }
+        return c;
+    }
+
     // p516 最长回文子序列「动态规划」
     public int longestPalindromeSubseq(String s) {
         int n = s.length();
@@ -140,6 +153,24 @@ public class p500 {
             i++;
         }
         return j == b.length();
+    }
+
+    // p539 最小时间差
+    public int findMinDifference(List<String> timePoints) {
+        int n = timePoints.size();
+        if (n > 24 * 60) return 0;
+        int[] minutes = new int[n];
+        for (int i = 0; i < n; i++) {
+            String[] time = timePoints.get(i).split(":");
+            minutes[i] = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
+        }
+        Arrays.sort(minutes);
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < n - 1; i++) {
+            res = Math.min(minutes[i] + 24 * 60 - minutes[i + 1], Math.min(res, minutes[i + 1] - minutes[i]));
+        }
+        res = Math.min(minutes[0] + 24 * 60 - minutes[n - 1], res);
+        return res;
     }
 
     // p576 出界的路经数
