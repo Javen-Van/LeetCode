@@ -27,6 +27,20 @@ public class p300 {
         return dp[n];
     }
 
+    // p322 零钱兑换「动态规划」
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i) dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
     int MOD = 1337;
 
     // p372 超级次方
@@ -82,6 +96,7 @@ public class p300 {
         int[] res = queue.peek();
         return matrix[res[0]][res[1]];
     }
+
     // 方法二：「二分查找」
     public int kthSmallest2(int[][] matrix, int k) {
         int n = matrix.length, min = matrix[0][0], max = matrix[n - 1][n - 1];

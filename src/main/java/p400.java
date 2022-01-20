@@ -85,6 +85,21 @@ public class p400 {
         return set.size() == 3 ? set.last() : set.first();
     }
 
+    // p416 分割等和子集「动态规划」
+    public boolean canPartition(int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum % 2 == 1) return false;
+        sum /= 2;
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            for (int i = sum; i >= num; i--) {
+                dp[i] |= dp[num - i];
+            }
+        }
+        return dp[sum];
+    }
+
     // p419 甲板上的战舰
     public int countBattleships(char[][] board) {
         int m = board.length, n = board[0].length;
@@ -192,6 +207,19 @@ public class p400 {
         return res;
     }
 
+    // p456 132模式「单调栈」
+    public boolean find132pattern(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        int max = Integer.MIN_VALUE, n = nums.length; // max记录3
+        stack.push(nums[n - 1]); // 从右向左遍历1
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i] < max) return true;
+            while (!stack.isEmpty() && nums[i] > stack.peek()) max = stack.pop();
+            if (nums[i] > max) stack.push(nums[i]); // max更新过说明存在3 > 2
+        }
+        return false; // 遍历结束若还未找到返回false
+    }
+
     // p457 环形数组是否存在循环
     public boolean circularArrayLoop(int[] nums) {
         int n = nums.length;
@@ -256,6 +284,17 @@ public class p400 {
             }
         }
         return false;
+    }
+
+    // p473 火柴拼正方形
+    public boolean makeSquare(int[] matchsticks) {
+        long sum = 0L, max = 0;
+        for (int matchstick : matchsticks) {
+            sum += matchstick;
+            max = Math.max(max, matchstick);
+        }
+        if (matchsticks.length < 4 || sum % 4 != 0 || max > sum / 4) return false;
+        return true;
     }
 
     // p475 供暖器「排序 + 双指针」
