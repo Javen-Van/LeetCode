@@ -286,7 +286,7 @@ public class p400 {
         return false;
     }
 
-    // p473 火柴拼正方形
+    // TODO: p473 火柴拼正方形
     public boolean makeSquare(int[] matchsticks) {
         long sum = 0L, max = 0;
         for (int matchstick : matchsticks) {

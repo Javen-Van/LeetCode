@@ -1,6 +1,6 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import org.junit.Test;
+
+import java.util.*;
 
 /**
  * @author Javen
@@ -27,11 +27,55 @@ public class p1200 {
             u = U;
             n--;
         }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int integer : map.keySet()) {
-
-        }
-
         return ((((a + e) % MOD + i) % MOD + o) % MOD + u) % MOD;
+    }
+
+    // p1345 跳跃游戏IV「BFS」
+    public int minJumps(int[] arr) {
+        int n = arr.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            List<Integer> list = map.getOrDefault(arr[i], new ArrayList<>());
+            list.add(i);
+            map.put(arr[i], list);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visit = new boolean[n];
+        int res = 0;
+        queue.offer(0);
+        visit[0] = true;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int cur = queue.poll();
+                if (cur == n - 1) return res;
+                if (map.containsKey(arr[cur])) {
+                    for (int next : map.get(arr[cur])) {
+                        if (!visit[next]) {
+                            if (next == n - 1) return res + 1;
+                            queue.offer(next);
+                            visit[next] = true;
+                        }
+                    }
+                    map.remove(arr[cur]); // 防止重复遍历，再遍历过之后删除
+                }
+                if (!visit[cur + 1]) {
+                    queue.offer(cur + 1);
+                    visit[cur + 1] = true;
+                }
+                if (cur > 0 && !visit[cur - 1]) {
+                    queue.offer(cur - 1);
+                    visit[cur - 1] = true;
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
+
+    @Test
+    public void test() {
+        int i = minJumps(new int[]{100, -23, -23, 404, 100, 23, 23, 23, 3, 404});
+        System.out.println(i);
     }
 }
