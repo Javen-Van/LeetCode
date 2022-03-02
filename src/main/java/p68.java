@@ -31,6 +31,30 @@ public class p68 {
         return res;
     }
 
+    // p6 Z字形变换
+    public String convert(String s, int numRows) {
+        if (numRows == 1) return s;
+        StringBuilder[] sbs = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            sbs[i] = new StringBuilder();
+        }
+        int row = 0;
+        boolean flag = true;
+        for (int i = 0; i < s.length(); i++) {
+            StringBuilder sb = sbs[row];
+            sb.append(s.charAt(i));
+            if (flag) row++;
+            else row--;
+            if (row == numRows - 1) flag = false;
+            if (row == 0) flag = true;
+        }
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder sb : sbs) {
+            res.append(sb);
+        }
+        return res.toString();
+    }
+
     // p10 正则表达式匹配「动态规划」
     public boolean match(String s, String p) {
         int m = s.length(), n = p.length();

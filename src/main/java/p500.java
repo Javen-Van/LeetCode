@@ -173,6 +173,46 @@ public class p500 {
         return res;
     }
 
+    // p564 寻找最近的回文数「模拟」
+    public String nearestPalindromic(String n) {
+        int len = n.length();
+        long originNum = Long.parseLong(n);
+        long[] candidates = new long[5];
+        candidates[3] = (long) Math.pow(10, len) + 1; // 进位，3位数边4位数，1001
+        candidates[4] = (long) Math.pow(10, len - 1) - 1; // 退位，3位数变2位数，99
+        long prefix = Long.parseLong(n.substring(0, (len + 1) / 2)) - 1;
+        for (int i = 0; i < 3; i++) {
+            StringBuilder sb = new StringBuilder();
+            String pre = String.valueOf(prefix);
+            sb.append(pre); // 前半段
+            sb.append(reverse(pre).substring(len & 1)); // 后半部分
+            candidates[i] = Long.parseLong(sb.toString());
+            prefix++;
+        }
+        long res = -1;
+        for (long candidate : candidates) {
+            if (candidate != originNum) {
+                if (res == -1 || Math.abs(candidate - originNum) < Math.abs(res - originNum) || (Math.abs(candidate - originNum) == Math.abs(res - originNum) && candidate < res)) {
+                    res = candidate;
+                }
+            }
+        }
+        return Long.toString(res);
+    }
+
+    public String reverse(String s) {
+        char[] chars = s.toCharArray();
+        int l = 0, r = chars.length - 1;
+        while (l < r) {
+            char t = chars[l];
+            chars[l] = chars[r];
+            chars[r] = t;
+            l++;
+            r--;
+        }
+        return new String(chars);
+    }
+
     // p576 出界的路经数
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         int res = 0;

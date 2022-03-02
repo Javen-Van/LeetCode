@@ -20,6 +20,19 @@ public class p700 {
         else return searchBST(root.left, val);
     }
 
+    // p717 1比特与2比特「简单模拟」
+    public boolean isOneBitCharacter(int[] bits) {
+        int n = bits.length;
+        for (int i = 0; i < n; i++) {
+            if (bits[i] == 1) {
+                i++;
+                continue;
+            }
+            if (i == n - 1) return true;
+        }
+        return false;
+    }
+
     // p735 行星碰撞「栈」
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
@@ -165,4 +178,6 @@ public class p700 {
         if (winner == board[0].charAt(0) && winner == board[1].charAt(1) && winner == board[2].charAt(2)) return true;
         return winner == board[0].charAt(2) && winner == board[1].charAt(1) && winner == board[2].charAt(0);
     }
+
+
 }

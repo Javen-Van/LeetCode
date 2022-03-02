@@ -9,6 +9,41 @@ import java.util.*;
  */
 public class p1600 {
 
+    int res = 0, count = 0, zero, n;
+    int[] delta;
+
+    // p1601 最多可达成的换楼请求数目
+    public int maximumRequests(int n, int[][] requests) {
+        this.zero = n;
+        this.n = n;
+        this.delta = new int[n];
+        dfs(requests, 0);
+        return res;
+    }
+
+    public void dfs(int[][] requests, int pos) {
+        if (pos == requests.length) { // 枚举结束
+            if (zero == n) res = Math.max(res, count); // 每个楼栋都守恒
+            return;
+        }
+        dfs(requests, pos + 1); // 不考虑当前需求
+        // 考虑当前需求
+        count++;
+        int from = requests[pos][0], to = requests[pos][1], temp = zero;
+        zero -= delta[from] == 0 ? 1 : 0; // 考虑前该楼栋变化为0
+        zero -= delta[to] == 0 ? 1 : 0;
+        delta[from]--;
+        delta[to]++;
+        zero += delta[from] == 0 ? 1 : 0;
+        zero += delta[to] == 0 ? 1 : 0;
+        dfs(requests, pos + 1);
+        // 回溯
+        count--;
+        delta[from]++;
+        delta[to]--;
+        zero = temp;
+    }
+
     // p1609 奇偶树「BFS」
     public boolean isEvenOddTree(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();

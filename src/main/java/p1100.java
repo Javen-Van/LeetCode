@@ -14,4 +14,15 @@ public class p1100 {
         }
         return res + d;
     }
+
+    // p1189 气球的最大数量
+    public int maxNumberOfBalloons(String text) {
+        int[] count = new int[26];
+        for (int i = 0; i < text.length(); i++) {
+            int idx = text.charAt(i) - 'a';
+            count[idx]++;
+        }
+        int b = count[1], a = count[0], l = count['l' - 'a'] / 2, o = count['o' - 'a'] / 2, n = count['n' - 'a'];
+        return Math.min(a, Math.min(b, Math.min(l, Math.min(o, n))));
+    }
 }

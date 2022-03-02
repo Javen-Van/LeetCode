@@ -45,4 +45,58 @@ public class p1700 {
         }
         return res;
     }
+
+    // p1706 球会落在何处「简单模拟」
+    public int[] findBall(int[][] grid) {
+        // 1导向右侧，-1导向左侧
+        int m = grid.length, n = grid[0].length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            int j = 0, col = i, dir = grid[j][col];
+            while (true) {
+                if ((col == n - 1 && dir == 1) || (col == 0) && dir == -1) break;
+                if (dir + grid[j][col + dir] == 0) break;
+                j++;
+                col += dir;
+                if (j == m) break;
+                dir = grid[j][col];
+            }
+            res[i] = j == m ? col : -1;
+        }
+        return res;
+    }
+
+    // p1765 地图中的最高点
+    public int[][] highestPeak(int[][] isWater) {
+        int m = isWater.length, n = isWater[0].length;
+        int[][] height = new int[m][n]; // -1表示水域，正数表示陆地，0表示还未初始化
+        int[] dif = new int[]{0, 1, 0, -1, 0};
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (isWater[i][j] == 1) {
+                    height[i][j] = -1;
+                    for (int k = 0; k < 4; k++) {
+                        int x = i + dif[k], y = j + dif[k + 1];
+                        if (boundary(x, y, m, n) && isWater[x][y] == 0 && height[x][y] == 0) { // 当前位置不是水域且没有访问过
+                            height[x][y] = 1;
+                            queue.offer(new int[]{x, y});
+                        }
+                    }
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] cur = queue.poll();
+
+            }
+        }
+        return height;
+    }
+
+    public boolean boundary(int x, int y, int m, int n) {
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
 }

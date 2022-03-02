@@ -26,4 +26,31 @@ public class p1800 {
         if (count[0] % 2 == 0) return count[1] >= 1 && count[2] >= 1;
         return Math.abs(count[1] - count[2]) > 2;
     }
+
+    // p2047 句子中的有效单词数
+    public int countValidWords(String sentence) {
+        int res = 0;
+        String[] s = sentence.split(" ");
+        for (String str : s) {
+            if ("".equals(str)) continue;
+            if (isValid(str)) res++;
+        }
+        return res;
+    }
+
+    public boolean isValid(String s) {
+        boolean hasConnect = false;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) return false;
+            if (c == '-') {
+                if (hasConnect || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1)) || !Character.isLetter(s.charAt(i + 1)))
+                    return false;
+                hasConnect = true;
+            } else if (c == ',' || c == '.' || c == '!') {
+                if (i != s.length() - 1) return false;
+            }
+        }
+        return true;
+    }
 }
