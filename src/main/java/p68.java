@@ -11,9 +11,9 @@ public class p68 {
 
     @Test
     public void test() {
-        int i = lengthOfLongestSubstring("");
-        System.out.println(i);
-        System.out.println(simplifyPath("/home//././a"));
+        System.out.println(longestPalindrome("ababc"));
+        int[] nums = {4, 5, 6, 7, 0, 1, 2, 3};
+        System.out.println(search(nums,8));
     }
 
     // p3 无重复的最长子串「双指针 + 哈希表 / 动态规划 + 哈希表」
@@ -29,6 +29,23 @@ public class p68 {
             map.put(c, r);
         }
         return res;
+    }
+
+    // p5 最长回文子串「动态规划」
+    public String longestPalindrome(String s) {
+        int begin = 0, end = 0, n = s.length(), max = 0;
+        boolean[][] dp = new boolean[n][n];
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1]);
+                if (dp[i][j] && j - i + 1 > max) {
+                    max = j - i + 1;
+                    begin = i;
+                    end = j + 1;
+                }
+            }
+        }
+        return s.substring(begin, end);
     }
 
     // p6 Z字形变换
@@ -143,6 +160,26 @@ public class p68 {
             }
             if (haystack.charAt(i) == needle.charAt(point)) point++;
             if (point == m) return i - m + 1;
+        }
+        return -1;
+    }
+
+    // p33 搜索旋转排序数组「二分查找」
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) return -1;
+        if (n == 1) return nums[0] == target ? 0 : -1;
+        int l = 0, r = n - 1, mid;
+        while (l <= r) {
+            mid = (l + r) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[l] <= nums[mid]) { // 左半段有序
+                if (nums[l] <= target && nums[mid] > target) r = mid; // 在有序区间内
+                else l = mid + 1;
+            } else { // 右半段有序
+                if (nums[mid] < target && nums[r] >= target) l = mid + 1;
+                else r = mid;
+            }
         }
         return -1;
     }

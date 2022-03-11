@@ -11,6 +11,16 @@ import java.util.Queue;
  */
 public class Sort {
 
+    public static void main(String[] args) {
+        int[] arr = {7, 3, 2, 6, 0, 1, 5, 4};
+//        quickSort(arr); // 快速排序
+//        bubbleSort(arr); // 冒泡排序
+//        selectSort(arr); // 选择排序
+//        insertSort(arr); // 插入排序
+        mergeSort(arr); // 归并排序
+        System.out.println(Arrays.toString(arr));
+    }
+
     // 快速排序
     public static void quickSort(int[] arr) {
         quickSort(arr, 0, arr.length - 1);
@@ -32,7 +42,7 @@ public class Sort {
     }
 
     public static void mergeSort(int[] arr) {
-
+        mergeSort(arr, 0, arr.length - 1, new int[arr.length]);
     }
 
     // 选择排序，时间复杂度均为O(n2)，不稳定
@@ -76,6 +86,26 @@ public class Sort {
         }
         swap(arr, i, l);
         return i;
+    }
+
+    protected static void mergeSort(int[] arr, int l, int r, int[] temp) {
+        if (l >= r) return;
+        int m = (l + r) / 2;
+        mergeSort(arr, l, m, temp);
+        mergeSort(arr, m + 1, r, temp);
+        merge(arr, l, m, r, temp); // 归并
+    }
+
+    protected static void merge(int[] arr, int l, int m, int r, int[] temp) {
+        for (int i = l; i <= r; i++) {
+            temp[i] = arr[i];
+        }
+        int i = l, j = m + 1; // 双指针
+        for (int k = l; k <= r; k++) {
+            if (i == m + 1) arr[k] = temp[j++];
+            else if (j == r + 1 || temp[j] >= temp[i]) arr[k] = temp[i++];
+            else arr[k] = temp[j++];
+        }
     }
 
     protected static void swap(int[] arr, int i, int j) {

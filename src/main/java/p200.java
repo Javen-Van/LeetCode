@@ -51,13 +51,9 @@ public class p200 {
         return res;
     }
 
-    public int count(int n) {
-        int res = 0;
-        while (n > 0) {
-            if (n % 10 == 1) res++;
-            n /= 10;
-        }
-        return res;
+    // p258 各位相加「数学」
+    public int addDigits(int num) {
+        return (num - 1) % 9 + 1;
     }
 
     // p264 丑数II「动态规划 + 二分查找」

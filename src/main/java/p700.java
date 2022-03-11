@@ -179,5 +179,27 @@ public class p700 {
         return winner == board[0].charAt(2) && winner == board[1].charAt(1) && winner == board[2].charAt(0);
     }
 
-
+    // p798 得分最高的最小论调「查分数组」
+    public int bestRotation(int[] nums) {
+        int n = nums.length;
+        int[] diffs = new int[n];
+        for (int i = 0; i < n; i++) {
+            int low = (i + 1) % n;
+            int high = (i - nums[i] + n + 1) % n;
+            diffs[low]++;
+            diffs[high]--;
+            if (low >= high) {
+                diffs[0]++;
+            }
+        }
+        int bestIndex = 0, maxScore = 0, score = 0;
+        for (int i = 0; i < n; i++) {
+            score += diffs[i];
+            if (score > maxScore) {
+                bestIndex = i;
+                maxScore = score;
+            }
+        }
+        return bestIndex;
+    }
 }

@@ -134,6 +134,13 @@ public class p500 {
         return index == n;
     }
 
+    // p521 最长特殊序列I
+    public int findLUSlength(String a, String b) {
+        int m = a.length(), n = b.length();
+        if (m != n) return Math.max(m, n);
+        return a.equals(b) ? -1 : m;
+    }
+
     // p524 通过删除字母匹配到字典里最长单词
     public String findLongestWord(String s, List<String> dictionary) {
         dictionary.sort((o1, o2) -> {
