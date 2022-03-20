@@ -2,6 +2,7 @@ package lccup;
 
 import org.junit.Test;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -78,7 +79,7 @@ public class week73 {
         }
         for (int i = 0; i < n; i++) {
             if (count[i] == 0) {
-                dfs(map, res, i, -1,new boolean[n]);
+                dfs(map, res, i, -1, new boolean[n]);
             }
         }
         List<List<Integer>> ans = new ArrayList<>();
@@ -88,7 +89,7 @@ public class week73 {
         return ans;
     }
 
-    public void dfs(List<List<Integer>> map, List<Set<Integer>> res, int cur, int pre,boolean[] isVis) {
+    public void dfs(List<List<Integer>> map, List<Set<Integer>> res, int cur, int pre, boolean[] isVis) {
         if (pre != -1) {
             Set<Integer> temp = res.get(cur);
             temp.add(pre);
@@ -96,12 +97,25 @@ public class week73 {
         }
         if (map.get(cur).size() == 0) return;
         for (int next : map.get(cur)) {
-            if (!isVis[next]){
+            if (!isVis[next]) {
                 isVis[next] = true;
-                dfs(map, res, next, cur,isVis);
+                dfs(map, res, next, cur, isVis);
             }
         }
     }
 
     // Q4
+    public static void main(String[] args) throws IOException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//        String s = reader.readLine();
+//        int i = Integer.parseInt(s);
+        System.out.println((char) ('a' + 1));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        for (int i = 0; i < 3; i++) {
+            writer.write(Boolean.TRUE.toString());
+            writer.newLine();
+        }
+        writer.flush();
+        int[] nums = {0, 0, 2, 3, 5};
+    }
 }

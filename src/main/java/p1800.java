@@ -29,6 +29,56 @@ public class p1800 {
         return Math.abs(count[1] - count[2]) > 2;
     }
 
+    // p2039 网络中的空闲时刻
+    public int networkBecomesIdle(int[][] edges, int[] patience) {
+        return 0;
+    }
+
+    public int[] dijkstra(int[][] edges, int n) {
+        int[] dis = new int[n];
+        boolean[] isVis = new boolean[n];
+        List<List<Integer>> map = new ArrayList<>();
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
+        for (int i = 0; i < n; i++) {
+            map.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            map.get(edge[0]).add(edge[1]);
+        }
+        for (int idx : map.get(0)) {
+            queue.offer(new int[]{1, idx});
+            dis[idx] = 1;
+        }
+        isVis[0] = true;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int next : map.get(cur[1])) {
+                if (!isVis[next]) {
+                    isVis[next] = true;
+                    queue.offer(new int[]{0});
+                }
+            }
+        }
+        return new int[0];
+    }
+
+    // p2044 统计按位或能得到的子集的最大数目「状态压缩」
+    public int countMaxOrSubsets(int[] nums) {
+        int n = nums.length, mask = 1 << n, max = 0, res = 0;
+        int[] dp = new int[mask];
+        for (int i = 1; i < mask; i++) {
+            int index = 15;
+            while (index >= 0 && ((i >> index) & 1) == 0) index--;
+            dp[i] = nums[index] | dp[i ^ (1 << index)];
+            if (dp[i] == max) res++;
+            if (dp[i] > max) {
+                max = dp[i];
+                res = 1;
+            }
+        }
+        return res;
+    }
+
     // p2047 句子中的有效单词数
     public int countValidWords(String sentence) {
         int res = 0;

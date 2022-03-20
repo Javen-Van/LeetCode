@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 import java.util.*;
 
 public class p300 {
@@ -105,6 +107,33 @@ public class p300 {
             res = min + (max - min) / 2;
         }
         return 1;
+    }
+
+    // p393 UTF-8编码验证
+    public boolean validUtf8(int[] data) {
+        int n = data.length;
+        for (int i = 0; i < n; i++) {
+            int d = data[i], count = 0;
+            for (int j = 7; j >= 0; j--) {
+                if (((d >> j) & 1) == 1) count++;
+                else break;
+            }
+            if (count == 1 || count > 4) return false;
+            count = count == 0 ? 0 : count - 1;
+            if (i + count >= n) return false;
+            for (int j = i + 1; j <= count + i; j++) {
+                int next = data[j];
+                if (((next >> 7) & 1) != 1 || ((next >> 6) & 1) != 0) return false;
+            }
+            i += count;
+        }
+        return true;
+    }
+
+    @Test
+    public void test() {
+        int[] x = {197, 130, 1};
+        System.out.println(validUtf8(x));
     }
 
     public boolean check(int[][] matrix, int target) {

@@ -33,6 +33,21 @@ public class p700 {
         return false;
     }
 
+    // p720 词典中最长的单词
+    public String longestWord(String[] words) {
+        Arrays.sort(words);
+        String res = "";
+        Set<String> set = new HashSet<>();
+        set.add(res);
+        for (String word : words) {
+            if (set.contains(word.substring(0, word.length() - 1))) {
+                res = word.length() > res.length() ? word : res;
+                set.add(word);
+            }
+        }
+        return res;
+    }
+
     // p735 行星碰撞「栈」
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();

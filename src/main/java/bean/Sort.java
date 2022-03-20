@@ -17,7 +17,8 @@ public class Sort {
 //        bubbleSort(arr); // 冒泡排序
 //        selectSort(arr); // 选择排序
 //        insertSort(arr); // 插入排序
-        mergeSort(arr); // 归并排序
+//        mergeSort(arr); // 归并排序
+        heapSort(arr); // 堆排序
         System.out.println(Arrays.toString(arr));
     }
 
@@ -41,8 +42,21 @@ public class Sort {
         }
     }
 
+    // 归并排序
     public static void mergeSort(int[] arr) {
         mergeSort(arr, 0, arr.length - 1, new int[arr.length]);
+    }
+
+    // 堆排序，最佳和平均时间复杂度均为O(nlogn)，不稳定
+    public static void heapSort(int[] arr) {
+        int n = arr.length;
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            adjustHeap(arr, i, n);
+        }
+        for (int i = n - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            adjustHeap(arr, 0, i);
+        }
     }
 
     // 选择排序，时间复杂度均为O(n2)，不稳定
@@ -105,6 +119,18 @@ public class Sort {
             if (i == m + 1) arr[k] = temp[j++];
             else if (j == r + 1 || temp[j] >= temp[i]) arr[k] = temp[i++];
             else arr[k] = temp[j++];
+        }
+    }
+
+    protected static void adjustHeap(int[] arr, int i, int len) {
+        int parent = i, son = i * 2 + 1;
+        while (son < len) {
+            if (son + 1 < len && arr[son] < arr[son + 1]) son++;
+            if (arr[son] > arr[parent]) {
+                swap(arr, parent, son);
+                parent = son;
+                son = parent * 2 + 1;
+            } else break;
         }
     }
 
