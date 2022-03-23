@@ -61,33 +61,4 @@ public class Test {
         System.out.println(s1 == s6.intern()); // true
         System.out.println(s2 == s2.intern()); // false
     }
-
-    public static void main(String[] args) {
-        Communication communication = new Communication();
-        Thread t1 = new Thread(communication);
-        Thread t2 = new Thread(communication);
-        t1.start();
-        t2.start();
-
-    }
-}
-
-class Communication implements Runnable {
-    int i = 1;
-
-    public void run() {
-        while (true) {
-            synchronized (this) {
-                notify();
-                if (i <= 100) {
-                    System.out.println(Thread.currentThread().getName() + ":" + i++);
-                } else break;
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }

@@ -1,3 +1,5 @@
+package dailyCode;
+
 import java.util.*;
 
 public class p100 {

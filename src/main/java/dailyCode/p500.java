@@ -1,3 +1,5 @@
+package dailyCode;
+
 import org.junit.Test;
 
 import java.util.*;
@@ -9,7 +11,7 @@ import java.util.*;
  */
 public class p500 {
 
-    // p500 键盘行
+    // dailyCode.p500 键盘行
     public String[] findWords(String[] words) {
         Set<Character> set1 = new HashSet<>(Arrays.asList('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'));
         Set<Character> set2 = new HashSet<>(Arrays.asList('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'));

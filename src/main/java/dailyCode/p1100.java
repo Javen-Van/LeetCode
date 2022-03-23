@@ -1,3 +1,5 @@
+package dailyCode;
+
 public class p1100 {
     // p1154 一年中的第几天
     public int dayOfYear(String date) {

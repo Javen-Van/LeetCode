@@ -1,3 +1,5 @@
+package dailyCode;
+
 import org.junit.Test;
 
 import java.util.*;
@@ -224,7 +226,7 @@ public class p68 {
         return res;
     }
 
-    // p68 文本左右对齐
+    // dailyCode.p68 文本左右对齐
     public List<String> fullJustify(String[] words, int maxWidth) {
         int n = words.length;
         int[] len = new int[n];

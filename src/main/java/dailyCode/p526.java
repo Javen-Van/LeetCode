@@ -1,3 +1,5 @@
+package dailyCode;
+
 import com.sun.org.apache.bcel.internal.generic.SWAP;
 import org.junit.Test;
 

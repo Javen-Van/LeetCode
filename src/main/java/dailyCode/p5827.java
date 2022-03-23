@@ -1,3 +1,5 @@
+package dailyCode;
+
 /**
  * @author Javen
  * @create 2021-08-07

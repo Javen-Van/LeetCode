@@ -1,3 +1,5 @@
+package dailyCode;
+
 import bean.TreeNode;
 
 import java.util.*;
@@ -12,7 +14,7 @@ import java.util.*;
  */
 public class p700 {
 
-    // p700 二叉搜索树的搜索
+    // dailyCode.p700 二叉搜索树的搜索
     public TreeNode searchBST(TreeNode root, int val) {
         if (root == null) return null;
         if (root.val == val) return root;

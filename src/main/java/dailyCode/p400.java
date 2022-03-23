@@ -1,3 +1,5 @@
+package dailyCode;
+
 import bean.Trie;
 import org.junit.Test;
 
@@ -6,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class p400 {
 
-    // p400
+    // dailyCode.p400
     public int findNthDigit(int n) {
         int i = 1, j = 1;
         while (n > 9 * i * j) {
@@ -149,6 +151,38 @@ public class p400 {
             }
         }
         return sb.toString();
+    }
+
+    // p440 字典序的第k小数字
+    public int findKthNumber(int n, int k) {
+        int prefix = 1, p = 1;
+        while (p < k) {
+            int count = getCount(n, prefix);
+            if (count + p > k) {
+                prefix *= 10;
+                p++;
+            } else {
+                prefix++;
+                p += count;
+            }
+        }
+        return prefix;
+    }
+
+    public int getCount(int n, int prefix) {
+        int count = 0;
+        long cur = prefix, next = prefix + 1;
+        while (cur <= n) {
+            count += Math.min(n + 1, next) - cur;
+            cur *= 10;
+            next *= 10;
+        }
+        return count;
+    }
+
+    @Test
+    public void me() {
+        System.out.println(findKthNumber(10, 3));
     }
 
     // p443 压缩字符串

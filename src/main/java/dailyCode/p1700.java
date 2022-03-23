@@ -1,3 +1,5 @@
+package dailyCode;
+
 import org.junit.Test;
 
 import java.util.*;
