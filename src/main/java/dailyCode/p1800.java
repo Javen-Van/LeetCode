@@ -16,6 +16,20 @@ public class p1800 {
         return s;
     }
 
+    // p2028 找出缺失的观测数据
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int sum = 0, m = rolls.length, total = mean * (m + n);
+        for (int roll : rolls) sum += roll;
+        total -= sum;
+        int[] res = new int[n];
+        if (total <= 0) return new int[0];
+        int mod = total % n, div = total / n;
+        if ((mod == 0 && div > 6) || (mod != 0 && div > 5) || div == 0) return new int[0];
+        Arrays.fill(res, div);
+        for (int i = 0; i < mod; i++) res[i] += 1;
+        return res;
+    }
+
     // p2029 石子游戏IX
     // a赢：b拿的石子后总价值为3x
     // b赢：a拿了石子后总价值为3x，或当前没有剩余石子
@@ -234,11 +248,5 @@ public class p1800 {
             maxSum += (long) nums[i] * (i - maxLeft[i]) * (maxRight[i] - i);
         }
         return maxSum - minSum;
-    }
-
-    @Test
-    public void test() {
-        int[] arr = {1, 3, 3};
-        System.out.println(subArrayRanges(arr));
     }
 }

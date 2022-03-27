@@ -41,6 +41,12 @@ public class p800 {
         return res;
     }
 
+    // p842 将数组拆分成斐波那契数列
+    public List<Integer> splitIntoFibonacci(String num) {
+        int n = num.length();
+        return null;
+    }
+
     // p850 矩形面积「线段树」
     public int rectangleArea(int[][] rectangles) {
         // 扫描线按照纵坐标递增排序
