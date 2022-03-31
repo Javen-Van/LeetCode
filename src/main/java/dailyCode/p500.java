@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class p500 {
 
-    // dailyCode.p500 键盘行
+    // p500 键盘行
     public String[] findWords(String[] words) {
         Set<Character> set1 = new HashSet<>(Arrays.asList('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'));
         Set<Character> set2 = new HashSet<>(Arrays.asList('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'));
@@ -164,6 +164,15 @@ public class p500 {
         return j == b.length();
     }
 
+    // p537 复数乘法
+    public String complexNumberMultiply(String num1, String num2) {
+        String[] n1 = num1.substring(0, num1.length() - 1).split("\\+");
+        String[] n2 = num2.substring(0, num2.length() - 1).split("\\+");
+        int a = Integer.parseInt(n1[0]), b = Integer.parseInt(n1[1]), c = Integer.parseInt(n2[0]), d = Integer.parseInt(n2[1]);
+        int real = a * c - b * d, virtual = a * d + b * c;
+        return real + "+" + virtual + "i";
+    }
+
     // p539 最小时间差
     public int findMinDifference(List<String> timePoints) {
         int n = timePoints.size();
@@ -180,6 +189,21 @@ public class p500 {
         }
         res = Math.min(minutes[0] + 24 * 60 - minutes[n - 1], res);
         return res;
+    }
+
+    // p553 最优除法
+    public String optimalDivision(int[] nums) {
+        int n = nums.length;
+        if (n==1) return Integer.toString(nums[0]);
+        if (n==2) return nums[0] + "/" + nums[1];
+        StringBuilder sb = new StringBuilder();
+        sb.append(nums[0]).append("/(");
+        for (int i = 1; i < n; i++) {
+            sb.append(nums[i]);
+            if (i != n-1) sb.append("/");
+            else sb.append(")");
+        }
+        return sb.toString();
     }
 
     // p564 寻找最近的回文数「模拟」
