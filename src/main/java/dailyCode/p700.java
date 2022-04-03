@@ -73,8 +73,17 @@ public class p700 {
         return res;
     }
 
-    public boolean isSameDirection(int num1, int num2) {
-        return num1 * num2 > 0;
+    // p744 寻找比目标字母大的最小字母「二分查找」
+    public char nextGreatestLetter(char[] letters, char target) {
+        int n = letters.length;
+        if (target >= letters[n - 1]) return letters[0];
+        int l = 0, r = n - 1, median;
+        while (l < r) {
+            median = (l + r) / 2;
+            if (letters[median] <= target) l = median + 1;
+            else r = median;
+        }
+        return letters[l];
     }
 
     // p748 最短补全词「easy」

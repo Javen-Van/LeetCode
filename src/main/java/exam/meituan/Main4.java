@@ -4,15 +4,10 @@ package exam.meituan;
  * @author Javen
  * @create 2022-03-12
  * @Description 小美现在打音游。这个音游的玩法是这样的：
- * <p>
  * —— 共有n个房间。小美初始拥有一个指针，指在一号房间。
- * <p>
  * —— 游戏共持续m秒，每秒会有一个房间产生炸弹，小美的指针不能在这个房间中。
- * <p>
  * —— 每秒结束的瞬间，小美可以使用一次魔法，把指针切换到另一个房间中，该过程会消耗一个能量。
- * <p>
  * 你的任务是计算小美无伤通过音游所需要消耗的最小能量。
- * <p>
  * 保证第一秒的炸弹不发生在一号房间中。
  */
 
@@ -43,9 +38,9 @@ public class Main4 {
         for (int i = 0; i < m; i++) {
             list[bomb[i] - 1].offerLast(i);
         }
-        for (int i = 0; i < m; i++) {
-            list[bomb[i] - 1].pollFirst();
-            if (room == bomb[i] - 1) {
+        for (int k : bomb) {
+            list[k - 1].pollFirst();
+            if (room == k - 1) {
                 int max = 0, idx = 0;
                 for (int j = 0; j < n; j++) {
                     if (j == room) continue;

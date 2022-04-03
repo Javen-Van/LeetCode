@@ -6,6 +6,28 @@ import java.util.*;
 
 public class p300 {
 
+    // p300 最长递增子序列「贪心 + 二分查找」
+    public int lengthOfLIS(int[] nums) {
+        int len = 0, n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for (int num : nums) {
+            if (num > dp[len]) dp[++len] = num;
+            else binarySearch(dp, num, len);
+        }
+        return len + 1;
+    }
+
+    public void binarySearch(int[] nums, int target, int r) {
+        int l = 0, median;
+        while (l < r) {
+            median = (l + r) / 2;
+            if (nums[median] >= target) r = median;
+            else l = median + 1;
+        }
+        nums[l] = target;
+    }
+
     // p306 累加数
     public boolean isAdditiveNumber(String num) {
         return false;
@@ -19,7 +41,7 @@ public class p300 {
         Arrays.fill(point, 1);
         dp[1] = 1;
         for (int i = 2; i <= n; i++) {
-            int min = Integer.MAX_VALUE, index = 0;
+            int min = Integer.MAX_VALUE;
             for (int j = 0; j < len; j++) {
                 min = Math.min(min, dp[point[j]] * primes[j]);
             }
@@ -129,17 +151,6 @@ public class p300 {
             }
             i += count;
         }
-        return true;
-    }
-
-    @Test
-    public void test() {
-        int[] x = {197, 130, 1};
-        System.out.println(validUtf8(x));
-    }
-
-    public boolean check(int[][] matrix, int target) {
-        int count = 0;
         return true;
     }
 

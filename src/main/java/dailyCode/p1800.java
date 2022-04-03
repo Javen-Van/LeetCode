@@ -16,6 +16,24 @@ public class p1800 {
         return s;
     }
 
+    // p2024 考试的最大困扰度「滑动窗口」
+    public int maxConsecutiveAnswers(String answerKey, int k) {
+        return Math.max(maxLength(answerKey, k, 'T'), maxLength(answerKey, k, 'F'));
+    }
+
+    public int maxLength(String str, int k, char c) {
+        int l = 0, r = 0, count = 0, n = str.length(), res = 0;
+        while (r < n) {
+            if (str.charAt(r) != c) count++;
+            while (count > k) {
+                if (str.charAt(l++) != c) count--;
+            }
+            res = Math.max(res, r - l + 1);
+            r++;
+        }
+        return res;
+    }
+
     // p2028 找出缺失的观测数据
     public int[] missingRolls(int[] rolls, int mean, int n) {
         int sum = 0, m = rolls.length, total = mean * (m + n);
