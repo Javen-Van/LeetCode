@@ -1,5 +1,6 @@
 package dailyCode;
 
+import bean.Node;
 import bean.Trie;
 import org.junit.Test;
 
@@ -151,6 +152,29 @@ public class p400 {
             }
         }
         return sb.toString();
+    }
+
+    // p429 N叉树的层序遍历「BFS」
+    public List<List<Integer>> levelOrder(Node root) {
+        Queue<Node> queue = new LinkedList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> layer = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                Node cur = queue.poll();
+                layer.add(cur.val);
+                if (cur.children != null && cur.children.size() != 0) {
+                    for (Node child : cur.children) {
+                        queue.offer(child);
+                    }
+                }
+            }
+            res.add(layer);
+        }
+        return res;
     }
 
     // p440 字典序的第k小数字

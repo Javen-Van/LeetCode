@@ -29,9 +29,27 @@ public class Test {
         return left.isEmpty();
     }
 
+    public int eggDrop(int k, int n) {
+        int[][] dp = new int[n + 1][k + 1]; // f(n,k)
+        for (int i = 1; i <= n; i++) {
+            dp[i][1] = i; // 一个鸡蛋的情况，即为楼层数
+        }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 2; j <= k; j++) {
+                int min = n;
+                for (int m = 1; m <= i; m++) {
+                    min = Math.min(min, Math.max(dp[i - m][k], dp[m - 1][k - 1])); // 最大的最小值
+                }
+                dp[i][j] = min + 1; // 尝试次数在此基础上+1
+            }
+        }
+        return dp[n][k];
+    }
+
 
     @org.junit.Test
     public void test2() {
+        System.out.println(eggDrop(2, 1000));
 //        String s1 = "hello";
 //        String s2 = "world";
 //        String s3 = "hello" + "world";

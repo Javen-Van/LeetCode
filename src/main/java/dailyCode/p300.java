@@ -33,6 +33,43 @@ public class p300 {
         return false;
     }
 
+    // p310 最小高度树「bfs + 拓扑排序｜
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> res = new ArrayList<>();
+        List<List<Integer>> table = new ArrayList<>();
+        int[] degree = new int[n];
+        if (n == 1) {
+            res.add(0);
+            return res;
+        }
+        for (int i = 0; i < n; i++) {
+            table.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+            table.get(edge[0]).add(edge[1]);
+            table.get(edge[1]).add(edge[0]);
+        }
+        for (int i = 0; i < n; i++) {
+            if (degree[i] == 1) queue.offer(i);
+        }
+        while (!queue.isEmpty()) {
+            res.clear();
+            int size = queue.size();
+            for (int j = 0; j < size; j++) {
+                int cur = queue.poll();
+                res.add(cur);
+                for (int next : table.get(cur)) {
+                    degree[next]--;
+                    if (degree[next] == 1) queue.offer(next);
+                }
+            }
+        }
+        return res;
+    }
+
     // p313 超级丑数「动态规划」
     public int nthSuperUglyNumber(int n, int[] primes) {
         int len = primes.length;
@@ -65,6 +102,17 @@ public class p300 {
             }
         }
         return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    // p357 统计各位数字都不同的数字个数「数学」
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) return 1;
+        int res = 10, cur = 9;
+        for (int i = 0; i < n - 1; i++) {
+            cur *= 9 - i;
+            res += cur;
+        }
+        return res;
     }
 
     int MOD = 1337;

@@ -8,14 +8,37 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.*;
 
-/**
- * @author Javen
- * @create 2021-08-26
- * @Description 第i个人的体重为people[i]，每艘船可以承载的最大重量为limit。
- * 每艘船最多可同时载两人，但条件是这些人的重量之和最多为limit。
- * 返回载到每一个人所需的最小船数。(保证每个人都能被船载)。
- */
 public class p800 {
+
+    // p804 唯一摩尔斯密码词「哈希表」
+    public int uniqueMorseRepresentations(String[] words) {
+        String[] table = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
+        Set<String> set = new HashSet<>();
+        StringBuilder sb;
+        for (String word : words) {
+            sb = new StringBuilder();
+            for (int i = 0; i < word.length(); i++) {
+                sb.append(table[word.charAt(i) - 'a']);
+            }
+            set.add(sb.toString());
+        }
+        return set.size();
+    }
+
+    // p806 写字符串需要的行数「模拟」
+    public int[] numberOfLines(int[] widths, String s) {
+        int line = 1, left = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int cost = widths[s.charAt(i) - 'a'];
+            if (left + cost > 100) {
+                line++;
+                left = cost;
+            } else {
+                left += cost;
+            }
+        }
+        return new int[]{line, left};
+    }
 
     // p807 保持城市天际线
     public int maxIncreaseKeepingSkyline(int[][] grid) {

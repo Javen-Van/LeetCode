@@ -1,5 +1,7 @@
 package bean;
 
+import java.util.List;
+
 /**
  * @author Javen
  * @create 2022-01-06
@@ -9,6 +11,7 @@ public class Node {
     public int val;
     public Node left;
     public Node right;
+    public List<Node> children;
 
     public Node() {
     }

@@ -117,6 +117,44 @@ public class p700 {
         return res;
     }
 
+    // p762 二进制表示中质数个计算置位「位运算」
+    public int countPrimeSetBits(int left, int right) {
+        Set<Integer> set = new HashSet<>(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31));
+        int res = 0;
+        while (left <= right) {
+            int num = left, count = 0;
+            while (num != 0) {
+                count += num & 1;
+                num >>= 1;
+            }
+            res += set.contains(count) ? 1 : 0;
+            left++;
+        }
+        return res;
+    }
+
+    // p780 到达终点
+    public boolean reachingPoints(int sx, int sy, int tx, int ty) {
+        while (tx > 0 && ty > 0) {
+            if (tx == sx && ty == sy) return true;
+            if (sx > tx || sy > ty) return false;
+            if (tx > ty) {
+                if (ty == sy) {
+                    return tx % ty == sx % sy;
+                } else {
+                    tx %= ty;
+                }
+            } else {
+                if (tx == sx) {
+                    return ty % tx == sy % sx;
+                } else {
+                    ty %= tx;
+                }
+            }
+        }
+        return false;
+    }
+
     // p784 字母大小写全排列，bfs超出时间限制
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         int[][] map = new int[n][n];
