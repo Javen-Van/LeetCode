@@ -1,4 +1,5 @@
-/target
+target/
+
 pom.xml
-.idea
+.idea/
 LeetCode_study.iml
