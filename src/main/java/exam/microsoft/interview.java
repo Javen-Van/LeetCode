@@ -1,3 +1,5 @@
+package exam.microsoft;
+
 public class interview {
     public static boolean method(int[] arr, int k) {
         if (k < 0 || arr == null) return false;
