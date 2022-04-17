@@ -7,19 +7,25 @@ import java.util.*;
 /**
  * @author Javen
  * @create 2021-08-24
- * @Description 有 n 个城市通过一些航班连接。给你一个数组flights ，其中flights[i] = [fromi, toi, pricei] ，表示该航班都从城市
- * fromi 开始，以价格 toi 抵达 pricei。
- * 现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，你的任务是找到出一条最多经过 k站中转的路线，使得从 src 到 dst 的
- * 价格最便宜 ，并返回该价格。 如果不存在这样的路线，则输出 -1。
+ * @Description 有 n 个城市通过一些航班连接。给你一个数组flights ，其中flights[i] = [fromi, toi,
+ *              pricei] ，表示该航班都从城市
+ *              fromi 开始，以价格 toi 抵达 pricei。
+ *              现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，你的任务是找到出一条最多经过 k站中转的路线，使得从 src
+ *              到 dst 的
+ *              价格最便宜 ，并返回该价格。 如果不存在这样的路线，则输出 -1。
  */
 public class p700 {
 
     // dailyCode.p700 二叉搜索树的搜索
     public TreeNode searchBST(TreeNode root, int val) {
-        if (root == null) return null;
-        if (root.val == val) return root;
-        if (root.val < val) return searchBST(root.right, val);
-        else return searchBST(root.left, val);
+        if (root == null)
+            return null;
+        if (root.val == val)
+            return root;
+        if (root.val < val)
+            return searchBST(root.right, val);
+        else
+            return searchBST(root.left, val);
     }
 
     // p717 1比特与2比特「简单模拟」
@@ -30,7 +36,8 @@ public class p700 {
                 i++;
                 continue;
             }
-            if (i == n - 1) return true;
+            if (i == n - 1)
+                return true;
         }
         return false;
     }
@@ -50,12 +57,34 @@ public class p700 {
         return res;
     }
 
+    // p728 自除数
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i <= right; i++) {
+            if (isSelfDividingNumber(i))
+                res.add(i);
+        }
+        return res;
+    }
+
+    public boolean isSelfDividingNumber(int num) {
+        int n = num;
+        while (num != 0) {
+            int divid = num % 10;
+            if (divid == 0 || n % divid != 0)
+                return false;
+            num /= 10;
+        }
+        return true;
+    }
+
     // p735 行星碰撞「栈」
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
         for (int x : asteroids) {
             while (!stack.isEmpty() && stack.peek() * x < 0) {
-                if (Math.abs(stack.peek()) < Math.abs(x)) stack.pop();
+                if (Math.abs(stack.peek()) < Math.abs(x))
+                    stack.pop();
                 else if (Math.abs(stack.peek()) == Math.abs(x)) {
                     stack.pop();
                     break;
@@ -163,7 +192,7 @@ public class p700 {
         }
         int res = Integer.MAX_VALUE;
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{src, 0});
+        queue.offer(new int[] { src, 0 });
         while (k >= 0 && !queue.isEmpty()) {
             k--;
             int size = queue.size();
@@ -175,7 +204,7 @@ public class p700 {
                 }
                 for (int j = 0; j < n; j++) {
                     if (map[cur[0]][j] > 0) {
-                        queue.offer(new int[]{j, cur[1] + map[cur[0]][j]});
+                        queue.offer(new int[] { j, cur[1] + map[cur[0]][j] });
                     }
                 }
             }
@@ -207,15 +236,16 @@ public class p700 {
     public int[] kthSmallestPrimeFraction(int[] arr, int k) {
         Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingDouble(o -> arr[o[0]] * 1.0 / arr[o[1]]));
         for (int i = 1; i < arr.length; i++) {
-            queue.offer(new int[]{0, i});
+            queue.offer(new int[] { 0, i });
         }
         while (k > 1) {
             k--;
             int[] poll = queue.poll();
-            if (poll[0] + 1 < poll[1]) queue.offer(new int[]{poll[0] + 1, poll[1]});
+            if (poll[0] + 1 < poll[1])
+                queue.offer(new int[] { poll[0] + 1, poll[1] });
         }
         int[] res = queue.poll();
-        return new int[]{arr[res[0]], arr[res[1]]};
+        return new int[] { arr[res[0]], arr[res[1]] };
     }
 
     // p794 有效的井字游戏「分类讨论」
@@ -223,12 +253,16 @@ public class p700 {
         int countX = 0, countO = 0;
         for (String s : board) {
             for (int i = 0; i < 3; i++) {
-                if (s.charAt(i) == 'X') countX++;
-                if (s.charAt(i) == 'O') countO++;
+                if (s.charAt(i) == 'X')
+                    countX++;
+                if (s.charAt(i) == 'O')
+                    countO++;
             }
         }
-        if (countX != countO && countX != countO + 1) return false;
-        if (win(board, 'X') && countX != countO + 1) return false;
+        if (countX != countO && countX != countO + 1)
+            return false;
+        if (win(board, 'X') && countX != countO + 1)
+            return false;
         return !win(board, 'O') || countX == countO;
     }
 
@@ -239,7 +273,8 @@ public class p700 {
             if (winner == board[0].charAt(i) && winner == board[1].charAt(i) && winner == board[2].charAt(i))
                 return true;
         }
-        if (winner == board[0].charAt(0) && winner == board[1].charAt(1) && winner == board[2].charAt(2)) return true;
+        if (winner == board[0].charAt(0) && winner == board[1].charAt(1) && winner == board[2].charAt(2))
+            return true;
         return winner == board[0].charAt(2) && winner == board[1].charAt(1) && winner == board[2].charAt(0);
     }
 

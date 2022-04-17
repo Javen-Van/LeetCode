@@ -1,30 +1,26 @@
 package dailyCode;
 
-import com.sun.org.apache.bcel.internal.generic.SWAP;
-import org.junit.Test;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Javen
  * @create 2021-08-16
- * @Description 假设有从 1 到 N 的N个整数，如果从这n个数字中成功构造出一个数组，使得数组的第 i位 (1 <= i <= N) 满足如下两个条件中的
- * 一个，我们就称这个数组为一个优美的排列。条件：
- * 1 第i位的数字能被i整除
- * 2 i 能被第 i 位上的数字整除
- * 现在给定一个整数 N，请问可以构造多少个优美的排列？
- * 1 2 3 4
- * 2 1 3 4
- * 3 2 1 4
- * <p>
- * 4 2 3 1
- * 1 4 3 2
- * 3 4 1 2
- * 4 1 3 2
- * 2 4 3 1
+ * @Description 假设有从 1 到 N 的N个整数，如果从这n个数字中成功构造出一个数组，使得数组的第 i位 (1 <= i <= N)
+ *              满足如下两个条件中的
+ *              一个，我们就称这个数组为一个优美的排列。条件：
+ *              1 第i位的数字能被i整除
+ *              2 i 能被第 i 位上的数字整除
+ *              现在给定一个整数 N，请问可以构造多少个优美的排列？
+ *              1 2 3 4
+ *              2 1 3 4
+ *              3 2 1 4
+ *              <p>
+ *              4 2 3 1
+ *              1 4 3 2
+ *              3 4 1 2
+ *              4 1 3 2
+ *              2 4 3 1
  */
 public class p526 {
 

@@ -372,6 +372,24 @@ public class p400 {
         return res;
     }
 
+    // p479 最大回文数乘积
+    public int largestPalindrome(int n) {
+        if (n == 1) return 9;
+        int MOD = 1337, upper = (int) (Math.pow(10, n) - 1), res = 0;
+        for (int left = upper; res == 0; left--) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(left);
+            long num = Long.parseLong(left + sb.reverse().toString());
+            for (long i = upper; i * i >= num; i--) {
+                if (num % i == 0) {
+                    res = (int) (num % MOD);
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
     // p482 密钥格式化
     public String licenseKeyFormatting(String s, int k) {
         StringBuilder sb = new StringBuilder(s.replaceAll("-", ""));
@@ -385,10 +403,7 @@ public class p400 {
 
     @Test
     public void test() {
-        Trie trie = new Trie();
-        trie.insert("leetcode");
-        System.out.println(trie.isInTree("leetcodee"));
-        System.out.println(trie.isInTree("aaa"));
+        System.out.println(largestPalindrome(2));
     }
 
 }
