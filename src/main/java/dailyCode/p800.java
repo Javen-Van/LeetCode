@@ -97,6 +97,32 @@ public class p800 {
         return mostCommon;
     }
 
+    // p821 字符的最短距离「双指针」
+    public int[] shortestToChar(String s, char c) {
+        int n = s.length();
+        int[] res = new int[n];
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == c) list.add(i);
+        }
+        int index = 0, len = list.size();
+        for (int i = 0; i < n; i++) {
+            int neighbour = list.get(index);
+            if (i <= neighbour) res[i] = neighbour - i;
+            else {
+                if (index == len - 1) res[i] = i - neighbour;
+                else {
+                    if (i - neighbour > list.get(index + 1) - i) {
+                        res[i] = list.get(++index) - i;
+                    } else {
+                        res[i] = i - neighbour;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
     // p842 将数组拆分成斐波那契数列
     public List<Integer> splitIntoFibonacci(String num) {
         int n = num.length();
@@ -141,15 +167,7 @@ public class p800 {
             cur_x_sum = root.len;
             cur_y = y;
         }
-
         ans %= 1_000_000_007;
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
-//        writer.write(1);
-//        writer.newLine();
-//        writer.flush();
-//        List<String> list = new ArrayList<>();
-//        list.toArray()
         return (int) ans;
     }
 
@@ -286,6 +304,20 @@ public class p800 {
         }
     }
 
+    // p868 二进制间距「位运算」
+    public int binaryGap(int n) {
+        int digit = 0, res = 0, start = -1;
+        while (n > 0) {
+            if ((n & 1) == 1) {
+                if (start != -1) res = Math.max(res, digit - start);
+                start = digit;
+            }
+            digit++;
+            n >>= 1;
+        }
+        return res;
+    }
+
     // p869 重新排序得到2的幂「词频统计」
     public boolean reorderedPowerOf2(int n) {
         Set<String> set = new HashSet<>();
@@ -317,5 +349,20 @@ public class p800 {
             res++;
         }
         return (left == right) ? res + 1 : res;
+    }
+
+    // p883 三维形体投影面积「模拟」
+    public int projectionArea(int[][] grid) {
+        int res = 0, n = grid.length;
+        for (int i = 0; i < n; i++) {
+            int x = 0, y = 0;
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] != 0) res++;
+                x = Math.max(x, grid[i][j]);
+                y = Math.max(y, grid[j][i]);
+            }
+            res += x + y;
+        }
+        return res;
     }
 }

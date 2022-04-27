@@ -197,6 +197,8 @@ public class p300 {
         return res;
     }
 
+    // p388 文件的最长绝对路径 todo
+
     // p393 UTF-8编码验证
     public boolean validUtf8(int[] data) {
         int n = data.length;

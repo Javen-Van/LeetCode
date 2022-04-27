@@ -164,7 +164,7 @@ public class p500 {
         return j == b.length();
     }
 
-    // p537 复数乘法
+    // p537 复数乘法「字符串分割」
     public String complexNumberMultiply(String num1, String num2) {
         String[] n1 = num1.substring(0, num1.length() - 1).split("\\+");
         String[] n2 = num2.substring(0, num2.length() - 1).split("\\+");
@@ -194,13 +194,13 @@ public class p500 {
     // p553 最优除法
     public String optimalDivision(int[] nums) {
         int n = nums.length;
-        if (n==1) return Integer.toString(nums[0]);
-        if (n==2) return nums[0] + "/" + nums[1];
+        if (n == 1) return Integer.toString(nums[0]);
+        if (n == 2) return nums[0] + "/" + nums[1];
         StringBuilder sb = new StringBuilder();
         sb.append(nums[0]).append("/(");
         for (int i = 1; i < n; i++) {
             sb.append(nums[i]);
-            if (i != n-1) sb.append("/");
+            if (i != n - 1) sb.append("/");
             else sb.append(")");
         }
         return sb.toString();
@@ -275,7 +275,54 @@ public class p500 {
         return x < 0 || x >= m || y < 0 || y >= n;
     }
 
-    //p594 最长和谐子序列
+    // p587 安装栅栏「Andrew算法，求凸包」
+    public int[][] outerTrees(int[][] trees) {
+        Arrays.sort(trees, (o1, o2) -> o1[0] == o2[0] ? o1[1] - o2[1] : o1[0] - o2[0]);
+        int n = trees.length, index = 0;
+        int[] stack = new int[n + 5];
+        boolean[] isVis = new boolean[n];
+        stack[++index] = 0;
+        for (int i = 1; i < n; i++) {
+            int[] tree = trees[i];
+            while (index > 1) {
+                int[] a = trees[stack[index - 1]], b = trees[stack[index]];
+                if (getArea(a, b, tree) > 0) isVis[stack[index--]] = false;
+                else break;
+            }
+            stack[++index] = i;
+            isVis[i] = true;
+        }
+        int size = index;
+        for (int i = n - 1; i >= 0; i--) {
+            if (isVis[i]) continue;
+            int[] tree = trees[i];
+            while (index > size) {
+                int[] a = trees[stack[index - 1]], b = trees[stack[index]];
+                if (getArea(a, b, tree) > 0) index--;
+                else break;
+            }
+            stack[++index] = i;
+        }
+        int[][] res = new int[index - 1][2];
+        for (int i = 1; i < index; i++) {
+            res[i - 1] = trees[stack[i]];
+        }
+        return res;
+    }
+
+    public int[] subtraction(int[] x, int[] y) {
+        return new int[]{x[0] - y[0], x[1] - y[1]}; // 向量相减
+    }
+
+    public int cross(int[] x, int[] y) {
+        return x[0] * y[1] - x[1] * y[0]; // 叉乘
+    }
+
+    public int getArea(int[] a, int[] b, int[] c) {
+        return cross(subtraction(b, a), subtraction(c, a));
+    }
+
+    // p594 最长和谐子序列
     public int findLHS(int[] nums) {
         Map<Integer, Integer> map = new HashMap<>();
         int res = 0;
