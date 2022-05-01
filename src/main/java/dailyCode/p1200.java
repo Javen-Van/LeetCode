@@ -1,5 +1,6 @@
 package dailyCode;
 
+import bean.TreeNode;
 import org.junit.Test;
 
 import java.util.*;
@@ -30,6 +31,33 @@ public class p1200 {
             n--;
         }
         return ((((a + e) % MOD + i) % MOD + o) % MOD + u) % MOD;
+    }
+
+    // p1305 两棵二叉搜索树中的所有元素
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new ArrayList<>(), list2 = new ArrayList<>(), res = new ArrayList<>();
+        dfs(root1, list1);
+        dfs(root2, list2);
+        int m = list1.size(), n = list2.size(), i = 0, j = 0;
+        while (i < m && j < n) {
+            if (list1.get(i) < list2.get(j)) {
+                res.add(list1.get(i));
+                i++;
+            } else {
+                res.add(list2.get(j));
+                j++;
+            }
+        }
+        while (i < m) res.add(list1.get(i++));
+        while (j < n) res.add(list2.get(j++));
+        return res;
+    }
+
+    public void dfs(TreeNode root, List<Integer> list) {
+        if (root == null) return;
+        dfs(root.left, list);
+        list.add(root.val);
+        dfs(root.right, list);
     }
 
     // p1345 跳跃游戏IV「BFS」
