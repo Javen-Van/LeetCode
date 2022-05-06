@@ -1,10 +1,22 @@
 package dailyCode;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class p900 {
+
+    // p905 按奇偶排序数组「双指针」
+    public int[] sortArrayByParity(int[] nums) {
+        int index = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 == 0) {
+                int temp = nums[i];
+                nums[i] = nums[index];
+                nums[index] = temp;
+                index++;
+            }
+        }
+        return nums;
+    }
 
     // p917 仅仅反转字母｛双指针｝
     public String reverseOnlyLetters(String s) {

@@ -103,6 +103,42 @@ public class p400 {
         return dp[sum];
     }
 
+    // p417 太平洋大西洋水流问题「dfs」
+    int[][] heights;
+    int[] dif = {0, 1, 0, -1, 0};
+    int m, n;
+
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        this.m = heights.length;
+        this.n = heights[0].length;
+        this.heights = heights;
+        boolean[][] canFlowPac = new boolean[m][n], canFlowAtl = new boolean[m][n];
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            dfs(i, 0, canFlowPac);
+            dfs(i, n - 1, canFlowAtl);
+        }
+        for (int i = 0; i < n; i++) {
+            dfs(0, i, canFlowPac);
+            dfs(m - 1, i, canFlowAtl);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canFlowAtl[i][j] && canFlowPac[i][j]) res.add(Arrays.asList(i, j));
+            }
+        }
+        return res;
+    }
+
+    public void dfs(int raw, int col, boolean[][] grid) {
+        if (grid[raw][col]) return;
+        grid[raw][col] = true;
+        for (int i = 0; i < 4; i++) {
+            int x = raw + dif[i], y = col + dif[i + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && heights[x][y] >= heights[raw][col]) dfs(x, y, grid);
+        }
+    }
+
     // p419 甲板上的战舰
     public int countBattleships(char[][] board) {
         int m = board.length, n = board[0].length;
