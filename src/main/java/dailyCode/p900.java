@@ -18,6 +18,16 @@ public class p900 {
         return nums;
     }
 
+    // p908 最小差值
+    public int smallestRangeI(int[] nums, int k) {
+        int min = 100000, max = 0;
+        for (int num : nums) {
+            min = Math.min(min, num);
+            max = Math.max(max, num);
+        }
+        return Math.max(max - min - 2 * k, 0);
+    }
+
     // p917 仅仅反转字母｛双指针｝
     public String reverseOnlyLetters(String s) {
         char[] arr = s.toCharArray();

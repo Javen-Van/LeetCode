@@ -190,9 +190,70 @@ public class p400 {
         return sb.toString();
     }
 
+    // p427 建立四叉树
+    public Node construct(int[][] grid) {
+        return dfs(0, 0, grid.length, grid.length, grid);
+    }
+
+    public Node dfs(int sX, int sY, int eX, int eY, int[][] grid) {
+        boolean same = true;
+        out:
+        for (int i = sX; i < eX; i++) {
+            for (int j = sY; j < eY; j++) {
+                if (grid[i][j] != grid[sX][sY]) {
+                    same = false;
+                    break out;
+                }
+            }
+        }
+        if (same) return new Node(grid[sX][sY] == 1, true);
+        return new Node(true, false,
+                dfs(sX, sY, (sX + eX) / 2, (sY + eY) / 2, grid),
+                dfs(sX, (sY + eY) / 2, (sX + eX) / 2, eY, grid),
+                dfs((sX + eX) / 2, sY, eX, (sY + eY) / 2, grid),
+                dfs((sX + eX) / 2, (sY + eY) / 2, eX, eY, grid));
+    }
+
+    public static class Node {
+        public boolean val;
+        public boolean isLeaf;
+        public Node topLeft;
+        public Node topRight;
+        public Node bottomLeft;
+        public Node bottomRight;
+
+
+        public Node() {
+            this.val = false;
+            this.isLeaf = false;
+            this.topLeft = null;
+            this.topRight = null;
+            this.bottomLeft = null;
+            this.bottomRight = null;
+        }
+
+        public Node(boolean val, boolean isLeaf) {
+            this.val = val;
+            this.isLeaf = isLeaf;
+            this.topLeft = null;
+            this.topRight = null;
+            this.bottomLeft = null;
+            this.bottomRight = null;
+        }
+
+        public Node(boolean val, boolean isLeaf, Node topLeft, Node topRight, Node bottomLeft, Node bottomRight) {
+            this.val = val;
+            this.isLeaf = isLeaf;
+            this.topLeft = topLeft;
+            this.topRight = topRight;
+            this.bottomLeft = bottomLeft;
+            this.bottomRight = bottomRight;
+        }
+    }
+
     // p429 N叉树的层序遍历「BFS」
-    public List<List<Integer>> levelOrder(Node root) {
-        Queue<Node> queue = new LinkedList<>();
+    public List<List<Integer>> levelOrder(bean.Node root) {
+        Queue<bean.Node> queue = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) return res;
         queue.offer(root);
@@ -200,10 +261,10 @@ public class p400 {
             int size = queue.size();
             List<Integer> layer = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                Node cur = queue.poll();
+                bean.Node cur = queue.poll();
                 layer.add(cur.val);
                 if (cur.children != null && cur.children.size() != 0) {
-                    for (Node child : cur.children) {
+                    for (bean.Node child : cur.children) {
                         queue.offer(child);
                     }
                 }
@@ -285,11 +346,6 @@ public class p400 {
             next *= 10;
         }
         return count;
-    }
-
-    @Test
-    public void me() {
-        System.out.println(findKthNumber(10, 3));
     }
 
     // p443 压缩字符串
