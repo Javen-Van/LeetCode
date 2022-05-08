@@ -213,6 +213,53 @@ public class p400 {
         return res;
     }
 
+    // p433 最小基因变化「dfs」
+    int ans = Integer.MAX_VALUE;
+    String[] bank;
+
+    public int minMutation(String start, String end, String[] bank) {
+        this.bank = bank;
+        List<List<Integer>> table = new ArrayList<>();
+        int n = bank.length;
+        for (int i = 0; i < n; i++) {
+            table.add(new ArrayList<>());
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (countDiff(bank[i], bank[j]) == 1) {
+                    table.get(i).add(j);
+                    table.get(j).add(i);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (countDiff(start, bank[i]) == 1) {
+                dfs(i, end, table, 1, new boolean[n]);
+            }
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public int countDiff(String a, String b) {
+        int count = 0;
+        for (int k = 0; k < 8; k++) {
+            if (a.charAt(k) != b.charAt(k)) count++;
+        }
+        return count;
+    }
+
+    public void dfs(int cur, String end, List<List<Integer>> table, int step, boolean[] isVis) {
+        if (this.bank[cur].equals(end)) {
+            ans = Math.min(ans, step);
+            return;
+        }
+        isVis[cur] = true;
+        for (int next : table.get(cur)) {
+            if (!isVis[next]) dfs(next, end, table, step + 1, isVis);
+        }
+        isVis[cur] = false;
+    }
+
     // p440 字典序的第k小数字
     public int findKthNumber(int n, int k) {
         int prefix = 1, p = 1;
