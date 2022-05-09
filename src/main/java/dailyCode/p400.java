@@ -348,6 +348,17 @@ public class p400 {
         return count;
     }
 
+    // p442 数组中的重复数据「技巧题」
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int num : nums) {
+            int idx = Math.abs(num);
+            if (nums[idx - 1] > 0) nums[idx - 1] *= -1;
+            else res.add(idx);
+        }
+        return res;
+    }
+
     // p443 压缩字符串
     public int compress(char[] chars) {
         int start = 0, count = 0, index = 0;

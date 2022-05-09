@@ -48,6 +48,17 @@ public class p900 {
         return new String(arr);
     }
 
+    // p942 增减字符串匹配「贪心」
+    public int[] diStringMatch(String s) {
+        int n = s.length(), low = 0, high = n;
+        int[] res = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            res[i] = s.charAt(i) == 'I' ? low++ : high--;
+        }
+        res[n] = low;
+        return res;
+    }
+
     // p954 二倍数对数组
     public boolean canReorderDoubled(int[] arr) {
         Arrays.sort(arr);
