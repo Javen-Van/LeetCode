@@ -139,7 +139,7 @@ public class p400 {
         }
     }
 
-    // p419 甲板上的战舰
+    // p419 甲板上的战舰「dfs」
     public int countBattleships(char[][] board) {
         int m = board.length, n = board[0].length;
         int res = 0;
@@ -190,7 +190,7 @@ public class p400 {
         return sb.toString();
     }
 
-    // p427 建立四叉树
+    // p427 建立四叉树P「递归」
     public Node construct(int[][] grid) {
         return dfs(0, 0, grid.length, grid.length, grid);
     }
