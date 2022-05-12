@@ -40,7 +40,7 @@ public class p900 {
         this.graph = graph;
         this.degrees = new int[n][n][2];
         this.results = new int[n][n][2];
-        Queue<int[]> queue = new ArrayDeque<int[]>();
+        Queue<int[]> queue = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
             for (int j = 1; j < n; j++) {
                 degrees[i][j][MOUSE_TURN] = graph[i].length;
@@ -91,7 +91,7 @@ public class p900 {
     }
 
     public List<int[]> getPrevStates(int mouse, int cat, int turn) {
-        List<int[]> prevStates = new ArrayList<int[]>();
+        List<int[]> prevStates = new ArrayList<>();
         int prevTurn = turn == MOUSE_TURN ? CAT_TURN : MOUSE_TURN;
         if (prevTurn == MOUSE_TURN) {
             for (int prev : graph[mouse]) {
@@ -135,6 +135,20 @@ public class p900 {
             res[i] = s.charAt(i) == 'I' ? low++ : high--;
         }
         res[n] = low;
+        return res;
+    }
+
+    // p944 删列造序「简单模拟」
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length, len = strs[0].length(), res = 0;
+        for (int i = 0; i < len; i++) {
+            for (int j = 1; j < n; j++) {
+                if (strs[j].charAt(i) < strs[j - 1].charAt(i)) {
+                    res++;
+                    break;
+                }
+            }
+        }
         return res;
     }
 
