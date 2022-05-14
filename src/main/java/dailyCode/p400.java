@@ -103,7 +103,43 @@ public class p400 {
         return dp[sum];
     }
 
-    // p419 甲板上的战舰
+    // p417 太平洋大西洋水流问题「dfs」
+    int[][] heights;
+    int[] dif = {0, 1, 0, -1, 0};
+    int m, n;
+
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        this.m = heights.length;
+        this.n = heights[0].length;
+        this.heights = heights;
+        boolean[][] canFlowPac = new boolean[m][n], canFlowAtl = new boolean[m][n];
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            dfs(i, 0, canFlowPac);
+            dfs(i, n - 1, canFlowAtl);
+        }
+        for (int i = 0; i < n; i++) {
+            dfs(0, i, canFlowPac);
+            dfs(m - 1, i, canFlowAtl);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canFlowAtl[i][j] && canFlowPac[i][j]) res.add(Arrays.asList(i, j));
+            }
+        }
+        return res;
+    }
+
+    public void dfs(int raw, int col, boolean[][] grid) {
+        if (grid[raw][col]) return;
+        grid[raw][col] = true;
+        for (int i = 0; i < 4; i++) {
+            int x = raw + dif[i], y = col + dif[i + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && heights[x][y] >= heights[raw][col]) dfs(x, y, grid);
+        }
+    }
+
+    // p419 甲板上的战舰「dfs」
     public int countBattleships(char[][] board) {
         int m = board.length, n = board[0].length;
         int res = 0;
@@ -154,7 +190,7 @@ public class p400 {
         return sb.toString();
     }
 
-    // p427 建立四叉树
+    // p427 建立四叉树P「递归」
     public Node construct(int[][] grid) {
         return dfs(0, 0, grid.length, grid.length, grid);
     }
@@ -238,6 +274,53 @@ public class p400 {
         return res;
     }
 
+    // p433 最小基因变化「dfs」
+    int ans = Integer.MAX_VALUE;
+    String[] bank;
+
+    public int minMutation(String start, String end, String[] bank) {
+        this.bank = bank;
+        List<List<Integer>> table = new ArrayList<>();
+        int n = bank.length;
+        for (int i = 0; i < n; i++) {
+            table.add(new ArrayList<>());
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (countDiff(bank[i], bank[j]) == 1) {
+                    table.get(i).add(j);
+                    table.get(j).add(i);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (countDiff(start, bank[i]) == 1) {
+                dfs(i, end, table, 1, new boolean[n]);
+            }
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public int countDiff(String a, String b) {
+        int count = 0;
+        for (int k = 0; k < 8; k++) {
+            if (a.charAt(k) != b.charAt(k)) count++;
+        }
+        return count;
+    }
+
+    public void dfs(int cur, String end, List<List<Integer>> table, int step, boolean[] isVis) {
+        if (this.bank[cur].equals(end)) {
+            ans = Math.min(ans, step);
+            return;
+        }
+        isVis[cur] = true;
+        for (int next : table.get(cur)) {
+            if (!isVis[next]) dfs(next, end, table, step + 1, isVis);
+        }
+        isVis[cur] = false;
+    }
+
     // p440 字典序的第k小数字
     public int findKthNumber(int n, int k) {
         int prefix = 1, p = 1;
@@ -263,6 +346,17 @@ public class p400 {
             next *= 10;
         }
         return count;
+    }
+
+    // p442 数组中的重复数据「技巧题」
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int num : nums) {
+            int idx = Math.abs(num);
+            if (nums[idx - 1] > 0) nums[idx - 1] *= -1;
+            else res.add(idx);
+        }
+        return res;
     }
 
     // p443 压缩字符串
