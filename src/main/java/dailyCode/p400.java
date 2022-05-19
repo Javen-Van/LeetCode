@@ -468,6 +468,31 @@ public class p400 {
         return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
     }
 
+    // p462 最少移动次数使数组元素相等「数学」
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length, res = 0, x = nums[n / 2];
+        for (int num : nums) {
+            res += Math.abs(num - x);
+        }
+        return res;
+    }
+
+    // p463 寻找右区间「哈希表」
+    public int[] findRightInterval(int[][] intervals) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int n = intervals.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            map.put(intervals[i][0], i);
+        }
+        for (int i = 0; i < n; i++) {
+            Integer ceil = map.ceilingKey(intervals[i][1]);
+            res[i] = ceil == null ? -1 : map.get(ceil);
+        }
+        return res;
+    }
+
     // p472 连接词
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         Arrays.sort(words, Comparator.comparingInt(String::length));

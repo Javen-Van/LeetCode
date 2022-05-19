@@ -152,6 +152,28 @@ public class p900 {
         return res;
     }
 
+    // p953 验证外星语词典「排序」
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] table = new int[26];
+        for (int i = 0; i < 26; i++) {
+            table[order.charAt(i) - 'a'] = i;
+        }
+        Comparator<String> comparator = (o1, o2) -> {
+            if (o1.equals(o2)) return 0;
+            int n = o1.length(), m = o2.length();
+            for (int i = 0; i < Math.min(m, n); i++) {
+                int b = table[o2.charAt(i) - 'a'], a = table[o1.charAt(i) - 'a'];
+                if (a > b) return 1;
+                if (a < b) return -1;
+            }
+            return n - m;
+        };
+        for (int i = 1; i < words.length; i++) {
+            if (comparator.compare(words[i], words[i - 1]) < 0) return false;
+        }
+        return true;
+    }
+
     // p954 二倍数对数组
     public boolean canReorderDoubled(int[] arr) {
         Arrays.sort(arr);

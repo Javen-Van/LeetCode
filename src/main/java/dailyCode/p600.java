@@ -87,4 +87,38 @@ public class p600 {
         }
         return res;
     }
+
+    // p691 贴纸拼词「状态压缩dp+记忆化搜索」
+    public int minStickers(String[] stickers, String target) {
+        int n = target.length(), mask = 1 << n;
+        int[] dp = new int[mask];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        int res = dfs(stickers, target, dp, mask - 1);
+        return res <= n ? res : -1;
+    }
+
+    public int dfs(String[] stickers, String target, int[] dp, int mask) {
+        int n = target.length();
+        if (dp[mask] < 0) {
+            int res = n + 1;
+            for (String sticker : stickers) {
+                int left = mask;
+                int[] count = new int[26];
+                for (int i = 0; i < sticker.length(); i++) {
+                    count[sticker.charAt(i) - 'a']++;
+                }
+                for (int i = 0; i < n; i++) {
+                    int index = target.charAt(i) - 'a';
+                    if (((mask >> i) & 1) == 1 && count[index] > 0) {
+                        count[index]--;
+                        left ^= 1 << i;
+                    }
+                }
+                if (left < mask) res = Math.min(res, dfs(stickers, target, dp, left) + 1);
+            }
+            dp[mask] = res;
+        }
+        return dp[mask];
+    }
 }
