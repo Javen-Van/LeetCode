@@ -1,5 +1,7 @@
 package dailyCode;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -27,6 +29,21 @@ public class p600 {
             }
         }
         return queue.size();
+    }
+
+    // p668 乘法表中第k小的数
+    public int findKthNumber(int m, int n, int k) {
+        int l = 1, r = m * n;
+        while (l < r) {
+            int x = l + (r - l) / 2;
+            int line = x / n, count = line * n;
+            for (int i = line + 1; i <= m; i++) {
+                count += x / i;
+            }
+            if (count >= k) r = x;
+            else l = x + 1;
+        }
+        return l;
     }
 
     // p686 重复叠加字符串匹配「KMP算法」
