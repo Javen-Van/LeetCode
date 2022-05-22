@@ -31,7 +31,7 @@ public class p600 {
         return queue.size();
     }
 
-    // p668 乘法表中第k小的数
+    // p668 乘法表中第k小的数「二分查找」
     public int findKthNumber(int m, int n, int k) {
         int l = 1, r = m * n;
         while (l < r) {
