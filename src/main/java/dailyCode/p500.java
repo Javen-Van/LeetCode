@@ -164,6 +164,20 @@ public class p500 {
         return j == b.length();
     }
 
+    // p526 优美的排列「状态压缩dp」
+    public int countArrangement(int n) {
+        int mask = 1 << n;
+        int[] dp = new int[mask];
+        dp[0] = 1;
+        for (int i = 1; i < mask; i++) {
+            int num = Integer.bitCount(i);
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) != 0 && (num % (j + 1) == 0 || (j + 1) % num == 0)) dp[i] += dp[i ^ (1 << j)];
+            }
+        }
+        return dp[mask - 1];
+    }
+
     // p537 复数乘法「字符串分割」
     public String complexNumberMultiply(String num1, String num2) {
         String[] n1 = num1.substring(0, num1.length() - 1).split("\\+");
