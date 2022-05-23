@@ -2,10 +2,7 @@ package dailyCode;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author Javen
@@ -44,6 +41,55 @@ public class p600 {
             else l = x + 1;
         }
         return l;
+    }
+
+    // p675 为高尔夫比赛砍树「BFS」
+    public int cutOffTree(List<List<Integer>> forest) {
+        int m = forest.size(), n = forest.get(0).size(), res = 0;
+        int[][] forests = new int[m][n];
+        int[] pre = {0, 0};
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int height = forest.get(i).get(j);
+                forests[i][j] = height;
+                if (height > 1) queue.offer(new int[]{height, i, j});
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int distance = distance(pre, new int[]{cur[1], cur[2]}, forests);
+            if (distance == -1) return -1;
+            res += distance;
+            pre[0] = cur[1];
+            pre[1] = cur[2];
+        }
+        return res;
+    }
+
+    public int distance(int[] source, int[] target, int[][] forest) {
+        int count = 0, m = forest.length, n = forest[0].length;
+        int[] dif = {0, 1, 0, -1, 0};
+        boolean[][] isVis = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(source);
+        isVis[source[0]][source[1]] = true;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int j = 0; j < size; j++) {
+                int[] cur = queue.poll();
+                if (cur[0] == target[0] && cur[1] == target[1]) return count;
+                for (int i = 0; i < 4; i++) {
+                    int x = cur[0] + dif[i], y = cur[1] + dif[i + 1];
+                    if (x >= 0 && x < m && y >= 0 && y < n && !isVis[x][y] && forest[x][y] != 0) {
+                        isVis[x][y] = true;
+                        queue.offer(new int[]{x, y});
+                    }
+                }
+            }
+            count++;
+        }
+        return -1;
     }
 
     // p686 重复叠加字符串匹配「KMP算法」
