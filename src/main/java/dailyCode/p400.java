@@ -493,6 +493,41 @@ public class p400 {
         return res;
     }
 
+    // p464 我能赢吗「状态压缩dp」
+    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        if ((1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal) return false;
+        int[] dp = new int[1 << maxChoosableInteger];
+        Arrays.fill(dp, -1);
+        return dfs(0, maxChoosableInteger, desiredTotal, 0, dp) == 1;
+    }
+
+    public int dfs(int mask, int max, int desiredTotal, int total, int[] dp) {
+        if (dp[mask] == -1) {
+            dp[mask] = 0;
+            for (int i = 0; i < max; i++) {
+                if (((mask >> i) & 1) == 0) {
+                    if (i + 1 + total >= desiredTotal || dfs(mask | (1 << i), max, desiredTotal, i + 1 + total, dp) == 0) {
+                        dp[mask] = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        return dp[mask];
+    }
+
+    // p467 环绕字符串中唯一的子字符串「动态规划」
+    public int findSubstringInWraproundString(String p) {
+        int[] count = new int[26];
+        int n = p.length();
+        for (int start = 0, i = 1; i <= n; i++) {
+            char pre = p.charAt(i - 1);
+            count[pre - 'a'] = Math.max(count[pre - 'a'], i - start);
+            if (i == n || (p.charAt(i) - pre + 26) % 26 != 1) start = i;
+        }
+        return Arrays.stream(count).sum();
+    }
+
     // p472 连接词
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         Arrays.sort(words, Comparator.comparingInt(String::length));
