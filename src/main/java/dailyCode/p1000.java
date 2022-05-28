@@ -35,6 +35,23 @@ public class p1000 {
         return sum;
     }
 
+    // p1021 删除最外层括号「栈」
+    public String removeOuterParentheses(String s) {
+        StringBuilder sb = new StringBuilder();
+        Deque<Character> stack = new LinkedList<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                if (!stack.isEmpty()) sb.append(c);
+                stack.offerLast(c);
+            } else {
+                stack.pollLast();
+                if (!stack.isEmpty()) sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
     // p1034 边界着色「BFS」
     public int[][] colorBorder(int[][] grid, int row, int col, int color) {
         int m = grid.length, n = grid[0].length;

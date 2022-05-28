@@ -184,4 +184,90 @@ public class p600 {
         }
         return dp[mask];
     }
+
+    // p699 掉落的方块「线段树」
+    public List<Integer> fallingSquares(int[][] positions) {
+        List<Integer> res = new ArrayList<>();
+        SegmentTree tree = new SegmentTree();
+        int max = 0;
+        for (int[] position : positions) {
+            int left = position[0], width = position[1], right = left + width - 1;
+            int height = tree.query(left, right) + width;
+            max = Math.max(max, height);
+            res.add(max);
+            tree.update(left, right, height);
+        }
+        return res;
+    }
+
+    public static class Node {
+        Node left;
+        Node right;
+        int l;
+        int r;
+        int val;
+        boolean add;
+
+        public Node(int l, int r) {
+            this.l = l;
+            this.r = r;
+        }
+
+        public int getMid() {
+            return l + (r - l) / 2;
+        }
+
+        public void update() {
+            this.left.add = true;
+            this.right.add = true;
+            this.left.val = this.val;
+            this.right.val = this.val;
+            this.add = false;
+        }
+    }
+
+    public static class SegmentTree {
+        private final Node root = new Node(1, 1000000000);
+
+        public void update(int l, int r, int val) {
+            update(l, r, val, this.root);
+        }
+
+        private void update(int l, int r, int val, Node node) {
+            if (l > r) return;
+            if (l <= node.l && node.r <= r) {
+                node.val = val;
+                node.add = true;
+                return;
+            }
+            pushDown(node);
+            if (l <= node.getMid()) update(l, r, val, node.left);
+            if (r > node.getMid()) update(l, r, val, node.right);
+            pushUp(node);
+        }
+
+        public int query(int l, int r) {
+            return query(l, r, this.root);
+        }
+
+        private int query(int l, int r, Node node) {
+            if (l > r) return 0;
+            if (l <= node.l && node.r <= r) return node.val;
+            pushDown(node);
+            int res = 0;
+            if (l <= node.getMid()) res = Math.max(res, query(l, r, node.left));
+            if (r > node.getMid()) res = Math.max(res, query(l, r, node.right));
+            return res;
+        }
+
+        public void pushDown(Node node) {
+            if (node.left == null) node.left = new Node(node.l, node.getMid());
+            if (node.right == null) node.right = new Node(node.getMid() + 1, node.r);
+            if (node.add) node.update();
+        }
+
+        public void pushUp(Node node) {
+            node.val = Math.max(node.left.val, node.right.val);
+        }
+    }
 }
