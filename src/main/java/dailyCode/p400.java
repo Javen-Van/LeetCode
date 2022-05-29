@@ -468,6 +468,42 @@ public class p400 {
         return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
     }
 
+    // p468 验证IP地址
+    public String validIPAddress(String queryIP) {
+        if (queryIP.startsWith(".") || queryIP.startsWith(":") || queryIP.endsWith(".") || queryIP.endsWith(":"))
+            return "Neither";
+        String[] IPv4 = queryIP.split("\\.");
+        String[] IPv6 = queryIP.split(":");
+        if (isIPv4(IPv4)) return "IPv4";
+        if (isIPv6(IPv6)) return "IPv6";
+        return "Neither";
+    }
+
+    public boolean isIPv4(String[] IP) {
+        if (IP.length != 4) return false;
+        for (String s : IP) {
+            if ("".equals(s) || s.length() > 3) return false;
+            if (s.charAt(0) == '0' && s.length() > 1) return false;
+            for (int i = 0; i < s.length(); i++) {
+                if (!Character.isDigit(s.charAt(i))) return false;
+            }
+            if (Integer.parseInt(s) > 255) return false;
+        }
+        return true;
+    }
+
+    public boolean isIPv6(String[] IP) {
+        if (IP.length != 8) return false;
+        for (String s : IP) {
+            if (s.length() == 0 || s.length() > 4) return false;
+            for (int i = 0; i < s.length(); i++) {
+                char c = Character.toLowerCase(s.charAt(i));
+                if (!Character.isDigit(c) && (c < 'a' || c > 'f')) return false;
+            }
+        }
+        return true;
+    }
+
     // p472 连接词
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         Arrays.sort(words, Comparator.comparingInt(String::length));

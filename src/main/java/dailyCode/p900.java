@@ -180,4 +180,14 @@ public class p900 {
         }
         return true;
     }
+
+    // p961 在长度2N的数组中找出重复N次的元素
+    public int repeatedNTimes(int[] nums) {
+        Random rn = new Random();
+        int n = nums.length;
+        while (true) {
+            int i = rn.nextInt(n), j = rn.nextInt(n);
+            if (i != j && nums[i] == nums[j]) return nums[i];
+        }
+    }
 }
