@@ -1,5 +1,7 @@
 package dailyCode;
 
+import bean.TreeNode;
+
 import java.util.*;
 
 public class p900 {
@@ -189,5 +191,14 @@ public class p900 {
             int i = rn.nextInt(n), j = rn.nextInt(n);
             if (i != j && nums[i] == nums[j]) return nums[i];
         }
+    }
+
+    // p965 单值二叉树
+    public boolean isUnivalTree(TreeNode root) {
+        if (root == null) return true;
+        boolean res = true;
+        if (root.left != null) res = root.val == root.left.val;
+        if (root.right != null) res = root.val == root.right.val && res;
+        return res && isUnivalTree(root.left) && isUnivalTree(root.right);
     }
 }
