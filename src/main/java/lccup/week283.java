@@ -45,13 +45,6 @@ public class week283 {
         return res;
     }
 
-    @Test
-    public void test() {
-        System.out.println(gca(4, 6));
-        int[] arr = {31, 97561, 97561, 97561, 97561, 97561, 97561, 97561, 97561};
-        System.out.println(replaceNonCoprimes(arr));
-    }
-
     // Q3
     public TreeNode createBinaryTree(int[][] descriptions) {
         Map<Integer, TreeNode> map = new HashMap<>();
