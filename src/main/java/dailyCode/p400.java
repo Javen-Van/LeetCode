@@ -1,6 +1,7 @@
 package dailyCode;
 
 import bean.Node;
+import bean.TreeNode;
 import bean.Trie;
 import org.junit.Test;
 
@@ -415,6 +416,28 @@ public class p400 {
         return res;
     }
 
+    // p450 删除二叉搜索树中的节点「递归」
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+            return root;
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+            return root;
+        } else {
+            if (root.left == null && root.right == null) return null;
+            if (root.right == null) return root.left;
+            if (root.left == null) return root.right;
+            TreeNode successor = root.right;
+            while (successor.left != null) successor = successor.left;
+            root.right = deleteNode(root.right, successor.val);
+            successor.right = root.right;
+            successor.left = root.left;
+            return successor;
+        }
+    }
+
     // p456 132模式「单调栈」
     public boolean find132pattern(int[] nums) {
         Stack<Integer> stack = new Stack<>();
@@ -554,15 +577,28 @@ public class p400 {
         return false;
     }
 
-    // TODO: p473 火柴拼正方形
+    // p473 火柴拼正方形「状态压缩dp」
     public boolean makeSquare(int[] matchsticks) {
-        long sum = 0L, max = 0;
-        for (int matchstick : matchsticks) {
-            sum += matchstick;
-            max = Math.max(max, matchstick);
+        int sum = Arrays.stream(matchsticks).sum(), n = matchsticks.length;
+        int target = sum / 4, mask = 1 << n;
+        Arrays.sort(matchsticks);
+        if (n < 4 || sum % 4 != 0 || target < matchsticks[n - 1]) return false;
+        boolean[] dp = new boolean[mask];
+        int[] curSum = new int[mask];
+        dp[0] = true;
+        for (int i = 0; i < mask; i++) {
+            if (dp[i]) {
+                for (int j = 0; j < n; j++) {
+                    if ((i & (1 << j)) == 0 && !dp[i | (1 << j)]) {
+                        if ((curSum[i] % target) + matchsticks[j] <= target) {
+                            curSum[i | (1 << j)] = curSum[i] + matchsticks[j];
+                            dp[i | (1 << j)] = true;
+                        } else break;
+                    }
+                }
+            }
         }
-        if (matchsticks.length < 4 || sum % 4 != 0 || max > sum / 4) return false;
-        return true;
+        return dp[mask - 1];
     }
 
     // p475 供暖器「排序 + 双指针」
