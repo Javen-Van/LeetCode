@@ -140,6 +140,17 @@ public class p800 {
         return res;
     }
 
+    // p829 连续整数求和「数学」
+    public int consecutiveNumbersSum(int n) {
+        int ans = 0;
+        n *= 2;
+        for (int k = 1; k * k < n; k++) {
+            if (n % k != 0) continue;
+            if ((n / k - (k - 1)) % 2 == 0) ans++;
+        }
+        return ans;
+    }
+
     // p842 将数组拆分成斐波那契数列
     public List<Integer> splitIntoFibonacci(String num) {
         int n = num.length();

@@ -127,6 +127,23 @@ public class p900 {
         return new String(arr);
     }
 
+    // p929 独特的电子邮件地址「哈希表」
+    public int numUniqueEmails(String[] emails) {
+        Set<String> set = new HashSet<>();
+        for (String email : emails) {
+            String[] str = email.split("@");
+            String alice = str[0];
+            String[] name = alice.split("\\+");
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < name[0].length(); i++) {
+                if (name[0].charAt(i) != '.') sb.append(name[0].charAt(i));
+            }
+            sb.append("@").append(str[1]);
+            set.add(sb.toString());
+        }
+        return set.size();
+    }
+
     // p942 增减字符串匹配「贪心」
     public int[] diStringMatch(String s) {
         int n = s.length(), low = 0, high = n;
