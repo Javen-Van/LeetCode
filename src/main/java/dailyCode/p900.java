@@ -129,6 +129,23 @@ public class p900 {
         return new String(arr);
     }
 
+    // p929 独特的电子邮件地址「哈希表」
+    public int numUniqueEmails(String[] emails) {
+        Set<String> set = new HashSet<>();
+        for (String email : emails) {
+            String[] str = email.split("@");
+            String alice = str[0];
+            String[] name = alice.split("\\+");
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < name[0].length(); i++) {
+                if (name[0].charAt(i) != '.') sb.append(name[0].charAt(i));
+            }
+            sb.append("@").append(str[1]);
+            set.add(sb.toString());
+        }
+        return set.size();
+    }
+
     // p942 增减字符串匹配「贪心」
     public int[] diStringMatch(String s) {
         int n = s.length(), low = 0, high = n;
@@ -152,6 +169,28 @@ public class p900 {
             }
         }
         return res;
+    }
+
+    // p953 验证外星语词典「排序」
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] table = new int[26];
+        for (int i = 0; i < 26; i++) {
+            table[order.charAt(i) - 'a'] = i;
+        }
+        Comparator<String> comparator = (o1, o2) -> {
+            if (o1.equals(o2)) return 0;
+            int n = o1.length(), m = o2.length();
+            for (int i = 0; i < Math.min(m, n); i++) {
+                int b = table[o2.charAt(i) - 'a'], a = table[o1.charAt(i) - 'a'];
+                if (a > b) return 1;
+                if (a < b) return -1;
+            }
+            return n - m;
+        };
+        for (int i = 1; i < words.length; i++) {
+            if (comparator.compare(words[i], words[i - 1]) < 0) return false;
+        }
+        return true;
     }
 
     // p954 二倍数对数组

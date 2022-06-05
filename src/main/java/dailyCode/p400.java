@@ -1,6 +1,7 @@
 package dailyCode;
 
 import bean.Node;
+import bean.TreeNode;
 import bean.Trie;
 import org.junit.Test;
 
@@ -415,6 +416,28 @@ public class p400 {
         return res;
     }
 
+    // p450 删除二叉搜索树中的节点「递归」
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+            return root;
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+            return root;
+        } else {
+            if (root.left == null && root.right == null) return null;
+            if (root.right == null) return root.left;
+            if (root.left == null) return root.right;
+            TreeNode successor = root.right;
+            while (successor.left != null) successor = successor.left;
+            root.right = deleteNode(root.right, successor.val);
+            successor.right = root.right;
+            successor.left = root.left;
+            return successor;
+        }
+    }
+
     // p456 132模式「单调栈」
     public boolean find132pattern(int[] nums) {
         Stack<Integer> stack = new Stack<>();
@@ -468,6 +491,66 @@ public class p400 {
         return (int) Math.ceil((Math.log(buckets) / Math.log(minutesToTest / minutesToDie + 1)));
     }
 
+    // p462 最少移动次数使数组元素相等「数学」
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length, res = 0, x = nums[n / 2];
+        for (int num : nums) {
+            res += Math.abs(num - x);
+        }
+        return res;
+    }
+
+    // p463 寻找右区间「哈希表」
+    public int[] findRightInterval(int[][] intervals) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int n = intervals.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            map.put(intervals[i][0], i);
+        }
+        for (int i = 0; i < n; i++) {
+            Integer ceil = map.ceilingKey(intervals[i][1]);
+            res[i] = ceil == null ? -1 : map.get(ceil);
+        }
+        return res;
+    }
+
+    // p464 我能赢吗「状态压缩dp」
+    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        if ((1 + maxChoosableInteger) * maxChoosableInteger / 2 < desiredTotal) return false;
+        int[] dp = new int[1 << maxChoosableInteger];
+        Arrays.fill(dp, -1);
+        return dfs(0, maxChoosableInteger, desiredTotal, 0, dp) == 1;
+    }
+
+    public int dfs(int mask, int max, int desiredTotal, int total, int[] dp) {
+        if (dp[mask] == -1) {
+            dp[mask] = 0;
+            for (int i = 0; i < max; i++) {
+                if (((mask >> i) & 1) == 0) {
+                    if (i + 1 + total >= desiredTotal || dfs(mask | (1 << i), max, desiredTotal, i + 1 + total, dp) == 0) {
+                        dp[mask] = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        return dp[mask];
+    }
+
+    // p467 环绕字符串中唯一的子字符串「动态规划」
+    public int findSubstringInWraproundString(String p) {
+        int[] count = new int[26];
+        int n = p.length();
+        for (int start = 0, i = 1; i <= n; i++) {
+            char pre = p.charAt(i - 1);
+            count[pre - 'a'] = Math.max(count[pre - 'a'], i - start);
+            if (i == n || (p.charAt(i) - pre + 26) % 26 != 1) start = i;
+        }
+        return Arrays.stream(count).sum();
+    }
+  
     // p468 验证IP地址
     public String validIPAddress(String queryIP) {
         if (queryIP.startsWith(".") || queryIP.startsWith(":") || queryIP.endsWith(".") || queryIP.endsWith(":"))
@@ -530,15 +613,28 @@ public class p400 {
         return false;
     }
 
-    // TODO: p473 火柴拼正方形
+    // p473 火柴拼正方形「状态压缩dp」
     public boolean makeSquare(int[] matchsticks) {
-        long sum = 0L, max = 0;
-        for (int matchstick : matchsticks) {
-            sum += matchstick;
-            max = Math.max(max, matchstick);
+        int sum = Arrays.stream(matchsticks).sum(), n = matchsticks.length;
+        int target = sum / 4, mask = 1 << n;
+        Arrays.sort(matchsticks);
+        if (n < 4 || sum % 4 != 0 || target < matchsticks[n - 1]) return false;
+        boolean[] dp = new boolean[mask];
+        int[] curSum = new int[mask];
+        dp[0] = true;
+        for (int i = 0; i < mask; i++) {
+            if (dp[i]) {
+                for (int j = 0; j < n; j++) {
+                    if ((i & (1 << j)) == 0 && !dp[i | (1 << j)]) {
+                        if ((curSum[i] % target) + matchsticks[j] <= target) {
+                            curSum[i | (1 << j)] = curSum[i] + matchsticks[j];
+                            dp[i | (1 << j)] = true;
+                        } else break;
+                    }
+                }
+            }
         }
-        if (matchsticks.length < 4 || sum % 4 != 0 || max > sum / 4) return false;
-        return true;
+        return dp[mask - 1];
     }
 
     // p475 供暖器「排序 + 双指针」

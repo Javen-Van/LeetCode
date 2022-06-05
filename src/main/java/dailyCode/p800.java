@@ -64,7 +64,24 @@ public class p800 {
         return res;
     }
 
-    // p819 最常见的单词
+    // p812 最大三角形面积「数学」
+    public double largestTriangleArea(int[][] points) {
+        double max = 0;
+        for (int i = 2; i < points.length; i++) {
+            for (int j = 0; j < i - 1; j++) {
+                for (int k = j + 1; k < i; k++) {
+                    max = Math.max(max, triangleArea(points[i][0], points[i][1], points[j][0], points[j][1], points[k][0], points[k][1]));
+                }
+            }
+        }
+        return max;
+    }
+
+    public double triangleArea(int ax, int ay, int bx, int by, int cx, int cy) {
+        return Math.abs(ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) / 2.0;
+    }
+
+    // p819 最常见的单词「哈希表」
     public String mostCommonWord(String paragraph, String[] banned) {
         Set<String> bannedSet = new HashSet<>(Arrays.asList(banned));
         int maxFrequency = 0;
@@ -121,6 +138,17 @@ public class p800 {
             }
         }
         return res;
+    }
+
+    // p829 连续整数求和「数学」
+    public int consecutiveNumbersSum(int n) {
+        int ans = 0;
+        n *= 2;
+        for (int k = 1; k * k < n; k++) {
+            if (n % k != 0) continue;
+            if ((n / k - (k - 1)) % 2 == 0) ans++;
+        }
+        return ans;
     }
 
     // p842 将数组拆分成斐波那契数列

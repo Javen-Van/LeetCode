@@ -25,9 +25,4 @@ public class p5193 {
         return sb.toString();
     }
 
-    @Test
-    public void test(){
-        String leeetcode = makeFancyString("aaabaaaa");
-        System.out.println(leeetcode);
-    }
 }
