@@ -3,8 +3,6 @@ package swordToOffer;
 import bean.TreeNode;
 
 import java.util.*;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
 
 /**
  * @author Javen
