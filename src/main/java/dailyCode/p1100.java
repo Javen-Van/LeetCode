@@ -1,5 +1,10 @@
 package dailyCode;
 
+import bean.TreeNode;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class p1100 {
     // p1154 一年中的第几天
     public int dayOfYear(String date) {
@@ -15,6 +20,27 @@ public class p1100 {
             res += days[i];
         }
         return res + d;
+    }
+
+    public int maxLevelSum(TreeNode root) {
+        int max = Integer.MIN_VALUE, res = 0, level = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size(), sum = 0;
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = queue.poll();
+                sum += cur.val;
+                if (cur.left != null) queue.offer(cur.left);
+                if (cur.right != null) queue.offer(cur.right);
+            }
+            if (sum > max) {
+                res = level;
+                max = sum;
+            }
+            level++;
+        }
+        return res;
     }
 
     // p1189 气球的最大数量
