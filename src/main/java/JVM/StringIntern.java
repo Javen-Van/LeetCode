@@ -2,7 +2,6 @@ package JVM;
 
 import org.junit.Test;
 
-import java.util.Random;
 
 /**
  * @author Javen

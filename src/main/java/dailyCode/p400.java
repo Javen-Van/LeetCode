@@ -362,7 +362,7 @@ public class p400 {
 
     // p443 压缩字符串
     public int compress(char[] chars) {
-        int start = 0, count = 0, index = 0;
+        int start = 0, index = 0;
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] != chars[start]) {
                 chars[index] = chars[start];
