@@ -1,8 +1,6 @@
 package swordToOffer;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * @author Javen
@@ -23,6 +21,5 @@ public class offer45 {
         }
         return sb.toString();
     }
-
 
 }

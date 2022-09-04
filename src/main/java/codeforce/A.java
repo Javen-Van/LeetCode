@@ -10,5 +10,6 @@ public class A {
             int n = sc.nextInt();
             System.out.println(n + 2 * (n / 2 + n / 3));
         }
+        sc.close();
     }
 }

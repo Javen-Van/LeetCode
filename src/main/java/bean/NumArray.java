@@ -1,8 +1,6 @@
 package bean;
 
-import java.lang.reflect.Proxy;
 import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * @author Javen

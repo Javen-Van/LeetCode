@@ -1,8 +1,5 @@
 package JUC;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
@@ -15,10 +12,10 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 public class Test10 {
     public static void main(String[] args) {
         AtomicInteger i = new AtomicInteger(0);
-        i.incrementAndGet();  // ++i -> 1
-        i.getAndIncrement();  // i++ -> 0
-        i.decrementAndGet();  // --i -> -1
-        i.getAndDecrement();  // i-- -> 0
+        i.incrementAndGet(); // ++i -> 1
+        i.getAndIncrement(); // i++ -> 0
+        i.decrementAndGet(); // --i -> -1
+        i.getAndDecrement(); // i-- -> 0
         i.addAndGet(5); // 5
         i.getAndAdd(5); // 0
         i.updateAndGet(operand -> operand * 10); // 可以是任意形式的运算
@@ -71,7 +68,8 @@ class Account<T extends Money> {
         while (true) {
             T pre = balance.get();
             T next = pre.subtract(money);
-            if (balance.compareAndSet(pre, next)) break;
+            if (balance.compareAndSet(pre, next))
+                break;
         }
     }
 }

@@ -1,6 +1,5 @@
 package swordToOffer;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
