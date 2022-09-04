@@ -2,7 +2,6 @@ package lccup;
 
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -13,8 +12,8 @@ import java.util.*;
 public class week258 {
 
     @Test
-    public void test(){
-        int[][] r = new int[][]{{1, 3}, {2, 6}, {3, 9}};
+    public void test() {
+        int[][] r = new int[][] { { 1, 3 }, { 2, 6 }, { 3, 9 } };
         System.out.println(interchangeableRectangles(r));
     }
 

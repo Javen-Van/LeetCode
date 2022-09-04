@@ -1,7 +1,5 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.*;
 
 public class week291 {
@@ -12,7 +10,8 @@ public class week291 {
         for (int i = 0; i < number.length(); i++) {
             if (number.charAt(i) == digit) {
                 String n = number.substring(0, i) + number.substring(i + 1);
-                if (n.compareTo(res) > 0) res = n;
+                if (n.compareTo(res) > 0)
+                    res = n;
             }
         }
         return res;
@@ -23,7 +22,8 @@ public class week291 {
         int res = Integer.MAX_VALUE;
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < cards.length; i++) {
-            if (map.containsKey(cards[i])) res = Math.min(res, i - map.get(cards[i]));
+            if (map.containsKey(cards[i]))
+                res = Math.min(res, i - map.get(cards[i]));
             map.put(cards[i], i);
         }
         return res == Integer.MAX_VALUE ? -1 : res + 1;
@@ -38,10 +38,12 @@ public class week291 {
                 StringBuilder sb = new StringBuilder();
                 int count = 0;
                 for (int l = 0; l < i; l++) {
-                    if (nums[j + l] % p == 0) count++;
+                    if (nums[j + l] % p == 0)
+                        count++;
                     sb.append(nums[j + l]).append('-');
                 }
-                if (count <= k && !set.contains(sb.toString())) res++;
+                if (count <= k && !set.contains(sb.toString()))
+                    res++;
                 set.add(sb.toString());
             }
         }

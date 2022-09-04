@@ -1,7 +1,5 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 
 public class week78 {
@@ -12,7 +10,8 @@ public class week78 {
         int res = 0;
         for (int i = 0; i <= s.length() - k; i++) {
             int x = Integer.parseInt(s.substring(i, i + k));
-            if (x != 0 && num % x == 0) res++;
+            if (x != 0 && num % x == 0)
+                res++;
         }
         return res;
     }
@@ -26,7 +25,8 @@ public class week78 {
         }
         for (int i = 0; i < n - 1; i++) {
             pre += nums[i];
-            if (pre >= sum - pre) res++;
+            if (pre >= sum - pre)
+                res++;
         }
         return res;
     }
@@ -38,12 +38,14 @@ public class week78 {
         int last = 0, count = 0, res = 0;
         for (int[] tile : tiles) {
             int total = tile[0] + carpetLen - 1;
-            if (total <= tile[1]) return carpetLen;
+            if (total <= tile[1])
+                return carpetLen;
             while (last < n && total > tiles[last][1]) {
                 count += tiles[last][1] - tiles[last][0] + 1;
                 last++;
             }
-            if (last == n) return Math.max(count, res);
+            if (last == n)
+                return Math.max(count, res);
             count += Math.max(total - tiles[last][0], 0);
             res = Math.max(res, count);
             count -= tile[1] - tile[0] + 1;

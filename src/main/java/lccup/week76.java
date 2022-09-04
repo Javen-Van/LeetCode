@@ -3,7 +3,6 @@ package lccup;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class week76 {
@@ -67,8 +66,10 @@ public class week76 {
     }
 
     public void dfs(int cur, int sum, boolean[] isVis, int times) {
-        if (times == 3) count1 = Math.max(count1, sum);
-        if (times == 2) count2 = Math.max(count2, sum);
+        if (times == 3)
+            count1 = Math.max(count1, sum);
+        if (times == 2)
+            count2 = Math.max(count2, sum);
         if (times == 4) {
             res = Math.max(res, sum);
             return;
@@ -88,8 +89,8 @@ public class week76 {
 
     @Test
     public void test() {
-        int[] scores = new int[]{9, 10, 6, 4, 11, 12};
-        int[][] edges = new int[][]{{0, 3}, {5, 3}, {2, 4}, {1, 3}};
+        int[] scores = new int[] { 9, 10, 6, 4, 11, 12 };
+        int[][] edges = new int[][] { { 0, 3 }, { 5, 3 }, { 2, 4 }, { 1, 3 } };
         System.out.println(maximumScore(scores, edges));
     }
 }
@@ -101,7 +102,7 @@ class ATM {
 
     public ATM() {
         count = new long[5];
-        money = new int[]{20, 50, 100, 200, 500};
+        money = new int[] { 20, 50, 100, 200, 500 };
     }
 
     public void deposit(int[] banknotesCount) {
@@ -121,13 +122,14 @@ class ATM {
                 amount -= res[i] * money[i];
                 temp[i] -= res[i];
             }
-            if (amount == 0) break;
+            if (amount == 0)
+                break;
         }
         if (amount == 0) {
             System.arraycopy(temp, 0, count, 0, 5);
             return res;
         } else {
-            return new int[]{-1};
+            return new int[] { -1 };
         }
     }
 }

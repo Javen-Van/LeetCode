@@ -1,7 +1,5 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.*;
 
 /**
@@ -34,15 +32,20 @@ public class week287 {
         Arrays.fill(count, -1);
         for (int[] match : matches) {
             int winner = match[0], loser = match[1];
-            if (count[winner] == -1) count[winner] = 0;
-            if (count[loser] == -1) count[loser] = 1;
-            else count[loser]++;
+            if (count[winner] == -1)
+                count[winner] = 0;
+            if (count[loser] == -1)
+                count[loser] = 1;
+            else
+                count[loser]++;
         }
         List<Integer> zero = new ArrayList<>(), one = new ArrayList<>();
         List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i < 100001; i++) {
-            if (count[i] == 0) zero.add(i);
-            if (count[i] == 1) one.add(i);
+            if (count[i] == 0)
+                zero.add(i);
+            if (count[i] == 1)
+                one.add(i);
         }
         res.add(zero);
         res.add(one);
@@ -57,8 +60,10 @@ public class week287 {
             min = Math.min(candy, min);
             sum += candy;
         }
-        if (k > sum) return 0;
-        if (min * k <= sum) return min;
+        if (k > sum)
+            return 0;
+        if (min * k <= sum)
+            return min;
         return 0;
     }
 
@@ -99,13 +104,16 @@ class Encrypter {
     }
 
     public int dfs(String word, Trie root) {
-        if ("".equals(word)) return root.isWord ? 1 : 0;
+        if ("".equals(word))
+            return root.isWord ? 1 : 0;
         List<Character> list = deMap.get(word.substring(0, 2));
-        if (list == null) return 0;
+        if (list == null)
+            return 0;
         int res = 0;
         for (Character c : list) {
             Trie next = root.children[c - 'a'];
-            if (next != null) res += dfs(word.substring(2), next);
+            if (next != null)
+                res += dfs(word.substring(2), next);
         }
         return res;
     }
@@ -123,7 +131,8 @@ class Encrypter {
             Trie root = this;
             for (int i = 0; i < s.length(); i++) {
                 int index = s.charAt(i) - 'a';
-                if (root.children[index] == null) root.children[index] = new Trie();
+                if (root.children[index] == null)
+                    root.children[index] = new Trie();
                 root = root.children[index];
             }
             root.isWord = true;

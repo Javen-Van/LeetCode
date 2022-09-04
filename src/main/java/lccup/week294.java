@@ -1,7 +1,5 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -18,7 +16,8 @@ public class week294 {
     public int percentageLetter(String s, char letter) {
         int count = 0, n = s.length();
         for (int i = 0; i < n; i++) {
-            if (s.charAt(i) == letter) count++;
+            if (s.charAt(i) == letter)
+                count++;
         }
         return count * 100 / n;
     }
@@ -29,12 +28,15 @@ public class week294 {
         Queue<Integer> queue = new PriorityQueue<>();
         for (int i = 0; i < n; i++) {
             capacity[i] -= rocks[i];
-            if (capacity[i] == 0) res++;
-            else queue.offer(capacity[i]);
+            if (capacity[i] == 0)
+                res++;
+            else
+                queue.offer(capacity[i]);
         }
         while (!queue.isEmpty() && additionalRocks > 0) {
             int num = queue.poll();
-            if (additionalRocks >= num) res++;
+            if (additionalRocks >= num)
+                res++;
             additionalRocks -= num;
         }
         return res;
@@ -43,11 +45,13 @@ public class week294 {
     // Q3
     public int minimumLines(int[][] stockPrices) {
         int n = stockPrices.length, res = 1;
-        if (n == 1) return 0;
+        if (n == 1)
+            return 0;
         Arrays.sort(stockPrices, Comparator.comparingInt(o -> o[0]));
         int[] k = commonDivisor(stockPrices[1][1] - stockPrices[0][1], stockPrices[1][0] - stockPrices[0][0]);
         for (int i = 2; i < n; i++) {
-            int[] cur = commonDivisor(stockPrices[i][1] - stockPrices[i - 1][1], stockPrices[i][0] - stockPrices[i - 1][0]);
+            int[] cur = commonDivisor(stockPrices[i][1] - stockPrices[i - 1][1],
+                    stockPrices[i][0] - stockPrices[i - 1][0]);
             if (cur[0] != k[0] || cur[1] != k[1]) {
                 res++;
                 k[0] = cur[0];
@@ -59,7 +63,7 @@ public class week294 {
 
     public int[] commonDivisor(int a, int b) {
         int x = gcd(a, b);
-        return new int[]{a / x, b / x};
+        return new int[] { a / x, b / x };
     }
 
     public int gcd(int a, int b) {

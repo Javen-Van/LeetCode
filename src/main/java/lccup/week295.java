@@ -1,7 +1,5 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,8 @@ public class week295 {
         }
         int res = 200;
         for (int i = 0; i < 26; i++) {
-            if (t[i] != 0) res = Math.min(res, count[i] / t[i]);
+            if (t[i] != 0)
+                res = Math.min(res, count[i] / t[i]);
         }
         return res;
     }
@@ -42,7 +41,8 @@ public class week295 {
     public String discount(String word, int discount) {
         if (word.startsWith("$") && word.length() > 1) {
             for (int i = 1; i < word.length(); i++) {
-                if (!Character.isDigit(word.charAt(i))) return word;
+                if (!Character.isDigit(word.charAt(i)))
+                    return word;
             }
             double res = Long.parseLong(word.substring(1)) * (100.00 - discount) / 100;
             return "$" + String.format("%.2f", res);

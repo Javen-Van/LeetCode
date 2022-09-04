@@ -1,7 +1,6 @@
 package lccup;
 
 import bean.TreeNode;
-import org.junit.Test;
 
 import java.util.*;
 
@@ -35,7 +34,8 @@ public class week283 {
                 int n = Math.min(num - pre - 1, k);
                 res += (2L * pre + n + 1) * n / 2;
                 k -= n;
-                if (k == 0) break;
+                if (k == 0)
+                    break;
             }
             pre = num;
         }
@@ -80,7 +80,8 @@ public class week283 {
                 if (gca > 1) {
                     int pre = stack.pop();
                     num = num / gca * pre;
-                } else break;
+                } else
+                    break;
             }
             stack.push(num);
         }

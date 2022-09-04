@@ -31,11 +31,12 @@ public class week73 {
     // Q2
     public int[] sortJumbled(int[] mapping, int[] nums) {
         Queue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
-            if (o1[0] != o2[0]) return o1[0] - o2[0];
+            if (o1[0] != o2[0])
+                return o1[0] - o2[0];
             return o1[1] - o2[1];
         });
         for (int i = 0; i < nums.length; i++) {
-            queue.offer(new int[]{map(mapping, nums[i]), i});
+            queue.offer(new int[] { map(mapping, nums[i]), i });
         }
         int[] res = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
@@ -45,7 +46,8 @@ public class week73 {
     }
 
     public int map(int[] mapping, int num) {
-        if (num == 0) return mapping[0];
+        if (num == 0)
+            return mapping[0];
         int res = 0, digit = 1;
         while (num != 0) {
             res += mapping[num % 10] * digit;
@@ -57,11 +59,10 @@ public class week73 {
 
     @Test
     public void test() {
-        int[][] edges = {{0, 3}, {0, 4}, {1, 3}, {2, 4}, {2, 7}, {3, 5}, {3, 6}, {3, 7}, {4, 6}};
+        int[][] edges = { { 0, 3 }, { 0, 4 }, { 1, 3 }, { 2, 4 }, { 2, 7 }, { 3, 5 }, { 3, 6 }, { 3, 7 }, { 4, 6 } };
         System.out.println(getAncestors(8, edges));
 
     }
-
 
     // Q3 BFS
     public List<List<Integer>> getAncestors(int n, int[][] edges) {
@@ -95,7 +96,8 @@ public class week73 {
             temp.add(pre);
             temp.addAll(res.get(pre));
         }
-        if (map.get(cur).size() == 0) return;
+        if (map.get(cur).size() == 0)
+            return;
         for (int next : map.get(cur)) {
             if (!isVis[next]) {
                 isVis[next] = true;
@@ -106,9 +108,6 @@ public class week73 {
 
     // Q4
     public static void main(String[] args) throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        String s = reader.readLine();
-//        int i = Integer.parseInt(s);
         System.out.println((char) ('a' + 1));
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
         for (int i = 0; i < 3; i++) {
@@ -116,6 +115,5 @@ public class week73 {
             writer.newLine();
         }
         writer.flush();
-        int[] nums = {0, 0, 2, 3, 5};
     }
 }

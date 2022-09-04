@@ -2,7 +2,6 @@ package lccup;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -53,7 +52,8 @@ public class week276 {
         long[] dp = new long[n];
         dp[n - 1] = questions[n - 1][0];
         for (int i = n - 2; i >= 0; i--) {
-            dp[i] = Math.max(dp[i + 1], questions[i][0] + ((questions[i][1] + i + 1) < n ? dp[questions[i][1] + i + 1] : 0));
+            dp[i] = Math.max(dp[i + 1],
+                    questions[i][0] + ((questions[i][1] + i + 1) < n ? dp[questions[i][1] + i + 1] : 0));
         }
         return dp[0];
     }
@@ -72,7 +72,8 @@ public class week276 {
                 temp[i] = queue.poll() - consume;
             }
             for (int x : temp) {
-                if (x != 0) queue.offer(x);
+                if (x != 0)
+                    queue.offer(x);
             }
             res += consume;
         }
@@ -81,7 +82,7 @@ public class week276 {
 
     @Test
     public void test() {
-        int[] batteries = new int[]{3, 3, 3};
+        int[] batteries = new int[] { 3, 3, 3 };
         System.out.println(maxRunTime(2, batteries));
     }
 }

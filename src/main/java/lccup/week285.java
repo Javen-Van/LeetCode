@@ -2,7 +2,6 @@ package lccup;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -18,11 +17,16 @@ public class week285 {
         int res = 0, n = nums.length;
         for (int i = 1; i < n - 1; i++) {
             int l = i - 1, r = i + 1;
-            while (l >= 0 && nums[i] == nums[l]) l--;
-            while (r < n && nums[i] == nums[r]) r++;
-            if (l < 0 || r >= n || nums[i] == nums[i - 1]) continue;
-            if (nums[l] > nums[i] && nums[r] > nums[i]) res++;
-            if (nums[l] < nums[i] && nums[r] < nums[i]) res++;
+            while (l >= 0 && nums[i] == nums[l])
+                l--;
+            while (r < n && nums[i] == nums[r])
+                r++;
+            if (l < 0 || r >= n || nums[i] == nums[i - 1])
+                continue;
+            if (nums[l] > nums[i] && nums[r] > nums[i])
+                res++;
+            if (nums[l] < nums[i] && nums[r] < nums[i])
+                res++;
         }
         return res;
     }
@@ -102,10 +106,10 @@ public class week285 {
         int[] dp = new int[len];
         dp[0] = 1;
         char[] str = s.toCharArray();
-//        for (int i = 1; i < len; i++) {
-//            dp[i] = str[i] == str[i - 1] ? dp[i - 1] + 1 : 1;
-//            max = Math.max(dp[i], max);
-//        }
+        // for (int i = 1; i < len; i++) {
+        // dp[i] = str[i] == str[i - 1] ? dp[i - 1] + 1 : 1;
+        // max = Math.max(dp[i], max);
+        // }
         for (int i = 0; i < n; i++) {
             int index = queryIndices[i];
             char change = queryCharacters.charAt(i);
@@ -115,16 +119,16 @@ public class week285 {
                 dp[j] = str[j] == str[j - 1] ? dp[j - 1] + 1 : 1;
                 max = Math.max(dp[j], max);
             }
-//            if (index > 0 && str[index] == str[index - 1]) {
-//                dp[index] = dp[index - 1] + 1;
-//                max = Math.max(dp[index], max);
-//            } else
-//            for (int j = index + 1; j < len; j++) {
-//                if (str[j] == str[j - 1]) {
-//                    dp[j] = dp[j - 1] + 1;
-//                    max = Math.max(dp[j], max);
-//                } else break;
-//            }
+            // if (index > 0 && str[index] == str[index - 1]) {
+            // dp[index] = dp[index - 1] + 1;
+            // max = Math.max(dp[index], max);
+            // } else
+            // for (int j = index + 1; j < len; j++) {
+            // if (str[j] == str[j - 1]) {
+            // dp[j] = dp[j - 1] + 1;
+            // max = Math.max(dp[j], max);
+            // } else break;
+            // }
             res[i] = max;
         }
         return res;

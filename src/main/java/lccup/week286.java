@@ -1,9 +1,6 @@
 package lccup;
 
-import org.junit.Test;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Javen
@@ -21,11 +18,13 @@ public class week286 {
             set1.add(i);
         }
         for (int i : nums2) {
-            if (!set1.contains(i)) res2.add(i);
+            if (!set1.contains(i))
+                res2.add(i);
             set2.add(i);
         }
         for (int i : nums1) {
-            if (!set2.contains(i)) res1.add(i);
+            if (!set2.contains(i))
+                res1.add(i);
         }
         res.add(new ArrayList<>(res1));
         res.add(new ArrayList<>(res2));
@@ -62,7 +61,8 @@ public class week286 {
     public long query(int k, int len) {
         StringBuilder sb = new StringBuilder();
         int digit = len / 2 - (len % 2 == 0 ? 1 : 0);
-        if (k > 9 * Math.pow(10, digit)) return -1;
+        if (k > 9 * Math.pow(10, digit))
+            return -1;
         sb.append((int) Math.pow(10, digit) - 1 + k);
         StringBuilder temp = new StringBuilder(sb.substring(0, len / 2));
         sb.append(temp.reverse());
@@ -85,8 +85,10 @@ public class week286 {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= k; j++) {
                 for (int l = 0; l <= j; l++) {
-                    if (l < pre[i - 1].length) dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - l] + pre[i - 1][l]);
-                    else break;
+                    if (l < pre[i - 1].length)
+                        dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - l] + pre[i - 1][l]);
+                    else
+                        break;
                 }
             }
         }
