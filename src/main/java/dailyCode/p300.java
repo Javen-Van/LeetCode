@@ -1,6 +1,5 @@
 package dailyCode;
 
-import org.junit.Test;
 
 import java.util.*;
 
@@ -92,7 +91,6 @@ public class p300 {
 
     // p322 零钱兑换「动态规划」
     public int coinChange(int[] coins, int amount) {
-        int n = coins.length;
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, amount + 1);
         dp[0] = 0;

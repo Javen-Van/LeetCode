@@ -1,7 +1,5 @@
 package dailyCode;
 
-import org.junit.Test;
-
 import java.util.*;
 
 /**
@@ -37,8 +35,10 @@ public class p600 {
             for (int i = line + 1; i <= m; i++) {
                 count += x / i;
             }
-            if (count >= k) r = x;
-            else l = x + 1;
+            if (count >= k)
+                r = x;
+            else
+                l = x + 1;
         }
         return l;
     }
@@ -47,19 +47,21 @@ public class p600 {
     public int cutOffTree(List<List<Integer>> forest) {
         int m = forest.size(), n = forest.get(0).size(), res = 0;
         int[][] forests = new int[m][n];
-        int[] pre = {0, 0};
+        int[] pre = { 0, 0 };
         Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 int height = forest.get(i).get(j);
                 forests[i][j] = height;
-                if (height > 1) queue.offer(new int[]{height, i, j});
+                if (height > 1)
+                    queue.offer(new int[] { height, i, j });
             }
         }
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
-            int distance = distance(pre, new int[]{cur[1], cur[2]}, forests);
-            if (distance == -1) return -1;
+            int distance = distance(pre, new int[] { cur[1], cur[2] }, forests);
+            if (distance == -1)
+                return -1;
             res += distance;
             pre[0] = cur[1];
             pre[1] = cur[2];
@@ -69,7 +71,7 @@ public class p600 {
 
     public int distance(int[] source, int[] target, int[][] forest) {
         int count = 0, m = forest.length, n = forest[0].length;
-        int[] dif = {0, 1, 0, -1, 0};
+        int[] dif = { 0, 1, 0, -1, 0 };
         boolean[][] isVis = new boolean[m][n];
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(source);
@@ -78,12 +80,13 @@ public class p600 {
             int size = queue.size();
             for (int j = 0; j < size; j++) {
                 int[] cur = queue.poll();
-                if (cur[0] == target[0] && cur[1] == target[1]) return count;
+                if (cur[0] == target[0] && cur[1] == target[1])
+                    return count;
                 for (int i = 0; i < 4; i++) {
                     int x = cur[0] + dif[i], y = cur[1] + dif[i + 1];
                     if (x >= 0 && x < m && y >= 0 && y < n && !isVis[x][y] && forest[x][y] != 0) {
                         isVis[x][y] = true;
-                        queue.offer(new int[]{x, y});
+                        queue.offer(new int[] { x, y });
                     }
                 }
             }
@@ -95,7 +98,8 @@ public class p600 {
     // p686 重复叠加字符串匹配「KMP算法」
     public int repeatedStringMatch(String a, String b) {
         int m = a.length(), n = b.length();
-        if (n == 0) return 0;
+        if (n == 0)
+            return 0;
         int res = 0;
         for (int i = 0; i < m; i++) {
             if (a.charAt(i) == b.charAt(0)) {
@@ -178,7 +182,8 @@ public class p600 {
                         left ^= 1 << i;
                     }
                 }
-                if (left < mask) res = Math.min(res, dfs(stickers, target, dp, left) + 1);
+                if (left < mask)
+                    res = Math.min(res, dfs(stickers, target, dp, left) + 1);
             }
             dp[mask] = res;
         }
@@ -234,15 +239,18 @@ public class p600 {
         }
 
         private void update(int l, int r, int val, Node node) {
-            if (l > r) return;
+            if (l > r)
+                return;
             if (l <= node.l && node.r <= r) {
                 node.val = val;
                 node.add = true;
                 return;
             }
             pushDown(node);
-            if (l <= node.getMid()) update(l, r, val, node.left);
-            if (r > node.getMid()) update(l, r, val, node.right);
+            if (l <= node.getMid())
+                update(l, r, val, node.left);
+            if (r > node.getMid())
+                update(l, r, val, node.right);
             pushUp(node);
         }
 
@@ -251,19 +259,26 @@ public class p600 {
         }
 
         private int query(int l, int r, Node node) {
-            if (l > r) return 0;
-            if (l <= node.l && node.r <= r) return node.val;
+            if (l > r)
+                return 0;
+            if (l <= node.l && node.r <= r)
+                return node.val;
             pushDown(node);
             int res = 0;
-            if (l <= node.getMid()) res = Math.max(res, query(l, r, node.left));
-            if (r > node.getMid()) res = Math.max(res, query(l, r, node.right));
+            if (l <= node.getMid())
+                res = Math.max(res, query(l, r, node.left));
+            if (r > node.getMid())
+                res = Math.max(res, query(l, r, node.right));
             return res;
         }
 
         public void pushDown(Node node) {
-            if (node.left == null) node.left = new Node(node.l, node.getMid());
-            if (node.right == null) node.right = new Node(node.getMid() + 1, node.r);
-            if (node.add) node.update();
+            if (node.left == null)
+                node.left = new Node(node.l, node.getMid());
+            if (node.right == null)
+                node.right = new Node(node.getMid() + 1, node.r);
+            if (node.add)
+                node.update();
         }
 
         public void pushUp(Node node) {

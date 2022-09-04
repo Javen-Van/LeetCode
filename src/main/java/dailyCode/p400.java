@@ -1,12 +1,10 @@
 package dailyCode;
 
-import bean.Node;
 import bean.TreeNode;
 import bean.Trie;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class p400 {
 

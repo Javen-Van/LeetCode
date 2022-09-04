@@ -19,13 +19,34 @@ public class p1500 {
         for (int i = 0; i < n; i++) {
             int num = s.charAt(i) - '0';
             cur ^= (1 << num); // 当前状态
-            if (map.containsKey(cur)) res = Math.max(res, i - map.get(cur)); // 出现次数全是偶数
-            else map.put(cur, i);
+            if (map.containsKey(cur))
+                res = Math.max(res, i - map.get(cur)); // 出现次数全是偶数
+            else
+                map.put(cur, i);
             for (int j = 0; j < 10; j++) { // 对cur中的每一位。依次改变后，仅有1位不同，抑或之后出现次数为奇数，都是一个超赞子字符串
                 int state = cur ^ (1 << j);
                 if (map.containsKey(state)) {
                     res = Math.max(res, i - map.get(state));
                 }
+            }
+        }
+        return res;
+    }
+
+    // p1582 二进制矩阵中的特殊位置
+    public int numSpecial(int[][] mat) {
+        int res = 0, m = mat.length, n = mat[0].length;
+        int[] sumX = new int[m], sumY = new int[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                sumX[i] += mat[i][j];
+                sumY[j] += mat[i][j];
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (sumX[i] == 1 && sumY[j] == 1 && mat[i][j] == 1)
+                    res++;
             }
         }
         return res;
@@ -48,7 +69,8 @@ public class p1500 {
         // 遍历pair数组，第i个朋友
         for (int i = 0; i < n; i++) {
             for (int temp : preferences[i]) {
-                if (preference[temp][i] < preference[temp][pair[temp]] && preference[i][temp] < preference[i][pair[i]]) {
+                if (preference[temp][i] < preference[temp][pair[temp]]
+                        && preference[i][temp] < preference[i][pair[i]]) {
                     res++;
                     break;
                 }

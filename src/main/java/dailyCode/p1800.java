@@ -1,7 +1,5 @@
 package dailyCode;
 
-import org.junit.Test;
-
 import java.util.*;
 
 public class p1800 {
@@ -24,9 +22,11 @@ public class p1800 {
     public int maxLength(String str, int k, char c) {
         int l = 0, r = 0, count = 0, n = str.length(), res = 0;
         while (r < n) {
-            if (str.charAt(r) != c) count++;
+            if (str.charAt(r) != c)
+                count++;
             while (count > k) {
-                if (str.charAt(l++) != c) count--;
+                if (str.charAt(l++) != c)
+                    count--;
             }
             res = Math.max(res, r - l + 1);
             r++;
@@ -37,14 +37,18 @@ public class p1800 {
     // p2028 找出缺失的观测数据
     public int[] missingRolls(int[] rolls, int mean, int n) {
         int sum = 0, m = rolls.length, total = mean * (m + n);
-        for (int roll : rolls) sum += roll;
+        for (int roll : rolls)
+            sum += roll;
         total -= sum;
         int[] res = new int[n];
-        if (total <= 0) return new int[0];
+        if (total <= 0)
+            return new int[0];
         int mod = total % n, div = total / n;
-        if ((mod == 0 && div > 6) || (mod != 0 && div > 5) || div == 0) return new int[0];
+        if ((mod == 0 && div > 6) || (mod != 0 && div > 5) || div == 0)
+            return new int[0];
         Arrays.fill(res, div);
-        for (int i = 0; i < mod; i++) res[i] += 1;
+        for (int i = 0; i < mod; i++)
+            res[i] += 1;
         return res;
     }
 
@@ -59,7 +63,8 @@ public class p1800 {
         for (int stone : stones) {
             count[stone % 3]++;
         }
-        if (count[0] % 2 == 0) return count[1] >= 1 && count[2] >= 1;
+        if (count[0] % 2 == 0)
+            return count[1] >= 1 && count[2] >= 1;
         return Math.abs(count[1] - count[2]) > 2;
     }
 
@@ -80,7 +85,7 @@ public class p1800 {
             map.get(edge[0]).add(edge[1]);
         }
         for (int idx : map.get(0)) {
-            queue.offer(new int[]{1, idx});
+            queue.offer(new int[] { 1, idx });
             dis[idx] = 1;
         }
         isVis[0] = true;
@@ -89,7 +94,7 @@ public class p1800 {
             for (int next : map.get(cur[1])) {
                 if (!isVis[next]) {
                     isVis[next] = true;
-                    queue.offer(new int[]{0});
+                    queue.offer(new int[] { 0 });
                 }
             }
         }
@@ -102,9 +107,11 @@ public class p1800 {
         int[] dp = new int[mask];
         for (int i = 1; i < mask; i++) {
             int index = 15;
-            while (index >= 0 && ((i >> index) & 1) == 0) index--;
+            while (index >= 0 && ((i >> index) & 1) == 0)
+                index--;
             dp[i] = nums[index] | dp[i ^ (1 << index)];
-            if (dp[i] == max) res++;
+            if (dp[i] == max)
+                res++;
             if (dp[i] > max) {
                 max = dp[i];
                 res = 1;
@@ -118,8 +125,10 @@ public class p1800 {
         int res = 0;
         String[] s = sentence.split(" ");
         for (String str : s) {
-            if ("".equals(str)) continue;
-            if (isValid(str)) res++;
+            if ("".equals(str))
+                continue;
+            if (isValid(str))
+                res++;
         }
         return res;
     }
@@ -128,13 +137,16 @@ public class p1800 {
         boolean hasConnect = false;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (Character.isDigit(c)) return false;
+            if (Character.isDigit(c))
+                return false;
             if (c == '-') {
-                if (hasConnect || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1)) || !Character.isLetter(s.charAt(i + 1)))
+                if (hasConnect || i == 0 || i == s.length() - 1 || !Character.isLetter(s.charAt(i - 1))
+                        || !Character.isLetter(s.charAt(i + 1)))
                     return false;
                 hasConnect = true;
             } else if (c == ',' || c == '.' || c == '!') {
-                if (i != s.length() - 1) return false;
+                if (i != s.length() - 1)
+                    return false;
             }
         }
         return true;
@@ -168,8 +180,10 @@ public class p1800 {
             score *= size;
             num -= size;
         }
-        if (node != 0) score *= num;
-        if (score == maxScore) res++;
+        if (node != 0)
+            score *= num;
+        if (score == maxScore)
+            res++;
         else if (score > maxScore) {
             maxScore = score;
             res = 1;
@@ -206,9 +220,12 @@ public class p1800 {
         int l = 0, r = arr.size() - 1, mid;
         while (l <= r) {
             mid = l + (r - l) / 2;
-            if (arr.get(mid) == target) return mid;
-            if (arr.get(mid) > target) r = mid - 1;
-            else l = mid + 1;
+            if (arr.get(mid) == target)
+                return mid;
+            if (arr.get(mid) > target)
+                r = mid - 1;
+            else
+                l = mid + 1;
         }
         return isLeft ? l : r;
     }
@@ -223,7 +240,8 @@ public class p1800 {
         }
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (time <= left[i] && time <= right[i]) res.add(i);
+            if (time <= left[i] && time <= right[i])
+                res.add(i);
         }
         return res;
     }
