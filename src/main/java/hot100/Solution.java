@@ -88,4 +88,29 @@ public class Solution {
         nums[j] = temp;
     }
 
+    /**
+     * Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+     *
+     * A subarray is a contiguous non-empty sequence of elements within an array.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int subarraySum(int[] nums, int k) {
+        int[] preFix = new int[nums.length + 1];
+        Map<Integer, Integer> count = new HashMap<>();
+        count.put(0, 1);
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            preFix[i + 1] = preFix[i] + nums[i];
+            int minus = preFix[i + 1] - k;
+            if (count.containsKey(minus)) {
+                res += count.get(minus);
+            }
+            Integer c = count.getOrDefault(preFix[i + 1], 0);
+            count.put(preFix[i + 1], c + 1);
+        }
+        return res;
+    }
+
 }
