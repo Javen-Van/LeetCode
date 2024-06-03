@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class p700 {
 
-    // dailyCode.p700 二叉搜索树的搜索
+    // p700 二叉搜索树的搜索
     public TreeNode searchBST(TreeNode root, int val) {
         if (root == null)
             return null;
@@ -52,6 +52,37 @@ public class p700 {
             if (set.contains(word.substring(0, word.length() - 1))) {
                 res = word.length() > res.length() ? word : res;
                 set.add(word);
+            }
+        }
+        return res;
+    }
+
+    // p722 删除注释
+    public List<String> removeComments(String[] source) {
+        List<String> res = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        boolean inBlock=false;
+        for (String s : source) {
+            for (int i = 0; i < s.length()-1; i++) {
+                if (inBlock) {
+                    if (i + 1 < s.length() && s.startsWith("*/", i)) {
+                        inBlock=false;
+                        i++;
+                    }
+                } else {
+                    if (i + 1 < s.length() && s.startsWith("/*", i)) {
+                        inBlock=true;
+                        i++;
+                    } else if (i + 1 < s.length() && s.startsWith("//", i)) {
+                        break;
+                    } else {
+                        sb.append(s.charAt(i));
+                    }
+                }
+            }
+            if (!inBlock) {
+                res.add(sb.toString());
+                sb.setLength(0);
             }
         }
         return res;
@@ -158,6 +189,21 @@ public class p700 {
             }
             res += set.contains(count) ? 1 : 0;
             left++;
+        }
+        return res;
+    }
+
+    // p771 宝石与石头 - easy
+    public int numJewelsInStones(String jewels, String stones) {
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < jewels.length(); i++) {
+            set.add(jewels.charAt(i));
+        }
+        int res = 0;
+        for (int i = 0; i < stones.length(); i++) {
+            if (set.contains(stones.charAt(i))) {
+                res++;
+            }
         }
         return res;
     }

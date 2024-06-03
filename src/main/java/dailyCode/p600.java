@@ -43,23 +43,59 @@ public class p600 {
         return l;
     }
 
+    // p670 最大交换
+    public int maximumSwap(int num) {
+        char[] charArray = String.valueOf(num).toCharArray();
+        int n = charArray.length;
+        int maxIdx = n - 1;
+        int idx1 = -1, idx2 = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            if (charArray[i] > charArray[maxIdx]) {
+                maxIdx = i;
+            } else if (charArray[i] < charArray[maxIdx]) {
+                idx1 = i;
+                idx2 = maxIdx;
+            }
+        }
+        if (idx1 >= 0) {
+            swap(charArray, idx1, idx2);
+            return Integer.parseInt(new String(charArray));
+        } else {
+            return num;
+        }
+    }
+
+    // p672 灯泡开关
+    public int flipLights(int n, int presses) {
+        if (presses == 0) return 1;
+        if (n == 1) return 2;
+        if (n == 2) return presses == 1 ? 3 : 4;
+        return presses == 1 ? 4 : presses == 2 ? 7 : 8;
+    }
+
+    public void swap(char[] charArray, int i, int j) {
+        char temp = charArray[i];
+        charArray[i] = charArray[j];
+        charArray[j] = temp;
+    }
+
     // p675 为高尔夫比赛砍树「BFS」
     public int cutOffTree(List<List<Integer>> forest) {
         int m = forest.size(), n = forest.get(0).size(), res = 0;
         int[][] forests = new int[m][n];
-        int[] pre = { 0, 0 };
+        int[] pre = {0, 0};
         Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 int height = forest.get(i).get(j);
                 forests[i][j] = height;
                 if (height > 1)
-                    queue.offer(new int[] { height, i, j });
+                    queue.offer(new int[]{height, i, j});
             }
         }
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
-            int distance = distance(pre, new int[] { cur[1], cur[2] }, forests);
+            int distance = distance(pre, new int[]{cur[1], cur[2]}, forests);
             if (distance == -1)
                 return -1;
             res += distance;
@@ -71,7 +107,7 @@ public class p600 {
 
     public int distance(int[] source, int[] target, int[][] forest) {
         int count = 0, m = forest.length, n = forest[0].length;
-        int[] dif = { 0, 1, 0, -1, 0 };
+        int[] dif = {0, 1, 0, -1, 0};
         boolean[][] isVis = new boolean[m][n];
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(source);
@@ -86,7 +122,7 @@ public class p600 {
                     int x = cur[0] + dif[i], y = cur[1] + dif[i + 1];
                     if (x >= 0 && x < m && y >= 0 && y < n && !isVis[x][y] && forest[x][y] != 0) {
                         isVis[x][y] = true;
-                        queue.offer(new int[] { x, y });
+                        queue.offer(new int[]{x, y});
                     }
                 }
             }

@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="LeetCode_study" />
-        <module name="LeetCode" />
       </profile>
     </annotationProcessing>
   </component>

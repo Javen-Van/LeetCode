@@ -186,6 +186,11 @@ public class p68 {
         return -1;
     }
 
+    // p42 接雨水
+    public int trap(int[] height) {
+        return 0;
+    }
+
     // p44 通配符匹配「动态规划」打表如下：
     //   0 a b c d
     // 0 t f f f f
@@ -226,7 +231,7 @@ public class p68 {
         return res;
     }
 
-    // dailyCode.p68 文本左右对齐
+    // p68 文本左右对齐
     public List<String> fullJustify(String[] words, int maxWidth) {
         int n = words.length;
         int[] len = new int[n];

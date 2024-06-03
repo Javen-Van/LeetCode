@@ -145,7 +145,7 @@ public class p800 {
         return ans;
     }
 
-    // p842 将数组拆分成斐波那契数列
+    // TODO p842 将数组拆分成斐波那契数列
     public List<Integer> splitIntoFibonacci(String num) {
         int n = num.length();
         return null;
@@ -324,6 +324,33 @@ public class p800 {
             }
             return second != -1 && s.charAt(first) == goal.charAt(second) && s.charAt(second) == goal.charAt(first);
         }
+    }
+
+    // p860 柠檬水找零 - easy
+    public boolean lemonadeChange(int[] bills) {
+        int[] remain = new int[2];
+        for (int bill : bills) {
+            if (bill == 5) {
+                remain[0]++;
+            } else if (bill == 10) {
+                if (remain[0] <= 0) {
+                    return false;
+                } else {
+                    remain[0]--;
+                    remain[1]++;
+                }
+            } else {
+                if (remain[1] >= 1 && remain[0] >= 1) {
+                    remain[1]--;
+                    remain[0]--;
+                } else if (remain[0] >= 3) {
+                    remain[0] -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // p868 二进制间距「位运算」

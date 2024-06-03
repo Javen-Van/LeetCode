@@ -1,5 +1,7 @@
 package dailyCode;
 
+import bean.TreeNode;
+
 import java.util.*;
 
 public class p100 {
@@ -95,6 +97,10 @@ public class p100 {
             }
         }
         return stack.peek();
+    }
+
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        return root;
     }
 
     // p165 比较版本号

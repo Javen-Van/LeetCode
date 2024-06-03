@@ -129,6 +129,20 @@ public class p1600 {
         return res + samePoints;
     }
 
+    // p1624 两个相同字符间的最长子字符串
+    public int maxLengthBetweenEqualCharacters(String s) {
+        int[] idx = new int[26];
+        Arrays.fill(idx, -1);
+        int max = -1;
+        for (int i = 0; i < s.length(); i++) {
+            int c = s.charAt(i) - 'a';
+            if (idx[c] != -1) {
+                max = Math.max(max, i - idx[c] - 1);
+            } else idx[c] = i;
+        }
+        return max;
+    }
+
     // p1636 按照频率将数组升序排序，-100 <= nums[i] <= 100
     public int[] frequencySort(int[] nums) {
         int n = nums.length;
