@@ -138,7 +138,11 @@ public class p400 {
         }
     }
 
-    // p419 甲板上的战舰「dfs」
+    /**
+     * p419 甲板上的战舰「dfs」
+     * @param board
+     * @return
+     */
     public int countBattleships(char[][] board) {
         int m = board.length, n = board[0].length;
         int res = 0;

@@ -6,7 +6,34 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class p1100 {
-    // p1154 一年中的第几天
+
+    /**
+     * p1103 分糖果2
+     * @param candies
+     * @param num_people
+     * @return
+     */
+    public int[] distributeCandies(int candies, int num_people) {
+        int[] res = new int[num_people];
+        int floor = (int) Math.floor((Math.sqrt(1 + 8L * candies) - 1) / 2);
+        int n = floor / num_people + 1, mod = floor % num_people, sum = (1 + floor) * floor / 2;
+        for (int i = 1; i <= num_people; i++) {
+            if (i <= mod) {
+                res[i - 1] = (2 * i + (n - 1) * num_people) * n / 2;
+            } else if (i == mod + 1) {
+                res[i - 1] = (2 * i + num_people * (n - 2)) * (n - 1) / 2 + (candies - sum);
+            } else {
+                res[i - 1] = (2 * i + num_people * (n - 2)) * (n - 1) / 2;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * p1154 一年中的第几天
+     * @param date
+     * @return
+     */
     public int dayOfYear(String date) {
         int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         String[] s = date.split("-");
