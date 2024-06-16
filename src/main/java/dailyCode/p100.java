@@ -6,6 +6,36 @@ import java.util.*;
 
 public class p100 {
 
+    /**
+     * 分发糖果
+     *
+     * @param ratings
+     * @return
+     */
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int[] candiesLeft = new int[n], candiesRight = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && ratings[i] > ratings[i - 1]) {
+                candiesLeft[i] = candiesLeft[i - 1] + 1;
+            } else {
+                candiesLeft[i] = 1;
+            }
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            if (i < n - 1 && ratings[i] > ratings[i + 1]) {
+                candiesRight[i] = candiesRight[i + 1] + 1;
+            } else {
+                candiesRight[i] = 1;
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += Math.max(candiesLeft[i], candiesRight[i]);
+        }
+        return sum;
+    }
+
     // p139 单词拆分「动态规划」
     public boolean wordBreak(String s, List<String> wordDict) {
         Set<String> set = new HashSet<>(wordDict);
