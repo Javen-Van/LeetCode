@@ -19,6 +19,7 @@ public class Solution {
 
     /**
      * 字母异位词分组
+     *
      * @param strs
      * @return
      */
@@ -44,6 +45,7 @@ public class Solution {
 
     /**
      * 最长连续序列
+     *
      * @param nums
      * @return
      */
@@ -68,6 +70,7 @@ public class Solution {
 
     /**
      * 移动0
+     *
      * @param nums
      */
     public void moveZeroes(int[] nums) {
@@ -90,8 +93,9 @@ public class Solution {
 
     /**
      * Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
-     *
+     * <p>
      * A subarray is a contiguous non-empty sequence of elements within an array.
+     *
      * @param nums
      * @param k
      * @return
@@ -111,6 +115,41 @@ public class Solution {
             count.put(preFix[i + 1], c + 1);
         }
         return res;
+    }
+
+    /**
+     * 滑动窗口最大值
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        // 队列记录的是下标索引
+        Deque<Integer> deque = new LinkedList<>();
+        int[] res = new int[nums.length - k + 1];
+        for (int i = 0; i < k; i++) {
+            offer(deque, i, nums);
+        }
+        res[0] = nums[deque.peekFirst()];
+        for (int i = k; i < nums.length; i++) {
+            offer(deque, i, nums);
+            // 如果队首元素为窗口弹出元素，则需要弹出队首
+            if (i - k == deque.peekFirst()) {
+                deque.pollFirst();
+            }
+            // 队首元素始终为窗口内最大值的下标索引
+            res[i - k + 1] = nums[deque.peekFirst()];
+        }
+        return res;
+    }
+
+    private void offer(Deque<Integer> deque, int idx, int[] num) {
+        // 单调队列，入队元素如果大于队尾元素，则弹出队尾，保持单调递减
+        while (!deque.isEmpty() && num[deque.peekLast()] < num[idx]) {
+            deque.pollLast();
+        }
+        deque.offerLast(idx);
     }
 
 }

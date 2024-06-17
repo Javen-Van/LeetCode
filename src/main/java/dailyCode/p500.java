@@ -141,6 +141,42 @@ public class p500 {
         return a.equals(b) ? -1 : m;
     }
 
+    /**
+     * p522 最长特殊序列
+     *
+     * @param strs
+     * @return
+     */
+    public int findLUSlength(String[] strs) {
+        int res = -1;
+        for (int i = 0; i < strs.length; i++) {
+            boolean flag = true;
+            for (int j = 0; j < strs.length; j++) {
+                if (i != j && isSubSequence(strs[i], strs[j])) {
+                    // 如果是某一其他字符串的子序列，直接退出
+                    flag = false;
+                    break;
+                }
+            }
+            // 遍历完，若可作为特殊序列，记录其长度
+            if (flag) {
+                res = Math.max(res, strs[i].length());
+            }
+        }
+        return res;
+    }
+
+    // 判断a是否是b的子序列
+    private boolean isSubSequence(String a, String b) {
+        int i = 0, j = 0;
+        for (; j < b.length(); j++) {
+            if (i < a.length() && a.charAt(i) == b.charAt(j)) {
+                i++;
+            }
+        }
+        return i == a.length();
+    }
+
     // p524 通过删除字母匹配到字典里最长单词
     public String findLongestWord(String s, List<String> dictionary) {
         dictionary.sort((o1, o2) -> {
