@@ -152,4 +152,49 @@ public class Solution {
         deque.offerLast(idx);
     }
 
+    /**
+     * 最小覆盖子串
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public String minWindow(String s, String t) {
+        Map<Character, Integer> tCount = new HashMap<>();
+        Map<Character, Integer> sCount = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            tCount.put(t.charAt(i), tCount.getOrDefault(t.charAt(i), 0) + 1);
+        }
+        // 滑动窗口当前的左右边界
+        int left = 0, right = 0;
+        // 结果的左右边界
+        int ansLeft = -1, ansRight = s.length();
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            // 将当前遍历到的记录到右边界
+            sCount.put(c, sCount.getOrDefault(c, 0) + 1);
+            // 判断是否覆盖
+            while (isCover(sCount, tCount)) {
+                if (right - left < ansRight - ansLeft) {
+                    ansLeft = left;
+                    ansRight = right;
+                }
+                char leftChar = s.charAt(left++);
+                // 将左边界移出
+                sCount.put(leftChar, sCount.get(leftChar) - 1);
+            }
+            right++;
+        }
+        return ansLeft < 0 ? "" : s.substring(ansLeft, ansRight + 1);
+    }
+
+    private boolean isCover(Map<Character, Integer> sCount, Map<Character, Integer> tCount) {
+        for (char key : tCount.keySet()) {
+            if (!sCount.containsKey(key) || sCount.get(key) < tCount.get(key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
