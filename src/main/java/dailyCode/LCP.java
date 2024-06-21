@@ -3,7 +3,7 @@ package dailyCode;
 public class LCP {
 
     /**
-     * 气温变化趋势
+     * LCP61 气温变化趋势
      *
      * @param temperatureA
      * @param temperatureB
