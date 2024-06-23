@@ -1,5 +1,7 @@
 package hot100;
 
+import org.junit.Test;
+
 import java.util.*;
 
 public class Solution {
@@ -150,6 +152,112 @@ public class Solution {
             deque.pollLast();
         }
         deque.offerLast(idx);
+    }
+
+    /**
+     * 矩阵置0
+     *
+     * @param matrix
+     */
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        boolean x0 = matrix[0][0] == 0, y0 = x0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    if (i == 0) x0 = true;
+                    if (j == 0) y0 = true;
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                    break;
+                }
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                for (int j = 0; j < n; j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        for (int i = 1; i < n; i++) {
+            if (matrix[0][i] == 0) {
+                for (int j = 0; j < m; j++) {
+                    matrix[j][i] = 0;
+                }
+            }
+        }
+        if (x0) {
+            for (int i = 0; i < n; i++) {
+                matrix[0][i] = 0;
+            }
+        }
+        if (y0) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+
+    /**
+     * 螺旋矩阵
+     *
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        int m = matrix.length, n = matrix[0].length;
+        int l = 0, r = n - 1, u = 0, b = m - 1;
+        int i = 0, j = -1, round = 0;
+        int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
+        while (l <= r && u <= b) {
+            i += dx[round];
+            j += dy[round];
+            res.add(matrix[i][j]);
+            if (round == 0 && j == r) {
+                u++;
+                round++;
+            }
+            if (round == 1 && i == b) {
+                r--;
+                round++;
+            }
+            if (round == 2 && j == l) {
+                b--;
+                round++;
+            }
+            if (round == 3 && i == u) {
+                l++;
+                round++;
+            }
+            round %= 4;
+        }
+        return res;
+    }
+
+    /**
+     * 旋转图像
+     *
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = i; j < n - 1 - i; j++) {
+                int a = matrix[i][j], b = matrix[j][n - 1 - i], c = matrix[n - 1 - i][n - 1 - j], d = matrix[n - 1 - j][i];
+                matrix[i][j] = d;
+                matrix[j][n - 1 - i] = a;
+                matrix[n - 1 - i][n - 1 - j] = b;
+                matrix[n - 1 - j][i] = c;
+            }
+        }
+    }
+
+    @Test
+    public void test() {
+        int[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        System.out.println(spiralOrder(matrix));
     }
 
 }

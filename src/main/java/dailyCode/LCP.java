@@ -31,12 +31,11 @@ public class LCP {
         for (int i = 0; i < n - 1; i++) {
             if (temperatureA[i] == temperatureB[i]) {
                 count++;
-            } else {
                 res = Math.max(res, count);
+            } else {
                 count = 0;
             }
         }
-        res = Math.max(res, count);
         return res;
     }
 
