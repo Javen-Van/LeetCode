@@ -1,5 +1,7 @@
 package hot100;
 
+import org.junit.Test;
+
 import java.util.*;
 
 public class Solution {
@@ -195,6 +197,195 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    /**
+     * 最大子数组和
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int[] preFix = new int[n];
+        preFix[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            preFix[i] = preFix[i - 1] + nums[i];
+        }
+        int min = 0, res = Integer.MIN_VALUE;
+        for (int fix : preFix) {
+            res = Math.max(res, fix - min);
+            min = Math.min(min, fix);
+        }
+        return res;
+    }
+
+    /**
+     * 合并区间-差分数组
+     *
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        int[] diff = new int[10002];
+        Set<Integer> set = new HashSet<>();
+        for (int[] interval : intervals) {
+            diff[interval[0]]++;
+            diff[interval[1]]--;
+            if (interval[0] == interval[1]) {
+                set.add(interval[0]);
+            }
+        }
+        List<int[]> resList = new ArrayList<>();
+        int sum = 0, start = 0;
+        for (int i = 0; i < diff.length; i++) {
+            if (diff[i] != 0 && sum == 0) {
+                start = i;
+            }
+            sum += diff[i];
+            if (diff[i] != 0 && sum == 0) {
+                resList.add(new int[]{start, i});
+                continue;
+            }
+            if (sum == 0 && set.contains(i)) {
+                resList.add(new int[]{i, i});
+            }
+        }
+        int[][] res = new int[resList.size()][2];
+        for (int i = 0; i < resList.size(); i++) {
+            res[i] = resList.get(i);
+        }
+        return res;
+    }
+
+    /**
+     * 合并区间-排序
+     *
+     * @param intervals
+     * @return
+     */
+    public int[][] merge2(int[][] intervals) {
+        Arrays.sort(intervals, (o1, o2) -> o1[0] == o2[0] ? o1[1] - o2[1] : o1[0] - o2[0]);
+        List<int[]> resList = new ArrayList<>();
+        int start = intervals[0][0], end = intervals[0][1];
+        for (int j = 1; j < intervals.length; j++) {
+            int l = intervals[j][0], r = intervals[j][1];
+            if (l > end) {
+                // 不可合并
+                resList.add(new int[]{start, end});
+                start = l;
+                end = r;
+            } else {
+                // 可以合并，更新右端点值
+                end = Math.max(end, r);
+            }
+        }
+        resList.add(new int[]{start, end});
+        return resList.toArray(new int[resList.size()][2]);
+    }
+
+    /**
+     * 轮转数组
+     *
+     * @param nums
+     * @param k
+     */
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k %= n;
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (i < k) {
+                res[i] = nums[n - k + i];
+            } else {
+                res[i] = nums[i - k];
+            }
+        }
+        System.arraycopy(res, 0, nums, 0, n);
+    }
+
+    /**
+     * 原地修改
+     *
+     * @param nums
+     * @param k
+     */
+    public void rotate2(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+    }
+
+    /**
+     * 除自身以外数组的乘积
+     *
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int[] preFix = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                preFix[i] = nums[i];
+            } else {
+                preFix[i] = preFix[i - 1] * nums[i];
+            }
+        }
+        for (int i = nums.length - 2; i >= 0; i--) {
+            nums[i] *= nums[i + 1];
+        }
+        int pre = 1;
+        for (int i = 0; i < nums.length; i++) {
+            int temp = preFix[i];
+            preFix[i] = pre * (i == nums.length - 1 ? 1 : nums[i + 1]);
+            pre = temp;
+        }
+        return preFix;
+    }
+
+    /**
+     * 缺失的第一个正数
+     *
+     * @param nums
+     * @return
+     */
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] <= 0) {
+                nums[i] = n + 1;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            int num = Math.abs(nums[i]);
+            if (num <= n && nums[num - 1] > 0) {
+                nums[num - 1] *= -1;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > 0) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
+
+
+    @Test
+    public void test() {
+        int[][] intervals = {{1, 4}, {5, 6}};
+        System.out.println(Arrays.deepToString(merge(intervals)));
     }
 
 }

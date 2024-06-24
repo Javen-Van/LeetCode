@@ -2,12 +2,70 @@ package dailyCode;
 
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class p2700 {
 
     /**
-     * p2786 访问数组中的位置使分数最大
+     * p2713 矩阵中严格递增的单元格数
+     *
+     * @param mat
+     * @return
+     */
+    public int maxIncreasingCells(int[][] mat) {
+        Map<Integer, List<int[]>> treeMap = new TreeMap<>();
+        int m = mat.length, n = mat[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                treeMap.putIfAbsent(mat[i][j], new ArrayList<>());
+                treeMap.get(mat[i][j]).add(new int[]{i, j});
+            }
+        }
+        int[] row = new int[m], column = new int[n];
+        int res = 0;
+        for (List<int[]> value : treeMap.values()) {
+            int[] record = new int[value.size()]; // 临时数组，用于记录每个位置当前的dp值
+            for (int k = 0; k < value.size(); k++) {
+                int i = value.get(k)[0], j = value.get(k)[1];
+                record[k] = Math.max(row[i], column[j]) + 1;
+                res = Math.max(res, record[k]);
+            }
+            for (int k = 0; k < value.size(); k++) {
+                int i = value.get(k)[0], j = value.get(k)[1];
+                row[i] = Math.max(row[i], record[k]); // 更新i行的最大dp值
+                column[j] = Math.max(column[j], record[k]); // 更新j行的最大dp值
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param nums
+     * @return
+     */
+    public int countBeautifulPairs(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int b = nums[i] % 10;
+            for (int j = 0; j < i; j++) {
+                int a = nums[j];
+                while (a >= 10) {
+                    a /= 10;
+                }
+                if (gcd(a, b) == 1) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    /**
+     * p2786 访问数组中的位置使分数最大-动态规划
      *
      * @param nums
      * @param x
