@@ -134,6 +134,17 @@ public class p500 {
         return index == n;
     }
 
+    public boolean detectCapitalUse2(String word) {
+        int count = 0;
+        for (int i = 0; i < word.length(); i++) {
+            if (Character.isUpperCase(word.charAt(i))) {
+                count++;
+            }
+        }
+        if (count == word.length() || count == 0) return true;
+        return count == 1 && Character.isUpperCase(word.charAt(0));
+    }
+
     // p521 最长特殊序列I
     public int findLUSlength(String a, String b) {
         int m = a.length(), n = b.length();
