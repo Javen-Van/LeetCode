@@ -65,6 +65,76 @@ public class p2700 {
     }
 
     /**
+     * p2732 找到矩阵中的好子集
+     *
+     * @param grid
+     * @return
+     */
+    public List<Integer> goodSubsetofBinaryMatrix(int[][] grid) {
+        int[] record = new int[32];
+        Arrays.fill(record, -1);
+        int m = grid.length, n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            int num = 0, digit = 1;
+            for (int j = n - 1; j >= 0; j--) {
+                num += grid[i][j] * digit;
+                digit *= 2;
+            }
+            record[num] = i;
+        }
+        if (record[0] != -1) {
+            return Arrays.asList(record[0]);
+        }
+        for (int i = 0; i < record.length; i++) {
+            for (int j = 0; j < i; j++) {
+                int a = record[i], b = record[j];
+                if (a != -1 && b != -1 && (i & j) == 0) {
+                    return a < b ? Arrays.asList(a, b) : Arrays.asList(b, a);
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * p2741 特别的排列-状态压缩dp
+     *
+     * @param nums
+     * @return
+     */
+    public int specialPerm(int[] nums) {
+        int n = nums.length, MOD = 1000000007, mask = 1 << n, res = 0;
+        // dp[state][i]表示选取state集合里的数，且末位为nums[i]的排列数
+        int[][] dp = new int[mask][n];
+        for (int i = 0; i < n; i++) {
+            dp[1 << i][i] = 1;
+        }
+        for (int state = 0; state < mask; state++) {
+            for (int i = 0; i < n; i++) {
+                // 判断i是否在state中，即所选取的几个数中是否有nums[i]
+                if ((state >> i & 1) == 0) {
+                    continue;
+                }
+                // 去掉其中一个数，并判断能否从上个数中转移过来
+                for (int j = 0; j < n; j++) {
+                    if (i == j || (state >> j & 1) == 0) {
+                        continue;
+                    }
+                    if (nums[i] % nums[j] != 0 && nums[j] % nums[i] != 0) {
+                        continue;
+                    }
+                    dp[state][i] = (dp[state][i] + dp[state ^ (1 << i)][j]) % MOD;
+                }
+            }
+        }
+        // 总和为选取全部的数，即state=2^n-1，遍历所有结尾情况，求和
+        for (int i = 0; i < n; i++) {
+            res = (res + dp[mask - 1][i]) % MOD;
+        }
+        return res;
+    }
+
+    /**
      * p2786 访问数组中的位置使分数最大-动态规划
      *
      * @param nums
