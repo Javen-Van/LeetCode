@@ -1,5 +1,6 @@
 package hot100;
 
+import bean.ListNode;
 import org.junit.Test;
 
 import java.util.*;
@@ -328,7 +329,7 @@ public class Solution {
     }
 
     /**
-     * 除自身以外数组的乘积
+     * p238 除自身以外数组的乘积
      *
      * @param nums
      * @return
@@ -355,7 +356,7 @@ public class Solution {
     }
 
     /**
-     * 缺失的第一个正数
+     * p41 缺失的第一个正数
      *
      * @param nums
      * @return
@@ -381,15 +382,8 @@ public class Solution {
         return n + 1;
     }
 
-
-    @Test
-    public void test() {
-        int[][] intervals = {{1, 4}, {5, 6}};
-        System.out.println(Arrays.deepToString(merge(intervals)));
-    }
-
     /**
-     * 矩阵置0
+     * p73 矩阵置0
      *
      * @param matrix
      */
@@ -434,7 +428,7 @@ public class Solution {
     }
 
     /**
-     * 螺旋矩阵
+     * p54 螺旋矩阵
      *
      * @param matrix
      * @return
@@ -471,7 +465,7 @@ public class Solution {
     }
 
     /**
-     * 旋转图像
+     * p48 旋转图像
      *
      * @param matrix
      */
@@ -486,6 +480,55 @@ public class Solution {
                 matrix[n - 1 - j][i] = c;
             }
         }
+    }
+
+    /**
+     * p240 搜索二维矩阵 - 二分查找
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length, n = matrix[0].length;
+        int i = 0, j = n - 1;
+        while (i < m && j >= 0) {
+            if (matrix[i][j] == target) return true;
+            if (matrix[i][j] < target) i++;
+            else j--;
+        }
+        return false;
+    }
+
+    /**
+     * p160 相交链表
+     *
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode dummyA = headA, dummyB = headB;
+        while (dummyA != null || dummyB != null) {
+            if (dummyA == dummyB) return dummyA;
+            dummyA = dummyA == null ? headB : dummyA.next;
+            dummyB = dummyB == null ? headA : dummyB.next;
+        }
+        return null;
+    }
+
+    /**
+     * p206 反转链表
+     *
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode listNode = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return listNode;
     }
 
 }

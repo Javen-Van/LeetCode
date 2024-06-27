@@ -97,6 +97,37 @@ public class p2700 {
     }
 
     /**
+     * p2734 执行子串操作后的字典序最小字符串
+     * @param s
+     * @return
+     */
+    public String smallestString(String s) {
+        int start = -1, end = -1;
+        char[] charArray = s.toCharArray();
+        for (int i = 0; i < s.length(); i++) {
+            if (charArray[i] != 'a') {
+                if (start == -1) {
+                    start = i;
+                }
+            } else {
+                if (start != -1) {
+                    end = i;
+                    break;
+                }
+            }
+        }
+        if (start == -1) {
+            charArray[s.length() - 1] = 'z';
+        } else {
+            end = end == -1 ? s.length() : end;
+            for (int i = start; i < end; i++) {
+                charArray[i] = (char) (charArray[i] - 1);
+            }
+        }
+        return new String(charArray);
+    }
+
+    /**
      * p2741 特别的排列-状态压缩dp
      *
      * @param nums
