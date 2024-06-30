@@ -4,6 +4,8 @@ import bean.ListNode;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Solution {
 
@@ -529,6 +531,91 @@ public class Solution {
         head.next.next = head;
         head.next = null;
         return listNode;
+    }
+
+    /**
+     * p234 回文链表
+     *
+     * @param head
+     * @return
+     */
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+        int l = 0, r = list.size() - 1;
+        while (l <= r) {
+            if (list.get(l) != list.get(r)) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
+    }
+
+    /**
+     * p141 环形链表
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) return false;
+        ListNode slow = head, fast = head;
+        do {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
+        } while (fast != null && fast.next != null);
+        return false;
+    }
+
+    /**
+     * p142 环形链表2
+     *
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null) return null;
+        ListNode slow = head, fast = head, res = head;
+        do {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) break;
+        } while (fast != null && fast.next != null);
+        if (fast == null || fast.next == null) return null;
+        while (slow != res) {
+            slow = slow.next;
+            res = res.next;
+        }
+        return res;
+    }
+
+    /**
+     * p21 合并两个有序链表
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(), res = dummy;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                dummy.next = list1;
+                list1 = list1.next;
+            } else {
+                dummy.next = list2;
+                list2 = list2.next;
+            }
+            dummy = dummy.next;
+        }
+        dummy.next = list1 == null ? list2 : list1;
+        return res.next;
     }
 
 }

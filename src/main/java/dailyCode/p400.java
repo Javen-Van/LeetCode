@@ -140,6 +140,7 @@ public class p400 {
 
     /**
      * p419 甲板上的战舰「dfs」
+     *
      * @param board
      * @return
      */
@@ -552,7 +553,7 @@ public class p400 {
         }
         return Arrays.stream(count).sum();
     }
-  
+
     // p468 验证IP地址
     public String validIPAddress(String queryIP) {
         if (queryIP.startsWith(".") || queryIP.startsWith(":") || queryIP.endsWith(".") || queryIP.endsWith(":"))
@@ -683,6 +684,39 @@ public class p400 {
             sb.insert(n, "-");
         }
         return sb.toString().toUpperCase();
+    }
+
+    /**
+     * p494 目标和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int findTargetSumWays(int[] nums, int target) {
+        // 记所选负数的元素之和为neg，则有(sum - neg) - neg = target
+        // neg = (sum - target) / 2
+        // 问题转换为，在数组中取一些数，其和为neg的方案数
+        int n = nums.length, sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum - target < 0 || (sum - target) % 2 != 0) return 0;
+        int tar = (sum - target) >> 1;
+        // dp[i][j]表示前i个数中，和为j的方案数
+        int[][] dp = new int[n + 1][tar + 1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            int cur = nums[i - 1];
+            for (int j = 0; j <= tar; j++) {
+                if (j < cur) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i - 1][j - cur];
+                }
+            }
+        }
+        return dp[n][tar];
     }
 
     @Test
