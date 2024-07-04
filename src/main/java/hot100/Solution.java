@@ -1,6 +1,7 @@
 package hot100;
 
 import bean.ListNode;
+import bean.Node;
 import org.junit.Test;
 
 import java.util.*;
@@ -529,6 +530,71 @@ public class Solution {
         head.next.next = head;
         head.next = null;
         return listNode;
+    }
+
+    /**
+     * p2 两数相加
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(), node = dummy;
+        int carry = 0;
+        while (l1 != null && l2 != null) {
+            int sum = l1.val + l2.val + carry;
+            carry = sum / 10;
+            ListNode listNode = new ListNode(sum % 10);
+            node.next = listNode;
+            node = listNode;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        while (l1 != null) {
+            int sum = l1.val + carry;
+            carry = sum / 10;
+            ListNode listNode = new ListNode(sum % 10);
+            node.next = listNode;
+            node = listNode;
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            int sum = l2.val + carry;
+            carry = sum / 10;
+            ListNode listNode = new ListNode(sum % 10);
+            node.next = listNode;
+            node = listNode;
+            l2 = l2.next;
+        }
+        if (carry != 0) {
+            node.next = new ListNode(carry);
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 删除链表的倒数第N个节点
+     *
+     * @param head
+     * @param n
+     * @return
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(), tail = head, cur = head, pre = dummy;
+        dummy.next = head;
+        while (tail != null) {
+            tail = tail.next;
+            if (n > 0) {
+                n--;
+                continue;
+            }
+            pre = cur;
+            cur = cur.next;
+        }
+        pre.next = cur.next;
+        cur.next = null;
+        return dummy.next;
     }
 
 }
