@@ -7,6 +7,20 @@ import java.util.*;
 public class p2700 {
 
     /**
+     * p2710 移除字符串中的尾随0
+     *
+     * @param num
+     * @return
+     */
+    public String removeTrailingZeros(String num) {
+        int n = num.length() - 1;
+        while (n >= 0 && num.charAt(n) == '0') {
+            n--;
+        }
+        return n == -1 ? "" : num.substring(0, n + 1);
+    }
+
+    /**
      * p2713 矩阵中严格递增的单元格数
      *
      * @param mat
@@ -98,6 +112,7 @@ public class p2700 {
 
     /**
      * p2734 执行子串操作后的字典序最小字符串
+     *
      * @param s
      * @return
      */
@@ -163,6 +178,28 @@ public class p2700 {
             res = (res + dp[mask - 1][i]) % MOD;
         }
         return res;
+    }
+
+    /**
+     * p2742 给墙壁刷油漆 - dp
+     *
+     * @param cost
+     * @param time
+     * @return
+     */
+    public int paintWalls(int[] cost, int[] time) {
+        // 转换成0-1背包问题
+        int n = cost.length;
+        int[][] dp = new int[n + 1][n + 1];
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = Integer.MAX_VALUE / 2;
+        }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][Math.max(0, j - time[i - 1] - 1)] + cost[i - 1]);
+            }
+        }
+        return dp[n][n];
     }
 
     /**
