@@ -8,11 +8,11 @@ import java.util.*;
  * @author Javen
  * @create 2021-08-24
  * @Description 有 n 个城市通过一些航班连接。给你一个数组flights ，其中flights[i] = [fromi, toi,
- *              pricei] ，表示该航班都从城市
- *              fromi 开始，以价格 toi 抵达 pricei。
- *              现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，你的任务是找到出一条最多经过 k站中转的路线，使得从 src
- *              到 dst 的
- *              价格最便宜 ，并返回该价格。 如果不存在这样的路线，则输出 -1。
+ * pricei] ，表示该航班都从城市
+ * fromi 开始，以价格 toi 抵达 pricei。
+ * 现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，你的任务是找到出一条最多经过 k站中转的路线，使得从 src
+ * 到 dst 的
+ * 价格最便宜 ，并返回该价格。 如果不存在这样的路线，则输出 -1。
  */
 public class p700 {
 
@@ -61,17 +61,17 @@ public class p700 {
     public List<String> removeComments(String[] source) {
         List<String> res = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        boolean inBlock=false;
+        boolean inBlock = false;
         for (String s : source) {
-            for (int i = 0; i < s.length()-1; i++) {
+            for (int i = 0; i < s.length() - 1; i++) {
                 if (inBlock) {
                     if (i + 1 < s.length() && s.startsWith("*/", i)) {
-                        inBlock=false;
+                        inBlock = false;
                         i++;
                     }
                 } else {
                     if (i + 1 < s.length() && s.startsWith("/*", i)) {
-                        inBlock=true;
+                        inBlock = true;
                         i++;
                     } else if (i + 1 < s.length() && s.startsWith("//", i)) {
                         break;
@@ -86,6 +86,24 @@ public class p700 {
             }
         }
         return res;
+    }
+
+    /**
+     * p724 寻找数组的中心下标
+     *
+     * @param nums
+     * @return
+     */
+    public int pivotIndex(int[] nums) {
+        int preFix = 0, sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (preFix == sum - preFix - nums[i]) return i;
+            preFix += nums[i];
+        }
+        return -1;
     }
 
     // p728 自除数
@@ -238,7 +256,7 @@ public class p700 {
         }
         int res = Integer.MAX_VALUE;
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[] { src, 0 });
+        queue.offer(new int[]{src, 0});
         while (k >= 0 && !queue.isEmpty()) {
             k--;
             int size = queue.size();
@@ -250,7 +268,7 @@ public class p700 {
                 }
                 for (int j = 0; j < n; j++) {
                     if (map[cur[0]][j] > 0) {
-                        queue.offer(new int[] { j, cur[1] + map[cur[0]][j] });
+                        queue.offer(new int[]{j, cur[1] + map[cur[0]][j]});
                     }
                 }
             }
@@ -282,16 +300,16 @@ public class p700 {
     public int[] kthSmallestPrimeFraction(int[] arr, int k) {
         Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingDouble(o -> arr[o[0]] * 1.0 / arr[o[1]]));
         for (int i = 1; i < arr.length; i++) {
-            queue.offer(new int[] { 0, i });
+            queue.offer(new int[]{0, i});
         }
         while (k > 1) {
             k--;
             int[] poll = queue.poll();
             if (poll[0] + 1 < poll[1])
-                queue.offer(new int[] { poll[0] + 1, poll[1] });
+                queue.offer(new int[]{poll[0] + 1, poll[1]});
         }
         int[] res = queue.poll();
-        return new int[] { arr[res[0]], arr[res[1]] };
+        return new int[]{arr[res[0]], arr[res[1]]};
     }
 
     // p794 有效的井字游戏「分类讨论」
