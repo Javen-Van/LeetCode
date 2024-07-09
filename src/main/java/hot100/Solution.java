@@ -684,4 +684,50 @@ public class Solution {
         return res.next;
     }
 
+    /**
+     * p24 两两交换链表中的节点
+     *
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummy = new ListNode(), pre = dummy;
+        dummy.next = head;
+        while (head != null && head.next != null) {
+            ListNode temp = head.next;
+            head.next = temp.next;
+            temp.next = head;
+            pre.next = temp;
+            pre = head;
+            head = head.next;
+        }
+        return dummy.next;
+    }
+
+    /**
+     * p25 k个一组翻转链表
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(), pre = dummy, cur = dummy;
+        dummy.next = head;
+        while (cur.next != null) {
+            for (int i = 0; i < k; i++) {
+                cur = cur.next;
+                if (cur == null) return dummy.next;
+            }
+            ListNode start = pre.next;
+            ListNode temp = cur.next;
+            cur.next = null;
+            pre.next = reverseList(start);
+            start.next = temp;
+            pre = start;
+            cur = pre;
+        }
+        return dummy.next;
+    }
+
 }
