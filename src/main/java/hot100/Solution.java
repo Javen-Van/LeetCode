@@ -2,6 +2,7 @@ package hot100;
 
 import bean.ListNode;
 import bean.Node;
+import bean.TreeNode;
 import org.junit.Test;
 
 import java.util.*;
@@ -728,6 +729,266 @@ public class Solution {
             cur = pre;
         }
         return dummy.next;
+    }
+
+    /**
+     * p138 随机链表的复制
+     *
+     * @param head
+     * @return
+     */
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        Node cur = head;
+        while (cur != null) {
+            Node newNode = new Node(cur.val);
+            newNode.next = cur.next;
+            cur.next = newNode;
+            cur = newNode.next;
+        }
+        cur = head;
+        while (cur != null) {
+            Node newNode = cur.next;
+            newNode.random = cur.random == null ? null : cur.random.next;
+            cur = newNode.next;
+        }
+        Node res = head.next;
+        while (head != null) {
+            Node newNode = head.next, next = newNode.next;
+            newNode.next = next == null ? null : next.next;
+            head.next = next;
+            head = next;
+        }
+        return res;
+    }
+
+    static class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
+    /**
+     * p148 排序链表
+     *
+     * @param head
+     * @return
+     */
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode next = slow.next;
+        slow.next = null;
+        ListNode left = sortList(head), right = sortList(next);
+        ListNode dummy = new ListNode(), res = dummy;
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                dummy.next = left;
+                left = left.next;
+            } else {
+                dummy.next = right;
+                right = right.next;
+            }
+            dummy = dummy.next;
+        }
+        dummy.next = left == null ? right : left;
+        return res.next;
+    }
+
+    /**
+     * p23 合并k个升序列表
+     *
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> deque = new PriorityQueue<>(Comparator.comparingInt(o -> o.val));
+        for (ListNode node : lists) {
+            if (node != null) {
+                deque.offer(node);
+            }
+        }
+        ListNode dummy = new ListNode(), cur = dummy;
+        while (!deque.isEmpty()) {
+            ListNode node = deque.poll();
+            cur.next = node;
+            cur = cur.next;
+            if (node.next != null) {
+                deque.offer(node.next);
+            }
+        }
+        return dummy.next;
+    }
+
+    /**
+     * p94 二叉树的中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        dfs(root);
+        return inorderRes;
+    }
+
+    List<Integer> inorderRes = new ArrayList<>();
+
+    private void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.left);
+        inorderRes.add(node.val);
+        dfs(node.right);
+    }
+
+    /**
+     * p104 二叉树的最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * p226 翻转二叉树
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return root;
+        TreeNode left = invertTree(root.left), right = invertTree(root.right);
+        root.left = right;
+        root.right = left;
+        return root;
+    }
+
+    /**
+     * p101 对称二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        return root == null || check(root.left, root.right);
+    }
+
+    public boolean check(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (left == null || right == null || left.val != right.val) return false;
+        return check(left.left, right.right) && check(left.right, right.left);
+    }
+
+    /**
+     * p543 二叉树的直径
+     *
+     * @param root
+     * @return
+     */
+    public int diameterOfBinaryTree(TreeNode root) {
+        countDepth(root);
+        return diameter;
+    }
+
+    int diameter = 0;
+
+    public int countDepth(TreeNode node) {
+        if (node == null) return 0;
+        int leftD = countDepth(node.left), rightD = countDepth(node.right);
+        diameter = Math.max(diameter, leftD + rightD);
+        return Math.max(leftD, rightD) + 1;
+    }
+
+    /**
+     * p102 二叉树的层序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root != null) queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> layer = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = queue.poll();
+                if (cur.left != null) queue.offer(cur.left);
+                if (cur.right != null) queue.offer(cur.right);
+                layer.add(cur.val);
+            }
+            res.add(layer);
+        }
+        return res;
+    }
+
+    /**
+     * p108 将有序数组转换为二叉搜索树
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return constructTree(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode constructTree(int[] nums, int l, int r) {
+        if (l > r) return null;
+        int mid = (l + r) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = constructTree(nums, l, mid - 1);
+        root.right = constructTree(nums, mid + 1, r);
+        return root;
+    }
+
+    /**
+     * p98 验证二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return isValid(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValid(TreeNode root, long bottom, long upper) {
+        if (root == null) return true;
+        return root.val > bottom && root.val < upper && isValid(root.left, bottom, root.val) && isValid(root.right, root.val, upper);
+    }
+
+    /**
+     * p230 二叉搜索树中第k小的元素
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        Deque<TreeNode> stack = new LinkedList<>();
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            TreeNode cur = stack.pop();
+            k--;
+            if (k == 0) return cur.val;
+            root = cur.right;
+        }
+        return -1;
     }
 
 }

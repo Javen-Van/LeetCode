@@ -17,8 +17,30 @@ public class p2900 {
         while (l < n - 1 && nums[l] < nums[l + 1]) {
             l++;
         }
-        if (l == n) return n * (n + 1) / 2;
+        if (l == n - 1) return n * (n + 1) / 2;
         int res = l + 2;
+        while (r > 0) {
+            if (r < n - 1 && nums[r] >= nums[r + 1]) break;
+            while (l >= 0 && nums[l] >= nums[r]) l--;
+            res += l + 2;
+            r--;
+        }
+        return res;
+    }
+
+    /**
+     * p2972 统计移除递增子数组的数目2
+     *
+     * @param nums
+     * @return
+     */
+    public long incremovableSubarrayCount2(int[] nums) {
+        int l = 0, n = nums.length, r = n - 1;
+        while (l < n - 1 && nums[l] < nums[l + 1]) {
+            l++;
+        }
+        if (l == n - 1) return (long) n * (n + 1) / 2;
+        long res = l + 2;
         while (r > 0) {
             if (r < n - 1 && nums[r] >= nums[r + 1]) break;
             while (l >= 0 && nums[l] >= nums[r]) l--;
