@@ -57,6 +57,51 @@ public class p700 {
         return res;
     }
 
+    /**
+     * p721 账户合并
+     *
+     * @param accounts
+     * @return
+     */
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        Map<String, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < accounts.size(); i++) {
+            for (int j = 1; j < accounts.get(i).size(); j++) {
+                String email = accounts.get(i).get(j);
+                List<Integer> list = map.getOrDefault(email, new ArrayList<>());
+                list.add(i);
+                map.put(email, list);
+            }
+        }
+        boolean[] vis = new boolean[accounts.size()];
+        List<List<String>> res = new ArrayList<>();
+        for (int i = 0; i < accounts.size(); i++) {
+            if (vis[i]) continue;
+//            vis[i] = true;
+            Set<String> record = new HashSet<>();
+            dfs(vis, record, i, accounts, map);
+            List<String> temp = new ArrayList<>(record);
+            temp.sort(String::compareTo);
+            temp.add(0, accounts.get(i).get(0));
+            res.add(temp);
+        }
+        return res;
+    }
+
+    private void dfs(boolean[] vis, Set<String> record, int idx, List<List<String>> accounts, Map<String, List<Integer>> map) {
+        if (vis[idx]) return;
+        vis[idx] = true;
+        for (int i = 1; i < accounts.get(idx).size(); i++) {
+            String email = accounts.get(idx).get(i);
+            record.add(email);
+            for (int nextIdx : map.get(email)) {
+                if (!vis[nextIdx]) {
+                    dfs(vis, record, nextIdx, accounts, map);
+                }
+            }
+        }
+    }
+
     // p722 删除注释
     public List<String> removeComments(String[] source) {
         List<String> res = new ArrayList<>();
