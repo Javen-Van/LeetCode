@@ -1,10 +1,32 @@
 package dailyCode;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class p2900 {
+
+    /**
+     * p2956 找到两个数组的公共元素
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[] findIntersectionValues(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>(), set2 = new HashSet<>();
+        for (int i : nums1) {
+            set1.add(i);
+        }
+        for (int i : nums2) {
+            set2.add(i);
+        }
+        int answer1 = 0, answer2 = 0;
+        for (int i : nums1) {
+            if (set2.contains(i)) answer1++;
+        }
+        for (int i : nums2) {
+            if (set1.contains(i)) answer2++;
+        }
+        return new int[]{answer1, answer2};
+    }
 
     /**
      * p2970 统计移除递增子数组的数目
