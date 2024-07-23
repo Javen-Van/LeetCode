@@ -1,13 +1,9 @@
 package hot100;
 
 import bean.ListNode;
-import bean.Node;
 import bean.TreeNode;
-import org.junit.Test;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Solution {
 
@@ -989,6 +985,73 @@ public class Solution {
             root = cur.right;
         }
         return -1;
+    }
+
+    /**
+     * p199 二叉树的右视图
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (i == size - 1) res.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * p114 二叉树展开为链表
+     *
+     * @param root
+     */
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        flatten(root.left); // 左子树展开
+        TreeNode right = root.right;
+        root.right = root.left; // 右子树设为展开后的左子树
+        root.left = null; // 左子树置空
+        // 找到链表尾节点
+        while (root.right != null) {
+            root = root.right;
+        }
+        flatten(right); // 原右子树展开
+        root.right = right; // 尾节点链接上展开后的右子树
+    }
+
+    /**
+     * p105 从前序和中序遍历序列构造二叉树
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            val2Idx.put(inorder[i], i);
+        }
+        return buildTree(preorder, 0, 0, preorder.length - 1);
+    }
+
+    Map<Integer, Integer> val2Idx = new HashMap<>();
+
+    private TreeNode buildTree(int[] preorder, int root, int left, int right) {
+        if (left > right) return null;
+        TreeNode node = new TreeNode(preorder[root]);
+        int inRootIdx = val2Idx.get(preorder[root]);
+        node.left = buildTree(preorder, root + 1, left, inRootIdx - 1);
+        node.right = buildTree(preorder, root + inRootIdx - left + 1, inRootIdx + 1, right);
+        return node;
     }
 
 }
