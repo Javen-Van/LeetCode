@@ -1054,6 +1054,64 @@ public class Solution {
         return node;
     }
 
+    /**
+     * p437 路径之和
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public int pathSum(TreeNode root, int targetSum) {
+        if (root == null) return 0;
+        int res = 0;
+        res += calCount(root, targetSum, 0);
+        res += pathSum(root.left, targetSum);
+        res += pathSum(root.right, targetSum);
+        return res;
+    }
 
+    private int calCount(TreeNode root, int targetSum, long curSum) {
+        if (root == null) return 0;
+        curSum += root.val;
+        int res = targetSum == curSum ? 1 : 0;
+        res += calCount(root.left, targetSum, curSum);
+        res += calCount(root.right, targetSum, curSum);
+        return res;
+    }
+
+    /**
+     * p236 二叉树的最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q), right = lowestCommonAncestor(root.right, p, q);
+        if (left == null && right == null) return root;
+        return left == null ? right : left;
+    }
+
+    /**
+     * p124 二叉树中的最大路径和
+     *
+     * @param root
+     * @return
+     */
+    public int maxPathSum(TreeNode root) {
+        maxSum(root);
+        return pathMax;
+    }
+
+    int pathMax = Integer.MIN_VALUE;
+
+    private int maxSum(TreeNode root) {
+        if (root == null) return 0;
+        int left = maxSum(root.left), right = maxSum(root.right);
+        pathMax = Math.max(pathMax, left + right + root.val);
+        return Math.max(Math.max(left, right) + root.val, 0);
+    }
 
 }
