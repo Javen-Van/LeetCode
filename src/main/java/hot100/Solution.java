@@ -1114,4 +1114,110 @@ public class Solution {
         return Math.max(Math.max(left, right) + root.val, 0);
     }
 
+    /**
+     * p200 岛屿数量
+     *
+     * @param grid
+     * @return
+     */
+    public int numIslands(char[][] grid) {
+        int sum = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1') {
+                    sum++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return sum;
+    }
+
+    private void dfs(char[][] grid, int i, int j) {
+        if (grid[i][j] == '0') return;
+        grid[i][j] = '0';
+        int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
+        for (int k = 0; k < 4; k++) {
+            int nx = i + dx[k], ny = j + dy[k];
+            if (nx >= 0 && nx < grid.length && ny >= 0 && ny < grid[0].length) {
+                dfs(grid, nx, ny);
+            }
+        }
+    }
+
+    /**
+     * p994 腐烂的橘子
+     *
+     * @param grid
+     * @return
+     */
+    public int orangesRotting(int[][] grid) {
+        int time = 0, m = grid.length, n = grid[0].length;
+        int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
+        Deque<int[]> deque = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) deque.offer(new int[]{i, j});
+            }
+        }
+        while (!deque.isEmpty()) {
+            int size = deque.size();
+            for (int i = 0; i < size; i++) {
+                int[] poll = deque.poll();
+                int x = poll[0], y = poll[1];
+                for (int k = 0; k < 4; k++) {
+                    int nx = x + dx[k], ny = y + dy[k];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+                        deque.offer(new int[]{nx, ny});
+                        grid[nx][ny] = 2;
+                    }
+                }
+            }
+            time++;
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) return -1;
+            }
+        }
+        return time;
+    }
+
+    /**
+     * p207 课程表
+     *
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] degree = new int[numCourses];
+        List<List<Integer>> table = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            table.add(new ArrayList<>());
+        }
+        for (int[] prerequisite : prerequisites) {
+            int from = prerequisite[1], to = prerequisite[0];
+            degree[to]++;
+            table.get(from).add(to);
+        }
+        Deque<Integer> queue = new LinkedList<>();
+        List<Integer> sortArr = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (degree[i] == 0) queue.offer(i);
+        }
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int idx = queue.poll();
+                sortArr.add(idx);
+                for (Integer next : table.get(idx)) {
+                    degree[next]--;
+                    if (degree[next] == 0) queue.offer(next);
+                }
+            }
+        }
+        return sortArr.size() == numCourses;
+    }
+
 }
